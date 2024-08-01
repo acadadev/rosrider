@@ -200,7 +200,7 @@ class ROSRider : public rclcpp::Node {
 			    }
 
 			    send_sensor_reset();
-			    rclcpp::sleep_for(2000ms);
+			    rclcpp::sleep_for(3000ms);
 
 			}
 

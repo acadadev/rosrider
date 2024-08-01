@@ -14,8 +14,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>rosrider_node</exec_depend>
   <exec_depend>rosrider_interfaces</exec_depend>
-  <exec_depend>rosrider_services</exec_depend>
-  <exec_depend>rosrider_fakenode</exec_depend>
+  <exec_depend>rosrider_examples</exec_depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>
