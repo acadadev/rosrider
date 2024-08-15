@@ -32,6 +32,8 @@ const std::string i2c_filename = "/dev/i2c-1";
 
 // TODO: detect node if node already running and exit if so
 // TODO: add LIDAR PWM via hardware PWM
+// TODO: add option to configure i2c base address
+// TODO: add options when user does not have ros2rpi hat
 // TODO: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
 
 class ROSRider : public rclcpp::Node {
