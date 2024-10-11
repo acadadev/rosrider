@@ -44,6 +44,7 @@ void update_right_wheel(uint32_t position) {
 // we expect delta_position to be negative
 int32_t get_left_delta(void) {
     int32_t delta_position = left_delta_position;
+    // TODO: DOC
     left_delta_position = 0;
     return delta_position;
 }
