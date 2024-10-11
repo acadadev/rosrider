@@ -36,6 +36,7 @@ def generate_launch_description():
             name='cartographer_node',
             output='screen',
             parameters=[{'use_sim_time': use_sim_time}],
+            # remappings=[('/scan', '/ldlidar_node/scan')],
             arguments=['-configuration_directory', cartographer_config_dir,
                        '-configuration_basename', configuration_basename]),
         DeclareLaunchArgument('resolution', default_value=resolution, description='resolution of grid cell in occupancy grid'),

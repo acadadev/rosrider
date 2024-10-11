@@ -15,6 +15,7 @@ ROBOT_MODEL = os.environ['ROBOT_MODEL']
    launches localization, navigation, with given map, and parameters for robot, for actual robot
 '''
 
+# TODO: test launch each and see who reads /scan
 
 def generate_launch_description():
 

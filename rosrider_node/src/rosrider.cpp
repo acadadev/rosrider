@@ -264,6 +264,7 @@ class ROSRider : public rclcpp::Node {
 			timer_i2c = this->create_wall_timer(1000ms / params_uint8[PARAM_UPDATE_RATE], std::bind(&ROSRider::timer_i2c_callback, this));
 
 		    auto param_change_callback =
+
 		      [this](std::vector<rclcpp::Parameter> parameters)
 		      {
 		        auto result = rcl_interfaces::msg::SetParametersResult();
