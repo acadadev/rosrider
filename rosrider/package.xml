@@ -9,8 +9,8 @@
   <maintainer email="can@acada.dev">Can Altineller</maintainer>
   <license>GPLv3</license>
   <url type="website">http://www.rosrider.com</url>
-  <url type="repository">https://github.com/altineller/ROSRider</url>
-  <url type="bugtracker">https://github.com/altineller/ROSRider/issues</url>
+  <url type="repository">https://github.com/acadadev/ROSRider</url>
+  <url type="bugtracker">https://github.com/acadadev/ROSRider/issues</url>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>rosrider_node</exec_depend>
   <exec_depend>rosrider_interfaces</exec_depend>

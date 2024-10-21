@@ -9,7 +9,7 @@
   <maintainer email="can@acada.dev">Can Altineller</maintainer>
   <license>GPLv3</license>
   <url type="website">http://rosrider.com</url>
-  <url type="repository">https://github.com/altineller/ROSRider</url>
+  <url type="repository">https://github.com/acadadev/ROSRider</url>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>cartographer_ros</exec_depend>
   <export>
