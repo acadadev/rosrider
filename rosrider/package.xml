@@ -6,7 +6,7 @@
   <description>
     ROS2 packages for ROSRider
   </description>
-  <maintainer email="altineller@gmail.com">Can Altineller</maintainer>
+  <maintainer email="can@acada.dev">Can Altineller</maintainer>
   <license>GPLv3</license>
   <url type="website">http://www.rosrider.com</url>
   <url type="repository">https://github.com/altineller/ROSRider</url>

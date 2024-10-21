@@ -4,7 +4,7 @@
   <name>rosrider_interfaces</name>
   <version>0.0.1</version>
   <description>ROS2 interfaces for the ROSRider</description>
-  <maintainer email="altineller@gmail.com">Can Altineller</maintainer>
+  <maintainer email="can@acada.dev">Can Altineller</maintainer>
   <license>LGPLv3</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <test_depend>ament_lint_auto</test_depend>
