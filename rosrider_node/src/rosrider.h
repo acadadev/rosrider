@@ -10,7 +10,6 @@
 #include <time.h>
 #include <unistd.h>
 #include <fcntl.h>
-//#include <errno.h>
 #include <math.h>
 
 #define MATHPI 3.14159265359

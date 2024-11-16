@@ -296,7 +296,7 @@ class ROSRider : public rclcpp::Node {
 		          	if(pidtune_result==0) {
 		          		result.successful &= true;
 		          	} else {
-		          		RCLCPP_INFO(this->get_logger(), "param_change_callback.send_pidtune returned error: %d", pidtune_result);
+		          		RCLCPP_ERROR(this->get_logger(), "param_change_callback.send_pidtune returned error: %d", pidtune_result);
 		          		result.successful = false;
 		          	}
 
