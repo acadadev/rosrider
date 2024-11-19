@@ -548,34 +548,37 @@ class ROSRider : public rclcpp::Node {
 
 				if(pub_diagnostics) {
 
-					auto diag_data = rosrider_interfaces::msg::Diagnostics();
+					auto diag_message = rosrider_interfaces::msg::Diagnostics();
 
-					diag_data.packet_age = packet_age;
+					diag_message.packet_age = packet_age;
 
-					diag_data.bus_current = (status_buffer[9] + (status_buffer[8] << 8)) / (10.0 * 1000.0);
-		            diag_data.bus_voltage = (status_buffer[11] + (status_buffer[10] << 8)) / 1000.0;
-		       		diag_data.cs_left = (status_buffer[13] + (status_buffer[12] << 8)) * (6.6 / 4095);
-		            diag_data.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * (6.6 / 4095);
-					diag_data.pwm_left = status_buffer[17] + (status_buffer[16] << 8);
-					diag_data.pwm_right = status_buffer[19] + (status_buffer[18] << 8);
+					diag_message.bus_current = (status_buffer[9] + (status_buffer[8] << 8)) / (10.0 * 1000.0);
+		            diag_message.bus_voltage = (status_buffer[11] + (status_buffer[10] << 8)) / 1000.0;
+		       		diag_message.cs_left = (status_buffer[13] + (status_buffer[12] << 8)) * (6.6 / 4095);
+		            diag_message.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * (6.6 / 4095);
+					diag_message.pwm_left = status_buffer[17] + (status_buffer[16] << 8);
+					diag_message.pwm_right = status_buffer[19] + (status_buffer[18] << 8);
 
 		            // current rpm raw values, multiply by ROUNDS_PER_MINUTE and apply sign by encoder_dir
 		            if(enc_dir_left == -1) {
-		                diag_data.rpm_left = -((status_buffer[20] << 8 | status_buffer[21]) * ROUNDS_PER_MINUTE);
+		                diag_message.rpm_left = -((status_buffer[20] << 8 | status_buffer[21]) * ROUNDS_PER_MINUTE);
 		            } else {
-		                diag_data.rpm_left = (status_buffer[20] << 8 | status_buffer[21]) * ROUNDS_PER_MINUTE;
+		                diag_message.rpm_left = (status_buffer[20] << 8 | status_buffer[21]) * ROUNDS_PER_MINUTE;
 		            }
 		            if(enc_dir_right == -1) {
-		                diag_data.rpm_right = -((status_buffer[22] << 8 | status_buffer[23]) * ROUNDS_PER_MINUTE);
+		                diag_message.rpm_right = -((status_buffer[22] << 8 | status_buffer[23]) * ROUNDS_PER_MINUTE);
 		            } else {
-		                diag_data.rpm_right = (status_buffer[22] << 8 | status_buffer[23]) * ROUNDS_PER_MINUTE;
+		                diag_message.rpm_right = (status_buffer[22] << 8 | status_buffer[23]) * ROUNDS_PER_MINUTE;
 		            }
 
-		            diag_data.system_status = SYS_STATUS;
-					diag_data.power_status = PWR_STATUS;
-		            diag_data.motor_status = MTR_STATUS;
+		            diag_message.target_left = target_left;
+		            diag_message.target_right = target_right;
 
-		            diag_pub->publish(diag_data);
+		            diag_message.system_status = SYS_STATUS;
+					diag_message.power_status = PWR_STATUS;
+		            diag_message.motor_status = MTR_STATUS;
+
+		            diag_pub->publish(diag_message);
 
 				}
  
@@ -656,8 +659,8 @@ class ROSRider : public rclcpp::Node {
 	    void cmd_callback(const geometry_msgs::msg::Twist t) const {
 
 	      	// calculate pid targets and apply trim
-		    float target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM)) * MOTOR_CONSTANT_LEFT;
-		    float target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM)) * MOTOR_CONSTANT_RIGHT;
+		    target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM)) * MOTOR_CONSTANT_LEFT;
+		    target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM)) * MOTOR_CONSTANT_RIGHT;
 
 		    // if any command is above limit
 		    if(max(abs(target_left), abs(target_right)) >  params_float[PARAM_MAX_RPM]) {

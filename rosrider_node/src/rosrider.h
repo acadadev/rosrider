@@ -26,6 +26,9 @@
 #include "encoders.h"
 #include "odometry.h"
 
+float target_left;
+float target_right;
+
 uint8_t SYS_STATUS;
 uint8_t PWR_STATUS;
 uint8_t MTR_STATUS;
