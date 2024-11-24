@@ -44,7 +44,7 @@ class ROSRider : public rclcpp::Node {
 
 		    rclcpp::on_shutdown([this]() {
 		        send_sysctl(fd, 0x05);                                      // system hibernate
-                if(ROS2RPI_CONFIG > 0) { send_hat_command(fd, 0x0); }       // hat off
+                if(ros2rpi_config > 0) { send_hat_command(fd, 0x0); }       // hat off runs only if ros2rpi_config > 0
             });
 
             // uint8 parameters
@@ -54,6 +54,7 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("DRIVE_MODE", DEFAULT_DRIVE_MODE);
 			this->declare_parameter("MONITOR_RATE", DEFAULT_MONITOR_RATE);
 			this->declare_parameter("ALLOWED_SKIP", DEFAULT_ALLOWED_SKIP);
+			this->declare_parameter("I2C_ADDRESS", DEFAULT_I2C_ADDRESS);
 
 			params_uint8[PARAM_CONFIG_FLAGS] = this->get_parameter("CONFIG_FLAGS").as_int();
 			params_uint8[PARAM_UPDATE_RATE] = this->get_parameter("UPDATE_RATE").as_int();
@@ -61,6 +62,7 @@ class ROSRider : public rclcpp::Node {
 			params_uint8[PARAM_DRIVE_MODE] = this->get_parameter("DRIVE_MODE").as_int();
 			params_uint8[PARAM_MONITOR_RATE] = this->get_parameter("MONITOR_RATE").as_int();
 			params_uint8[PARAM_ALLOWED_SKIP] = this->get_parameter("ALLOWED_SKIP").as_int();
+			params_uint8[PARAM_I2C_ADDRESS] = this->get_parameter("I2C_ADDRESS").as_int();
 
             // uint16 parameters
 			this->declare_parameter("PWM_SCALE", DEFAULT_PWM_SCALE);
@@ -159,7 +161,7 @@ class ROSRider : public rclcpp::Node {
 		    pub_joints = this->get_parameter("PUB_JOINTS").as_bool(); 
 		    pub_diagnostics = this->get_parameter("PUB_DIAGNOSTICS").as_bool();  
 		    debug_mode = this->get_parameter("DEBUG").as_bool();
-		    ROS2RPI_CONFIG = this->get_parameter("ROS2RPI_CONFIG").as_int();
+		    ros2rpi_config = this->get_parameter("ROS2RPI_CONFIG").as_int();
 			
 			// i2c-init
 			if(i2c_enabled) {
@@ -178,12 +180,12 @@ class ROSRider : public rclcpp::Node {
 			    }
 
                 // turn on hat with: PSEL_3V3_A, PSEL_3V3_B, PSEL_LIDAR, LIDAR_TX_ON
-                if(ROS2RPI_CONFIG > 0) { send_hat_command(fd, ROS2RPI_CONFIG); }
+                if(ros2rpi_config > 0) { send_hat_command(fd, ros2rpi_config); }
 
                 // allow board to power up
 		        rclcpp::sleep_for(1000ms);
 
-			    if((rv = ioctl(fd, I2C_SLAVE, 0x3C)) < 0) {
+			    if((rv = ioctl(fd, I2C_SLAVE, params_uint8[PARAM_I2C_ADDRESS])) < 0) {
 			    	RCLCPP_ERROR(this->get_logger(), "Failed to acquire bus access and/or talk to worker. Error code: %d", fd);
 			        exit(0);
 			    }
@@ -326,7 +328,7 @@ class ROSRider : public rclcpp::Node {
 		   bool pub_joints;
 		   bool pub_diagnostics;
 		   bool debug_mode;
-		uint8_t ROS2RPI_CONFIG;
+		uint8_t ros2rpi_config;
 
 	   unsigned char param_buffer[7] = {0};
 	   unsigned char param_result_buffer[4] = {0};

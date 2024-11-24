@@ -15,6 +15,7 @@
 #define DEFAULT_DRIVE_MODE 3
 #define DEFAULT_MONITOR_RATE 100
 #define DEFAULT_ALLOWED_SKIP 3
+#define DEFAULT_I2C_ADDRESS 0x3C
 
 #define PARAM_CONFIG_FLAGS 0
 #define PARAM_UPDATE_RATE 1
@@ -22,6 +23,7 @@
 #define PARAM_DRIVE_MODE 3
 #define PARAM_MONITOR_RATE 4
 #define PARAM_ALLOWED_SKIP 5
+#define PARAM_I2C_ADDRESS 6
 
 // uint16
 #define DEFAULT_PWM_SCALE 256
@@ -97,14 +99,15 @@
 #define PARAM_AUTO_SYNC 0
 
 // uint8 array
-#define SIZE_PARAMS_UINT8 6
+#define SIZE_PARAMS_UINT8 7
 uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_CONFIG_FLAGS,
                                 DEFAULT_UPDATE_RATE,
                                 DEFAULT_PWM_DIV,
                                 DEFAULT_DRIVE_MODE,
                                 DEFAULT_MONITOR_RATE,
-                                DEFAULT_ALLOWED_SKIP
+                                DEFAULT_ALLOWED_SKIP,
+                                DEFAULT_I2C_ADDRESS
                             };
 
 const char *names_uint8[] = { "CONFIG_FLAGS",
@@ -112,7 +115,8 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                               "PWM_DIV",
                               "DRIVE_MODE",
                               "MONITOR_RATE", 
-                              "ALLOWED_SKIP"
+                              "ALLOWED_SKIP",
+                              "I2C_ADDRESS"
                             };
 
 // uint16 array
