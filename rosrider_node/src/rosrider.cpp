@@ -31,10 +31,9 @@ using std::placeholders::_1;
 const std::string i2c_filename = "/dev/i2c-1";
 
 // TODO: detect node if node already running and exit if so
-// TODO: add LIDAR PWM via hardware PWM
-// TODO: add option to configure i2c base address
-// TODO: add options when user does not have ros2rpi hat
+// TODO: add options when user does not have ros2rpi hat, add this do documentation
 // TODO: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
+// TODO: sorcerer.yaml missing
 
 class ROSRider : public rclcpp::Node {
 
@@ -186,7 +185,7 @@ class ROSRider : public rclcpp::Node {
 		        rclcpp::sleep_for(1000ms);
 
 			    if((rv = ioctl(fd, I2C_SLAVE, params_uint8[PARAM_I2C_ADDRESS])) < 0) {
-			    	RCLCPP_ERROR(this->get_logger(), "Failed to acquire bus access and/or talk to worker. Error code: %d", fd);
+			    	RCLCPP_ERROR(this->get_logger(), "Failed to acquire bus access and/or talk to device. Error code: %d", fd);
 			        exit(0);
 			    }
 
@@ -203,7 +202,7 @@ class ROSRider : public rclcpp::Node {
 			    	exit(0);
 			    }
 
-			    send_sensor_reset();
+			    send_device_reset();
 			    rclcpp::sleep_for(3000ms);
 
 			}
@@ -348,9 +347,9 @@ class ROSRider : public rclcpp::Node {
 	    std::string odom_frame_id;
 	    std::string base_frame_id;
 	    
-	    uint8_t pSYS_STATUS;
-		uint8_t pPWR_STATUS;
-		uint8_t pMTR_STATUS;
+	    uint8_t prev_SYS_STATUS;
+		uint8_t prev_PWR_STATUS;
+		uint8_t prev_MTR_STATUS;
 
 		rclcpp::Time current_time;
 		rclcpp::Time prev_time;
@@ -377,15 +376,15 @@ class ROSRider : public rclcpp::Node {
 			if(rs != 0) { 
 				i2c_read_status_error_count++; 
 				if(i2c_read_status_error_count > MAX_I2C_READ_FAIL) { 
-					RCLCPP_INFO(this->get_logger(), "read_status_error threshold hit.");
+					RCLCPP_INFO(this->get_logger(), "read_status_error threshold exceeded");
 					exit(0);
 				}
 			} else { 
 				i2c_read_status_error_count = 0; 
 			}
 
-			packet_seq = status_buffer[28];								// seq: checksummed							
-			packet_age = (status_buffer[29] << 8) | status_buffer[30];	// age: not checksummed
+			packet_seq = status_buffer[28];								// seq: included in checksum
+			packet_age = (status_buffer[29] << 8) | status_buffer[30];	// age: not included in checksum
 			packet_checksum = status_buffer[31];						// checksum itself
 			
 			if(crc8ccitt(status_buffer, 29) == packet_checksum) {
@@ -443,7 +442,7 @@ class ROSRider : public rclcpp::Node {
 
 				// if timeskip use most recent time
 				if(corrected_time < prev_corrected_time) {
-					RCLCPP_INFO(this->get_logger(), "Timeskip detected.");
+					RCLCPP_INFO(this->get_logger(), "Timeskip detected");
 					read_state = STATUS_TIMESKIP;
 					corrected_time = current_time;
 				}
@@ -451,28 +450,28 @@ class ROSRider : public rclcpp::Node {
 				// record previous correction time
 				prev_corrected_time = corrected_time;
 
-				pSYS_STATUS = SYS_STATUS;
-				pPWR_STATUS = PWR_STATUS;
-				pMTR_STATUS = MTR_STATUS;
+				prev_SYS_STATUS = SYS_STATUS;
+				prev_PWR_STATUS = PWR_STATUS;
+				prev_MTR_STATUS = MTR_STATUS;
 
 	            SYS_STATUS = status_buffer[27];
 	            PWR_STATUS = status_buffer[25];
 	            MTR_STATUS = status_buffer[26];
 
 	            // notice: we dont need this since sensor is restarted at driver init
-	            if(SYS_STATUS != pSYS_STATUS) {
+	            if(SYS_STATUS != prev_SYS_STATUS) {
 	            	print_sys_status(SYS_STATUS);
 	            	if(SYS_STATUS & 0x40) { 
-					    send_sensor_reset();
+					    send_device_reset();
 					    rclcpp::sleep_for(2000ms);
 	            	}
 	            }
 
-	            if(PWR_STATUS != pPWR_STATUS) {
+	            if(PWR_STATUS != prev_PWR_STATUS) {
 	            	print_pwr_status(PWR_STATUS);
 	            }
 
-	            if(MTR_STATUS != pMTR_STATUS) {
+	            if(MTR_STATUS != prev_MTR_STATUS) {
 	            	print_mtr_status(MTR_STATUS);
 	            }
 
@@ -591,7 +590,7 @@ class ROSRider : public rclcpp::Node {
 			}
 
 			if(i2c_read_status_checksum_error_count > MAX_I2C_CHECKSUM_FAIL) {
-				RCLCPP_INFO(this->get_logger(), "read_status_checksum_error threshold hit.");
+				RCLCPP_INFO(this->get_logger(), "read_status_checksum_error threshold exceeded");
 				exit(0);
 			}
 
@@ -650,8 +649,6 @@ class ROSRider : public rclcpp::Node {
 
 			// calculate crc
 			param_buffer[5] = crc8ccitt(param_buffer, 5);
-
-			// TODO: read and assert results.
 
 			uint8_t rw = I2C_RW_Block(fd, 0x08, I2C_SMBUS_WRITE, 7, param_buffer);
 			return i2c_error_handler(rw);
@@ -727,8 +724,8 @@ class ROSRider : public rclcpp::Node {
             return rw_hat;
 	    }
 
-	    uint8_t send_sensor_reset(void) {
-	    	RCLCPP_INFO(this->get_logger(), "Sending Reset");
+	    uint8_t send_device_reset(void) {
+	    	RCLCPP_INFO(this->get_logger(), "Sending device reset");
 	    	return send_sysctl(fd, 0x01);
 	    }
 
@@ -738,6 +735,11 @@ class ROSRider : public rclcpp::Node {
 
 			// send uint8 parameters
 			for(uint8_t i=0; i < SIZE_PARAMS_UINT8; i++) {
+
+                // do not sent i2c address as standard parameter
+			    if(i==PARAM_I2C_ADDRESS) {
+			        continue;
+			    }
 
 				uint8_t temp_uint8 = this->get_parameter(names_uint8[i]).as_int();
 

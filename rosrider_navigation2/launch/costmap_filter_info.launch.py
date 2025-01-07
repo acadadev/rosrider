@@ -10,7 +10,6 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from nav2_common.launch import RewrittenYaml
 
-# TODO: 1ST WORK on this
 # TODO: Generate keepout for gazebo
 
 def generate_launch_description():
