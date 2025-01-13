@@ -31,8 +31,8 @@ using std::placeholders::_1;
 const std::string i2c_filename = "/dev/i2c-1";
 
 // TODO: detect node if node already running and exit if so
-// TODO: add options when user does not have ros2rpi hat, add this do documentation
 // TODO: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
+// TODO: driver can detect state of read, was it checksum, seq repeat, seq jump, depending on that state, next cycle calculate for two steps.
 // TODO: sorcerer.yaml missing
 
 class ROSRider : public rclcpp::Node {
