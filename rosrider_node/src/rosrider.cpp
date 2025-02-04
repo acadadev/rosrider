@@ -716,7 +716,8 @@ class ROSRider : public rclcpp::Node {
 	    	if(rv_hat<0) { return rv_hat; }
 
             unsigned char hat_command[1] = {0};
-            int rw_hat = I2C_RW_Block(fd, 0x03, I2C_SMBUS_WRITE, 1, 0x0);
+            // notice hat_command[0] is 0x0 at this point.
+            int rw_hat = I2C_RW_Block(fd, 0x03, I2C_SMBUS_WRITE, 1, hat_command);
 
             hat_command[0] = output;
             rw_hat = I2C_RW_Block(fd, 0x01, I2C_SMBUS_WRITE, 1, hat_command);
