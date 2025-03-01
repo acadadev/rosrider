@@ -71,7 +71,7 @@
   <joint name="caster_back_joint" type="fixed">
     <parent link="base_link"/>
     <child link="caster_back_link"/>
-    <origin xyz="-0.14835 0 -0.02425" rpy="0 0 0"/>
+    <origin xyz="-0.178 0 -0.02425" rpy="0 0 0"/>
   </joint>
   <link name="caster_back_link">
     <visual>
@@ -85,7 +85,7 @@
   <joint name="scan_joint" type="fixed">
     <parent link="base_link"/>
     <child link="base_scan"/>
-    <origin xyz="-0.166 0 0.0706" rpy="0 0 0"/>
+    <origin xyz="-0.166 -0.006 0.0706" rpy="0 0 0"/>
   </joint>
   <link name="base_scan">
     <visual>
@@ -113,7 +113,7 @@
   <joint name="battery_joint" type="fixed">
     <parent link="base_link"/>
     <child link="battery_link"/>
-    <origin xyz="-0.08383 0 0.0116" rpy="0 0 0"/>
+    <origin xyz="-0.06883 0 0.0116" rpy="0 0 0"/>
   </joint>
   <link name="battery_link">
     <visual>
