@@ -38,6 +38,8 @@
       </geometry>
     </visual>
   </link>
+
+  <!--
   <joint name="wheel_left_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_left_link"/>
@@ -67,7 +69,7 @@
       </geometry>
     </visual>
   </link>
-
+-->
   <joint name="caster_back_joint" type="fixed">
     <parent link="base_link"/>
     <child link="caster_back_link"/>
@@ -99,13 +101,13 @@
   <joint name="imu_joint" type="fixed">
     <parent link="base_link"/>
     <child link="imu_link"/>
-    <origin xyz="0.0 0.0 0.0656" rpy="0 0 0"/>
+    <origin xyz="0.041 0.0 0.0496" rpy="0 0 0"/>
   </joint>
   <link name="imu_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://rosrider_description/meshes/fximu.dae" scale="1 1 1"/>
+        <mesh filename="package://rosrider_description/meshes/fximu3e.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
