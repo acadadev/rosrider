@@ -39,7 +39,6 @@
     </visual>
   </link>
 
-  <!--
   <joint name="wheel_left_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_left_link"/>
@@ -69,7 +68,7 @@
       </geometry>
     </visual>
   </link>
--->
+
   <joint name="caster_back_joint" type="fixed">
     <parent link="base_link"/>
     <child link="caster_back_link"/>
