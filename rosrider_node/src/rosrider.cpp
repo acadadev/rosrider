@@ -33,7 +33,7 @@ const std::string i2c_filename = "/dev/i2c-1";
 // TODO: detect node if node already running and exit if so
 // TODO: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
 // TODO: driver can detect state of read, was it checksum, seq repeat, seq jump, depending on that state, next cycle calculate for two steps.
-// TODO: sorcerer.yaml missing
+// TODO: base_width default 0.1, equalize on firmare
 
 class ROSRider : public rclcpp::Node {
 
