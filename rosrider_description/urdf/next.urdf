@@ -34,7 +34,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://rosrider_description/meshes/next.dae" scale="1 1 1"/>
+        <mesh filename="package://rosrider_description/meshes/next_urdf.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
