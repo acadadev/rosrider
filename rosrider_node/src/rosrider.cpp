@@ -393,8 +393,10 @@ class ROSRider : public rclcpp::Node {
 
                 // if packet sequence has not incremented
                 if(packet_seq != (prev_packet_seq + 1)) {
+
             	    // if not rollover case
                     if(!(packet_seq == 0 and prev_packet_seq == 255)) {
+
                         if(packet_seq == prev_packet_seq) {
 
                         	// skip if same packet
@@ -474,6 +476,8 @@ class ROSRider : public rclcpp::Node {
 	            if(MTR_STATUS != prev_MTR_STATUS) {
 	            	print_mtr_status(MTR_STATUS);
 	            }
+
+	            RCLCPP_INFO(this->get_logger(), ".");
 
 				if(pub_odometry) {
 
