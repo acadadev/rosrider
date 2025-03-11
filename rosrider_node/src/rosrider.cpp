@@ -406,7 +406,8 @@ class ROSRider : public rclcpp::Node {
 							read_state = STATUS_SEQ_REPEAT;
 
 							// reset timer
-                        	timer_i2c.reset();
+							// notice: on RPI5 with U24, this errs.
+                        	// timer_i2c.reset();
                             return;
 
                         } else {
@@ -476,8 +477,6 @@ class ROSRider : public rclcpp::Node {
 	            if(MTR_STATUS != prev_MTR_STATUS) {
 	            	print_mtr_status(MTR_STATUS);
 	            }
-
-	            RCLCPP_INFO(this->get_logger(), ".");
 
 				if(pub_odometry) {
 
