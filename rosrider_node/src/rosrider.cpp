@@ -443,6 +443,7 @@ class ROSRider : public rclcpp::Node {
 				// this value will be used for stamping
 				corrected_time = current_time - time_correction;
 
+                // TODO: document this better. also check for overflow conditions.
 				// if timeskip use most recent time
 				if(corrected_time < prev_corrected_time) {
 					RCLCPP_INFO(this->get_logger(), "Timeskip detected");
