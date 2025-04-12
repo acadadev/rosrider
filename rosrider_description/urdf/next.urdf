@@ -72,11 +72,7 @@
   <joint name="caster_back_joint" type="fixed">
     <parent link="base_link"/>
     <child link="caster_back_link"/>
-<<<<<<< HEAD
     <origin xyz="-0.2002 0 -0.02425" rpy="0 0 0"/>
-=======
-    <origin xyz="-0.1842 0 -0.02425" rpy="0 0 0"/>
->>>>>>> b351ef3064b4978f9df2db4f55a4611cb8f6c290
   </joint>
   <link name="caster_back_link">
     <visual>
