@@ -69,17 +69,32 @@
     </visual>
   </link>
 
-  <joint name="caster_back_joint" type="fixed">
+  <joint name="wheel_steering_joint" type="continuous">
     <parent link="base_link"/>
-    <child link="caster_back_link"/>
-    <origin xyz="-0.2002 0 -0.02425" rpy="0 0 0"/>
+    <child link="wheel_steering_link"/>
+    <axis xyz="0 0 1"/>
+    <origin xyz="-0.1842 0 -0.00875" rpy="0 0 0"/>
   </joint>
-  <link name="caster_back_link">
-    <visual>
-      <geometry>
+  <link name="wheel_steering_link">
+  </link>
+
+  <joint name="wheel_castor_joint" type="continuous">
+    <parent link="wheel_steering_link"/>
+    <child link="wheel_castor_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.016 0 -0.01275" rpy="0 0 0"/>
+  </joint>
+  <link name="wheel_castor_link">
+      <collision>
+        <geometry>
+          <mesh filename="package://rosrider_description/meshes/vac_wheel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <visual>
+        <geometry>
           <mesh filename="package://rosrider_description/meshes/vac_wheel.dae" scale="1 1 1"/>
-      </geometry>
-    </visual>
+        </geometry>
+      </visual>
   </link>
 
   <joint name="scan_joint" type="fixed">
