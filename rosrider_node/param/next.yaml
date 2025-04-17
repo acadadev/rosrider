@@ -3,7 +3,7 @@
     I2C_ENABLED: True
     ODOM_FRAME_ID: 'odom'
     BASE_FRAME_ID: 'base_footprint'
-    BROADCAST_TF2: False
+    BROADCAST_TF2: True
     PUB_ODOMETRY: True
     PUB_JOINTS: True
     PUB_DIAGNOSTICS: True
