@@ -11,9 +11,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
     pkg_rosrider_cartographer = get_package_share_directory('rosrider_cartographer')
-
     cartographer_config_dir_default = os.path.join(pkg_rosrider_cartographer, 'config')
-    configuration_basename_default = 'rosrider_2d.lua'
     rviz_config_file = os.path.join(pkg_rosrider_cartographer, 'rviz', 'rosrider_cartographer.rviz')
 
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -25,7 +23,9 @@ def generate_launch_description():
     launch_rviz = LaunchConfiguration('launch_rviz')
 
     if use_sim_time:
-        configuration_basename_default = 'rosrider_2d_gazebo.lua'
+        configuration_basename_default = 'rosrider_3d_gazebo.lua'
+    else:
+        configuration_basename_default = 'rosrider_3d.lua'
 
     cartographer_node = Node(
         package='cartographer_ros',
@@ -36,6 +36,10 @@ def generate_launch_description():
         arguments=[
             '-configuration_directory', cartographer_config_dir,
             '-configuration_basename', configuration_basename
+        ],
+        remappings=[
+            ('/points2', '/scan/points'),
+            ('/imu', '/imu/data')
         ]
     )
 
