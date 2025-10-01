@@ -20,7 +20,7 @@ ROBOT_MODEL = os.environ['ROBOT_MODEL']
 def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    map_file = LaunchConfiguration('map', default=os.path.join(get_package_share_directory('rosrider_navigation2'), 'map', 'incubator.yaml'))
+    map_file = LaunchConfiguration('map', default=os.path.join(get_package_share_directory('rosrider_navigation2'), 'map', 'willow.yaml'))
     nav2_param_file = LaunchConfiguration('params_file', default=os.path.join(get_package_share_directory('rosrider_navigation2'), 'param', 'nav2_params_' + ROBOT_MODEL + '.yaml'))
     nav2_launch_dir = os.path.join(get_package_share_directory('nav2_bringup'), 'launch')
 
