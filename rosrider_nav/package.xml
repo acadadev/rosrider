@@ -2,9 +2,9 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
 
-  <name>rosrider_navigation2</name>
+  <name>rosrider_nav</name>
   <version>0.0.1</version>
-  <description>ROS2 launch scripts for navigation2</description>
+  <description>Wrapper scripts for nav2 stack</description>
   <maintainer email="can@acada.dev">Can Altineller</maintainer>
   <license>LGPLv3</license>
 
