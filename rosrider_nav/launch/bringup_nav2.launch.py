@@ -28,8 +28,9 @@ ROBOT_MODEL = os.environ['ROBOT_MODEL']
 
 def generate_launch_description():
 
+    # TODO: do not forget keeoout
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    params_file = LaunchConfiguration('params_file', default=os.path.join(get_package_share_directory('rosrider_nav'), 'param', 'nav2_params_' + ROBOT_MODEL + '.yaml'))
+    params_file = LaunchConfiguration('params_file', default=os.path.join(get_package_share_directory('rosrider_nav'), 'param', 'nav2_keepout_params_' + ROBOT_MODEL + '.yaml'))
 
     nav2_launch_dir = os.path.join(get_package_share_directory('nav2_bringup'), 'launch')
 

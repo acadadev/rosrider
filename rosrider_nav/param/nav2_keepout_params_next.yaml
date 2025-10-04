@@ -1,7 +1,7 @@
 amcl:
   ros__parameters:
     set_initial_pose: true
-    initial_pose: # TODO: sim
+    initial_pose: # TODO: this was done for simulation
       x: 0.0
       y: 0.0
       z: 0.0
@@ -204,6 +204,7 @@ local_costmap:
       resolution: 0.05
       robot_radius: 0.22
       plugins: ["voxel_layer", "inflation_layer"]
+      filters: ["keepout_filter"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
@@ -231,6 +232,10 @@ local_costmap:
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
+      keepout_filter:
+        plugin: "nav2_costmap_2d::KeepoutFilter"
+        enabled: False
+        filter_info_topic: "/costmap_filter_info"
       always_send_full_costmap: True
 
 global_costmap:
@@ -244,6 +249,7 @@ global_costmap:
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      filters: ["keepout_filter"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -265,6 +271,10 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
         inflation_radius: 0.7
+      keepout_filter:
+        plugin: "nav2_costmap_2d::KeepoutFilter"
+        enabled: False
+        filter_info_topic: "/costmap_filter_info"
       always_send_full_costmap: True
 
 # The yaml_filename does not need to be specified since it going to be set by defaults in launch.
@@ -344,8 +354,8 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.5, 0.0, 1.57] # default value: [0.5, 0.0, 2.0] - normal: 0.25 # TODO
-    min_velocity: [-0.5, 0.0, -1.57] # default value: [-0.5, 0.0, -2.0] - normal: 0.25 # TODO
+    max_velocity: [0.5, 0.0, 1.57] # default value: [0.5, 0.0, 2.0] - normal: 0.25
+    min_velocity: [-0.5, 0.0, -1.57] # default value: [-0.5, 0.0, -2.0] - normal: 0.25
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"

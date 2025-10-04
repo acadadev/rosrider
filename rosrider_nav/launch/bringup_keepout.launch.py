@@ -1,55 +1,39 @@
-#!/usr/bin/env python3
-
 import os
 
 from ament_index_python.packages import get_package_share_directory
-
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from nav2_common.launch import RewrittenYaml
 
-# TODO: Generate keepout for gazebo
+ROBOT_MODEL = os.environ['ROBOT_MODEL']
 
 def generate_launch_description():
 
-    # TODO: unused: costmap_filters_demo_dir = get_package_share_directory('rosrider_nav')
-
-    # Create our own temporary YAML files that include substitutions
     lifecycle_nodes = ['filter_mask_server', 'costmap_filter_info_server']
 
-    # Parameters
     namespace = LaunchConfiguration('namespace')
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
     params_file = LaunchConfiguration('params_file')
     mask_yaml_file = LaunchConfiguration('mask')
 
-    # Declare the launch arguments
-    declare_namespace_cmd = DeclareLaunchArgument(
-        'namespace',
-        default_value='',
-        description='Top-level namespace')
+    default_mask_yaml_file = os.path.join(get_package_share_directory('rosrider_nav'), 'map', 'willow_mask.yaml')
+    default_params_file = os.path.join(get_package_share_directory('rosrider_nav'), 'param', 'keepout_params.yaml')
 
-    declare_use_sim_time_cmd = DeclareLaunchArgument(
-        'use_sim_time',
-        default_value='true',
-        description='Use simulation (Gazebo) clock if true')
+    declare_namespace_cmd = DeclareLaunchArgument('namespace', default_value='', description='Top-level namespace')
+    declare_use_sim_time_cmd = DeclareLaunchArgument('use_sim_time', default_value='false', description='Use simulation (Gazebo) clock if true')
+    # TODO:TEST autostart out, others use it as default.
+    declare_autostart_cmd = DeclareLaunchArgument('autostart', default_value='true', description='Automatically startup the nav2 stack')
+    declare_params_file_cmd = DeclareLaunchArgument('params_file', default_value=default_params_file, description='Full path to the ROS2 parameters file to use')
+    declare_mask_yaml_file_cmd = DeclareLaunchArgument('mask', default_value=default_mask_yaml_file, description='Full path to filter mask yaml file to load')
 
-    declare_autostart_cmd = DeclareLaunchArgument(
-        'autostart', default_value='true',
-        description='Automatically startup the nav2 stack')
+    # TODO: test autostart. audit autostart on others.
+    # TODO: leave empty the mask file, and let sim launcher do it.
+    # TODO: leave empty in others the specifics, like map file defaults.
 
-    declare_params_file_cmd = DeclareLaunchArgument(
-        'params_file',
-        description='Full path to the ROS2 parameters file to use')
-
-    declare_mask_yaml_file_cmd = DeclareLaunchArgument(
-        'mask',
-        description='Full path to filter mask yaml file to load')
-
-    # Make re-written yaml
+    # TODO: apply this pattern. if sim. on others
     param_substitutions = {
         'use_sim_time': use_sim_time,
         'yaml_filename': mask_yaml_file }
@@ -60,17 +44,17 @@ def generate_launch_description():
         param_rewrites=param_substitutions,
         convert_types=True)
 
-    # Nodes launching commands
     start_lifecycle_manager_cmd = Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
             name='lifecycle_manager_costmap_filters',
             namespace=namespace,
             output='screen',
-            emulate_tty=True,  # https://github.com/ros2/launch/issues/188
-            parameters=[{'use_sim_time': use_sim_time},
-                        {'autostart': autostart},
-                        {'node_names': lifecycle_nodes}])
+            parameters=[{
+                'use_sim_time': use_sim_time,
+                'autostart': autostart,
+                'node_names': lifecycle_nodes
+            }])
 
     start_map_server_cmd = Node(
             package='nav2_map_server',
@@ -78,8 +62,9 @@ def generate_launch_description():
             name='filter_mask_server',
             namespace=namespace,
             output='screen',
-            emulate_tty=True,  # https://github.com/ros2/launch/issues/188
-            parameters=[configured_params])
+            parameters=[{configured_params}])
+
+
 
     start_costmap_filter_info_server_cmd = Node(
             package='nav2_map_server',
@@ -87,8 +72,10 @@ def generate_launch_description():
             name='costmap_filter_info_server',
             namespace=namespace,
             output='screen',
-            emulate_tty=True,  # https://github.com/ros2/launch/issues/188
-            parameters=[configured_params])
+            parameters=[{configured_params}])
+
+
+    # TODO: enable keepout filter
 
     ld = LaunchDescription()
 
