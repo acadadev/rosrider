@@ -11,6 +11,8 @@ for the ROSRider platform in both simulated (Gazebo) and real-world robot enviro
 The primary goal is to abstract the environment-specific setup differences,
 allowing the user to switch between simulation and real hardware with simple launch arguments.
 
+---
+
 ### 💡 What is Cartographer?
 **Cartographer** is an open-source library for Simultaneous Localization and Mapping (SLAM), originally developed by Google.
 It is highly regarded for its ability to generate high-resolution, globally consistent 2D and 3D maps in real-time across various
@@ -28,7 +30,12 @@ Cartographer ROS: You must have the `cartographer_ros package` installed.
 sudo apt-get install ros-jazzy-cartographer-ros
 ```
 
+---
+
 ### 🚀 Usage
+
+> ⚠️ **Important Note on Navigation:**
+>  This package is only responsible for Mapping with **Cartographer.** To enable goal-driven movement, you must separately launch the **navigation stack.**
 
 This package uses a single Python launch file `cartographer.launch.py` to handle both real-robot and simulated scenarios by adjusting parameters.
 For simulation set `use_sim_time:=True`.
@@ -50,10 +57,13 @@ When using Gazebo, set the `use_sim_time:=True` argument.
 ros2 launch rosrider_cartographer cartographer.launch.py use_sim_time:=True
 ```
 
+You can find all the simulation assets and launch files inside the [rosrider_gz](https://github.com/acadadev/rosrider_gz) repository.
+
 ---
 
-> [!ALERT] 
-> **Important Note on Navigation:** This package is only responsible for Mapping with **Cartographer.** To enable goal-driven movement, you must separately launch the **navigation stack.**
+### Documentation
+
+For complete and comprehensive guides on all aspects of the ROSRider project, please refer to the dedicated documentation site: [https://docs.acada.dev/rosrider_doc](https://docs.acada.dev/rosrider_doc)
 
 ---
 #### ACADA Robotics ● [https://acada.dev](https://acada.dev)  
