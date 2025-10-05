@@ -1,4 +1,4 @@
-### ROSRider Control Card Driver for ROS2
+# ROSRider Control Card Driver for ROS2
 
 The **ROSRider board** is a dedicated control unit designed to operate within the ROS 2 ecosystem,
 acting as the primary interface between the robot's motors and sensors and the higher-level ROS 2 nodes.
