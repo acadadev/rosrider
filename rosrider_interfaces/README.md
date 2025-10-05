@@ -143,5 +143,5 @@ Certain commands will result in the immediate **loss of connection** with the dr
 potentially requiring a **system restart and/or direct physical intervention (e.g., pressing a reset button)** on the robot.
 
 ---
-#### ACADA Robotics - [https://acada.dev](https://acada.dev)  
+#### ACADA Robotics ● [https://acada.dev](https://acada.dev)  
 ![ACADA Robotics](https://docs.acada.dev/rosrider_doc/images/logo.svg)
