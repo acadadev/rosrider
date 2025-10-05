@@ -49,5 +49,5 @@ For complete and comprehensive guides on all aspects of the ROSRider project, pl
 ACADA Robotics <info@acada.dev>
 
 <p align="center">
-  <img src="https://docs.acada.dev/rosrider_doc/images/MarmaraTeknokentLogo.png" alt="Marmara Teknokent" />
+  <img src="https://docs.acada.dev/rosrider_doc/images/MarmaraTeknokentLogo.png" alt="Marmara Teknokent" width="250" />
 </p>
