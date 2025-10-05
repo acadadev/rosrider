@@ -137,6 +137,8 @@ mode of the robot's embedded system.
 | SYSCTL_CODE_FACTORY_DEFAULTS | 0x99 | Factory Defaults. Requires reset   |
 | SYSCTL_CODE_PRINT_RTC        | 0xAA | Print RTC time on serial out       |
 
+aa
+
 ---
 #### ACADA Robotics - [https://acada.dev](https://acada.dev)  
 ![ACADA Robotics](https://docs.acada.dev/rosrider_doc/images/logo.svg)
