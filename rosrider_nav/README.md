@@ -70,11 +70,13 @@ To run navigation tasks in the Gazebo simulation environment, you must first lau
 
 #### Launch Gazebo Simulator
 
-```ros2 launch rosrider_gz_bringup world_willow.launch.py launch_rviz:=False```
+```commandline
+ros2 launch rosrider_gz_bringup world_willow.launch.py launch_rviz:=False
+```
 
 #### Execute Navigation in Simulation: 
 
-Append use_sim_time:=True to the relevant command from sections 1, 2, or 3.
+Append ```use_sim_time:=True``` to the relevant command from sections on SLAM and Localization
 
 **For SLAM**
 
@@ -97,7 +99,7 @@ Append use_sim_time:=True to the relevant command from sections 1, 2, or 3.
 | Keepout | Simulation  | ```ros2 launch rosrider_nav bringup_keepout.launch.py use_sim_time:=True``` |
 
 
-1. [ ] #### TODO
+#### TODO
 1. add your own map
 2. map save
 3. add pictures
