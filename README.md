@@ -49,3 +49,12 @@ ACADA Robotics - [https://acada.dev](https://acada.dev)
   
 <img src="https://docs.acada.dev/rosrider_doc/images/logo.svg" alt="ACADA Robotics" width="200" />
 
+---
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    ACADA Robotics - <a href="https://acada.dev">https://acada.dev</a>
+  </div>
+  <img src="https://docs.acada.dev/rosrider_doc/images/logo.svg" alt="ACADA Robotics" width="200" style="margin-left: auto;" />
+</div>
+
