@@ -8,6 +8,8 @@ This guide outlines the common ROS 2 launch commands for essential navigation ta
 
 ### Simultaneous Localization and Mapping (SLAM)
 
+---
+
 SLAM is used to **create a map** of an environment while simultaneously tracking the robot's position within that map. Use this when the environment is unknown.
 
 | Task       | Environment | Command                                                                    |
@@ -16,6 +18,8 @@ SLAM is used to **create a map** of an environment while simultaneously tracking
 | Navigation | Real Robot  | ```ros2 launch rosrider_nav bringup_nav2.launch.py use_sim_time:=False```  |
 
 ### Saving Maps
+
+---
 
 After navigating the robot, use the following command to save the map and generate the required ```map_name.yaml``` and ```map_name.pgm``` files.
 
@@ -28,12 +32,16 @@ This allows you to use the `map:=map_file_path` argument when running localizati
 
 ### Localization
 
+---
+
 | Task         | Environment | Command                                                                           |
 |:-------------|:------------|-----------------------------------------------------------------------------------|
 | Localization | Real Robot  | ```ros2 launch rosrider_nav bringup_localization.launch.py use_sim_time:=False``` |
 | Navigation   | Real Robot  | ```ros2 launch rosrider_nav bringup_nav2.launch.py use_sim_time:=False```         |
 
 ### Keepout Filters
+
+---
 
 Keepout filters define areas on the map that the robot must avoid (e.g., stairs, sensitive equipment). **Localization** must be active before you can use the keepout filters.
 
@@ -73,6 +81,8 @@ global_costmap:
 
 ### Visualization
 
+---
+
 Use RViz to visualize the robot, sensor data, map, and navigation planning outputs.
 
 ```commandline
@@ -80,6 +90,8 @@ ros2 launch nav2_bringup rviz_launch.py
 ```
 
 ### Use with Gazebo Simulator
+
+---
 
 To run navigation tasks in the Gazebo simulation environment, you must first launch the simulator and then execute the SLAM or Localization commands with the use_sim_time argument set to True.
 
@@ -117,25 +129,25 @@ Append ```use_sim_time:=True``` to the relevant command from sections on SLAM an
 |:---------------|:------------|-----------------------------------------------------------------------------|
 | Keepout Filter | Simulation  | ```ros2 launch rosrider_nav bringup_keepout.launch.py use_sim_time:=True``` |
 
-#### Supplementary Visualization and Context
+### Supplementary Visualization and Context
 
-![Gazebo Simulation Robot](https://docs.acada.dev/rosrider_doc/images/rosrider/gazebo_next_robot_close.png)
-
-*Fig 3. Robot in Gazebo Simulation: This robot is equipped with odometry, a lidar scanner and an IMU*
-
-![RVIZ Navigation Local Map](https://docs.acada.dev/rosrider_doc/images/rosrider/nav_local_global_map.png)
-
-*Fig 4. RVIZ interface visualizing robot data while navigating*
+---
 
 The **global costmap** provides a high-level, static view of the entire environment to plan long-distance paths, while the **local costmap** is smaller, dynamic, 
 and continuously updated with new sensor data for immediate obstacle avoidance and finer path adjustments.
 
 The robot's primary navigation functions, including the **global planner** for long-range pathfinding and the **local controller** for immediate obstacle avoidance, rely heavily on the distinct information provided by these two costmaps.
 
-![RVIZ Navigation with Keepout](https://docs.acada.dev/rosrider_doc/images/rosrider/rviz_navigation_with_keepout.png)
+![RVIZ Navigation Local Map](https://docs.acada.dev/rosrider_doc/images/rosrider/nav_local_global_map.png)
 
-*Fig 5. RVIZ interface showing the whole localization map*
+*Fig 3. RVIZ interface visualizing robot data while navigating*
+
+---
 
 The RVIZ screen provides a crucial visualization of the robot's localization within the known map and allows the user to command the robot by sending goal points via
 the **2D Goal Pose** tool. Once a goal is established, the Nav2 stack processes the costmap data to generate a safe global path and dynamically manages the local plan
 in real-time, ensuring the robot avoids both known static features and newly detected moving obstacles along the way.
+
+![RVIZ Navigation with Keepout](https://docs.acada.dev/rosrider_doc/images/rosrider/rviz_navigation_with_keepout.png)
+
+*Fig 4. RVIZ interface showing the whole localization map*
