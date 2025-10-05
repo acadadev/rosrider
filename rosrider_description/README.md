@@ -14,3 +14,8 @@ of the URDF model before proceeding to simulation.
 
 ![Robot URDF Visualization](https://docs.acada.dev/rosrider_doc/images/rosrider/rosrider_description.png)
 
+The ROSRider's **URDF** precisely models its differential drive chassis, including the complex kinematics of
+the passive caster wheel, which features a **two-joint structure** for rolling and swiveling motion.
+This detailed description is crucial as it allows robot_state_publisher to accurately calculate the location
+and orientation of all links for visualization in RViz and for physics simulation in Gazebo.
+
