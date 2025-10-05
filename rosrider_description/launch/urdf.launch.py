@@ -37,17 +37,15 @@ def generate_launch_description():
         output='screen'
     )
 
-
     rviz = Node(
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        arguments=['-d', os.path.join(pkg_project_description, 'config', 'urdf.rviz')],
-        condition=IfCondition(LaunchConfiguration('launch_rviz'))
+        arguments=['-d', os.path.join(pkg_project_description, 'config', 'urdf.rviz')]
     )
 
     return LaunchDescription([
-        DeclareLaunchArgument('rviz', default_value='true',  description='Open RViz'),
+
         DeclareLaunchArgument('gui', default_value='true', description='Open Joint State Publisher GUI'),
         robot_state_publisher,
         Node(
