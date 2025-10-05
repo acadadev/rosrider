@@ -32,7 +32,7 @@ sudo apt-get install ros-jazzy-cartographer-ros
 
 This package uses a single Python launch file `cartographer.launch.py` to handle both real-robot and simulated scenarios by adjusting parameters.
 For simulation set `use_sim_time:=True`.
-The launch_rviz:=True argument is optional and automatically opens the visualization tool.
+The `launch_rviz:=True` argument is optional and automatically opens the visualization tool.
 
 #### On the Real Robot (Live Mapping)
 
@@ -44,10 +44,10 @@ ros2 launch rosrider_cartographer cartographer.launch.py launch_rviz:=True
 
 #### Using Gazebo Simulation
 
-When using Gazebo, the `use_sim_time:=True` argument is mandatory. This synchronizes Cartographer's time clock with the simulation environment.
+When using Gazebo, set the `use_sim_time:=True` argument.
 
 ```commandline
-ros2 launch rosrider_cartographer cartographer.launch.py use_sim_time:=True launch_rviz:=True
+ros2 launch rosrider_cartographer cartographer.launch.py use_sim_time:=True
 ```
 
 ---
