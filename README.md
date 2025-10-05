@@ -49,5 +49,3 @@ ACADA Robotics info@acada.dev
   
 <img src="https://docs.acada.dev/rosrider_doc/images/logo.svg" alt="ACADA Robotics" width="200" />
 
-<img src="https://docs.acada.dev/rosrider_doc/images/logo.svg" alt="ACADA Robotics" width="200" />
-
