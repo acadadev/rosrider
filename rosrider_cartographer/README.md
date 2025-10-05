@@ -34,7 +34,7 @@ This package uses a single Python launch file `cartographer.launch.py` to handle
 For simulation set `use_sim_time:=True`.
 The launch_rviz:=True argument is optional and automatically opens the visualization tool.
 
-1. On the Real Robot (Live Mapping)
+#### On the Real Robot (Live Mapping)
 
 Use this command when running the package on your physical ROSRider robot.
 
@@ -42,7 +42,7 @@ Use this command when running the package on your physical ROSRider robot.
 ros2 launch rosrider_cartographer cartographer.launch.py launch_rviz:=True
 ```
 
-2. Using Gazebo Simulation
+#### Using Gazebo Simulation
 
 When using Gazebo, the `use_sim_time:=True` argument is mandatory. This synchronizes Cartographer's time clock with the simulation environment.
 
@@ -50,11 +50,10 @@ When using Gazebo, the `use_sim_time:=True` argument is mandatory. This synchron
 ros2 launch rosrider_cartographer cartographer.launch.py use_sim_time:=True launch_rviz:=True
 ```
 
-> [!NOTE] 
+---
+
+> [!ALERT] 
 > **Important Note on Navigation:** This package is only responsible for Mapping with **Cartographer.** To enable goal-driven movement, you must separately launch the **navigation stack.**
-
-⚠️ 
-
 
 ---
 #### ACADA Robotics ● [https://acada.dev](https://acada.dev)  
