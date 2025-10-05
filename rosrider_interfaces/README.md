@@ -68,9 +68,11 @@ This message provides a comprehensive snapshot of the robot's low-level operatio
 |-----|--------------------------|
 | b7  | 	EPROM_INIT_OK=0         |         
 | b6  | 	RESTART_REQUIRED=1      |
-| b0  | 	EEPROM_WRITE_WRITE_OK=0 | 
+| b0  | 	EEPROM_WRITE_WRITE_OK=0 |
 
 ### Services
+
+---
 
 `rosrider_interfaces/srv/PidCtl.srv`
 
@@ -84,6 +86,8 @@ for one of the robot's motor control loops at runtime.
 | kd    | float32 | The new **Derivative (D)** gain value to set.                              |
 | i     | uint8   | ID of the PID loop to be configured (0 for Left Wheel, 1 for Right Wheel). |
 | result| uint8   | Response code                                                              |
+
+---
 
 `rosrider_interfaces/srv/SysCtl.srv`
 
