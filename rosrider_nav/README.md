@@ -79,7 +79,7 @@ Use RViz to visualize the robot, sensor data, map, and navigation planning outpu
 ros2 launch nav2_bringup rviz_launch.py
 ```
 
-### 🤖 Use with Gazebo Simulator
+### 🎮 Use with Gazebo Simulator
 
 To run navigation tasks in the Gazebo simulation environment, you must first launch the simulator and then execute the SLAM or Localization commands with the use_sim_time argument set to True.
 
