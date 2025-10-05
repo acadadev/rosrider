@@ -40,13 +40,13 @@ local_costmap:
         plugin: "nav2_costmap_2d::KeepoutFilter"
         enabled: False
         filter_info_topic: "/costmap_filter_info"
-      ---
+      ...
 global_costmap:
   global_costmap:
     ros__parameters:
       ...
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
-      ---
+      ...
       filters: ["keepout_filter"]
       ...
       keepout_filter:
@@ -60,7 +60,9 @@ global_costmap:
 
 Use RViz to visualize the robot, sensor data, map, and navigation planning outputs.
 
-```ros2 launch nav2_bringup rviz_launch.py```
+```commandline
+ros2 launch nav2_bringup rviz_launch.py
+```
 
 ### Use with Gazebo Simulator
 
@@ -95,7 +97,7 @@ Append use_sim_time:=True to the relevant command from sections 1, 2, or 3.
 | Keepout | Simulation  | ```ros2 launch rosrider_nav bringup_keepout.launch.py use_sim_time:=True``` |
 
 
-#### TODO
+1. [ ] #### TODO
 1. add your own map
 2. map save
 3. add pictures
