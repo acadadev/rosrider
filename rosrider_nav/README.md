@@ -85,6 +85,8 @@ To run navigation tasks in the Gazebo simulation environment, you must first lau
 ros2 launch rosrider_gz_bringup world_willow.launch.py launch_rviz:=False
 ```
 
+![Gazebo Simulation Willow World](https://raw.githubusercontent.com/acadadev/rosrider_doc/refs/heads/main/images/rosrider/gazebo_willow_world.png)
+
 #### Execute Navigation in Simulation: 
 
 Append ```use_sim_time:=True``` to the relevant command from sections on SLAM and Localization
