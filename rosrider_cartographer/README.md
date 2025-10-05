@@ -53,7 +53,7 @@ You can find all the simulation assets and launch files inside the [rosrider_gz]
 ros2 launch rosrider_cartographer cartographer.launch.py use_sim_time:=True
 ```
 
-### Documentation
+### 📖 Documentation
 
 For complete and comprehensive guides on all aspects of the ROSRider project, please refer to the dedicated documentation site: [https://docs.acada.dev/rosrider_doc](https://docs.acada.dev/rosrider_doc)
 

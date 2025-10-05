@@ -1,4 +1,4 @@
-# ROSRider Control Card Driver for ROS2
+# 🤖 ROSRider Control Card Driver for ROS2
 
 The **ROSRider board** is a dedicated control unit designed to operate within the ROS 2 ecosystem,
 acting as the primary interface between the robot's motors and sensors and the higher-level ROS 2 nodes.
@@ -15,7 +15,7 @@ The image displays a **ROSRider control card** on the left, which is a specializ
 a **ROS-compatible robot** assembled using the ROSRider system as its foundation.
 This robot integrates the control card with a **Raspberry Pi**, a **LiDAR** unit, and **two ordinary encoder motors** to create a functional robotic platform.
 
-### Software Packages
+### 📦 Software Packages
 
 | Package                                                                                       | Description                                                                                                                                                 |
 |-----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -26,7 +26,7 @@ This robot integrates the control card with a **Raspberry Pi**, a **LiDAR** unit
 | [rosrider_cartographer](https://github.com/acadadev/rosrider/tree/main/rosrider_cartographer) | Integrates the Cartographer library for high-fidelity SLAM (Simultaneous Localization and Mapping), allowing the robot to build and localize within a map.  |
 | [rosrider_image](https://github.com/acadadev/rosrider/tree/main/rosrider_image)               | Handles the image processing pipeline, managing data from cameras and performing necessary operations like filtering or feature extraction.                 |
 
-### Simulations
+### 🤖 Simulations
 
 To facilitate development, testing, and algorithmic validation without needing physical hardware, the ROSRider project includes the `rosrider_gz` package.
 This component provides the necessary configuration files, robot models, and launch procedures to run a high-fidelity Gazebo (Gazebo Sim) simulation environment.
@@ -36,7 +36,7 @@ packages in a virtual world.
 This allows for rapid iteration and safe debugging of control, navigation, and mapping algorithms before deployment onto the actual robot,
 serving as your virtual sandbox for all things ROSRider. You can find all the simulation assets and launch files inside the [rosrider_gz](https://github.com/acadadev/rosrider_gz) repository.
 
-### Documentation
+### 📖 Documentation
 
 For complete and comprehensive guides on all aspects of the ROSRider project, please refer to the dedicated documentation site: [https://docs.acada.dev/rosrider_doc](https://docs.acada.dev/rosrider_doc)
 
