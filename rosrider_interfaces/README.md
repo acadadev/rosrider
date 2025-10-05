@@ -27,6 +27,49 @@ This message provides a comprehensive snapshot of the robot's low-level operatio
 | system_status | uint8   | 	Overall system status or operational mode flags.                  | 
 | packet_age    | uint16  | 	Time elapsed since this data was sampled on the micro-controller. |
 
+#### POWER STATUS
+
+| Bit | Name          | Description                            |
+|-----|---------------|----------------------------------------|
+| b7	 | CMD_TIMEOUT   | The last applied command has timed out |
+| b6	 | POWER_BAD     | Power problem                          |
+| b5	 | RIGHT_AMP     | Right motor Software Fuse Triggered    |
+| b4	 | LEFT_AMP      | Left motor Software Fuse Triggered     |
+| b3	 | MAIN_FUSE     | Main Current Fuse Triggered            |
+| b2	 | OVER_VOLTAGE  | Bus voltage exceeds the limit          |
+| b1	 | UNDER_VOLTAGE | Bus voltage is below the limit         |
+| b0	 | AUX_PWR       | Aux power output status                |
+
+#### MOTOR STATUS
+
+| Bit | Name                     | Description           |
+|-----|--------------------------|-----------------------|
+| b7  | FAULT_RIGHT              | Right motor fault     |
+| b6  | FAULT_LEFT               | Left motor fault      |
+| b5  | RIGHT_REV (0=REV, 1=FWD) | Right motor direction |         
+| b4  | LEFT_REV (0=REV, 1=FWD)  | Left motor direction  |
+| b3  | MODE_2                   | Mode 2 Enabled        |
+| b2  | MODE_1                   | Mode 1 Enabled        |
+| b1  | DRIVE_MODE_MSB           | Drive mode MSB        |
+| b0  | DRIVE_MODE_LSB           | Drive mode LSB        |
+
+| Brake Mode | Bit Values |
+|------------|------------|
+| MODE_BRAKE | 00         |  
+| MODE_PWM   | 01         | 
+| MODE_VEL   | 10         | 
+| MODE_PID   | 11         | 
+
+**Please Note:** The driver's fault flags will always be on if the motor bus voltage is below 12V.
+
+#### SYSTEM STATUS
+
+| Bit | Description              |
+|-----|--------------------------|
+| b7  | 	EPROM_INIT_OK=0         |         
+| b6  | 	RESTART_REQUIRED=1      |
+| b0  | 	EEPROM_WRITE_WRITE_OK=0 | 
+
 ### Services
 
 `rosrider_interfaces/srv/PidCtl.srv`
