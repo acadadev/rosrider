@@ -1,4 +1,4 @@
-## ROS2 Navigation Commands and Workflow
+# ROS2 Navigation Commands and Workflow
 
 This guide outlines the common ROS 2 launch commands for essential navigation tasks, including Simultaneous Localization and Mapping (SLAM), localization with a known map, and configuring keepout filters.
 
