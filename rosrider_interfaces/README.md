@@ -25,7 +25,7 @@ This message provides a comprehensive snapshot of the robot's low-level operatio
 | system_status | uint8   | 	Overall system status or operational mode flags.                  | 
 | packet_age    | uint16  | 	Time elapsed since this data was sampled on the micro-controller. |
 
-#### POWER STATUS
+**POWER STATUS**
 
 The `power_status` field serves as an **8-bit register** that summarizes all critical software and electrical fault states monitored on the board.
 This register reports various protection triggers, including the **main current fuse** `(b3)` and motor specific **software fuse trips** `(b5, b4)`,
@@ -43,7 +43,7 @@ it tracks non-physical faults like a **command timeout** `(b7)` and the status o
 | b1	 | UNDER_VOLTAGE | Bus voltage is below the limit         |
 | b0	 | AUX_PWR       | Aux power output status                |
 
-#### MOTOR STATUS
+**MOTOR STATUS**
 
 The `motor_status` field is an **8-bit register** that provides a comprehensive summary of the motor system's operational state,
 detailing the **fault status** for both the left and right motors `(b7, b6)`, their current direction of rotation `(b5, b4)`,
@@ -69,7 +69,7 @@ the activation of two different driver modes `(b3, b2)`, and the current drive m
 
 **Please Note:** The driver's fault flags will always be on if the motor bus voltage is below 12V.
 
-#### SYSTEM STATUS
+**SYSTEM STATUS**
 
 The `system_status` field is an **8-bit status register** used to report the state of the embedded system,
 with key bits indicating critical conditions such as a successful **EEPROM initialization** `b7=0`,
