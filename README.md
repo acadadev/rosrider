@@ -51,3 +51,11 @@ For complete and comprehensive guides on all aspects of the ROSRider project, pl
   ACADA Robotics - <a href="https://acada.dev">https://acada.dev</a>
 </p>
 
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <span>
+    ACADA Robotics - <a href="https://acada.dev">https://acada.dev</a>
+  </span>
+  
+  <img src="https://docs.acada.dev/rosrider_doc/images/logo.svg" alt="ACADA Robotics" width="200" />
+</div>
+
