@@ -1,4 +1,4 @@
-# ROS2 Navigation Commands and Workflow
+# 🗺️ ROS2 Navigation Commands and Workflow
 
 This guide outlines the common ROS 2 launch commands for essential navigation tasks, including Simultaneous Localization and Mapping (SLAM), localization with a known map, and configuring keepout filters.
 
@@ -6,7 +6,7 @@ This guide outlines the common ROS 2 launch commands for essential navigation ta
 
 *Fig 1. RVIZ visualization program displaying navigation within known map*
 
-### 🗺️ Simultaneous Localization and Mapping (SLAM)
+### 🧭 Simultaneous Localization and Mapping (SLAM)
 
 SLAM is used to **create a map** of an environment while simultaneously tracking the robot's position within that map. Use this when the environment is unknown.
 
@@ -26,7 +26,7 @@ ros2 run nav2_map_server map_saver_cli -f map_name
 Move the files to the `rosrider_nav/map` folder.
 This allows you to use the `map:=map_file_path` argument when running localization with your own maps. 
 
-### 🧭 Localization
+### 📍 Localization
 
 | Task         | Environment | Command                                                                           |
 |:-------------|:------------|-----------------------------------------------------------------------------------|

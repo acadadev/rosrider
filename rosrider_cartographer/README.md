@@ -1,4 +1,4 @@
-# ROSRider Cartographer
+# 🌐 ROSRider Cartographer
 
 ### 🤖 Cartographer Wrapper for ROSRider Platform
 
