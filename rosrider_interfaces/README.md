@@ -141,3 +141,6 @@ These system control services provide the capability to **override critical sett
 While they can be used to issue commands to **recover the robot** from a difficult or unresponsive state, **users must exercise extreme caution**.
 Certain commands will result in the immediate **loss of connection** with the driver,
 potentially requiring a **system restart and/or direct physical intervention (e.g., pressing a reset button)** on the robot.
+---
+#### ACADA Robotics - [https://acada.dev](https://acada.dev)  
+![ACADA Robotics](https://docs.acada.dev/rosrider_doc/images/logo.svg)

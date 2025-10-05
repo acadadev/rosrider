@@ -151,3 +151,7 @@ in real-time, ensuring the robot avoids both known static features and newly det
 ![RVIZ Navigation with Keepout](https://docs.acada.dev/rosrider_doc/images/rosrider/rviz_navigation_with_keepout.png)
 
 *Fig 4. RVIZ interface showing the whole localization map*
+
+---
+#### ACADA Robotics - [https://acada.dev](https://acada.dev)  
+![ACADA Robotics](https://docs.acada.dev/rosrider_doc/images/logo.svg)
