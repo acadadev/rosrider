@@ -1,7 +1,5 @@
 # 🌐 ROSRider Cartographer
 
-### 🤖 Cartographer Wrapper for ROSRider Platform
-
 This package provides a simplified wrapper around the **Google Cartographer** library,
 enabling easy and consistent execution of 2D SLAM (Simultaneous Localization and Mapping)
 for the ROSRider platform in both simulated (Gazebo) and real-world robot environments.

@@ -1,4 +1,4 @@
-# 🤖 Robot Description
+# 📐 Robot Description
 
 This package provides the **complete kinematic and visual description** of the ROSRider mobile robot.
 It contains the **URDF** model, **mesh files**, and launch files for viewing the robot in **RVIZ** and simulation in **Gazebo.**

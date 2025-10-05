@@ -26,7 +26,7 @@ This robot integrates the control card with a **Raspberry Pi**, a **LiDAR** unit
 | [rosrider_cartographer](https://github.com/acadadev/rosrider/tree/main/rosrider_cartographer) | Integrates the Cartographer library for high-fidelity SLAM (Simultaneous Localization and Mapping), allowing the robot to build and localize within a map.  |
 | [rosrider_image](https://github.com/acadadev/rosrider/tree/main/rosrider_image)               | Handles the image processing pipeline, managing data from cameras and performing necessary operations like filtering or feature extraction.                 |
 
-### 🤖 Simulations
+### 🎮 Simulations
 
 To facilitate development, testing, and algorithmic validation without needing physical hardware, the ROSRider project includes the `rosrider_gz` package.
 This component provides the necessary configuration files, robot models, and launch procedures to run a high-fidelity Gazebo (Gazebo Sim) simulation environment.
