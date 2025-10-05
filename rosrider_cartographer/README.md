@@ -34,6 +34,9 @@ sudo apt-get install ros-jazzy-cartographer-ros
 
 ### 🚀 Usage
 
+> ⚠️ **Important Note on Navigation:**
+>  This package is only responsible for Mapping with **Cartographer.** To enable goal-driven movement, you must separately launch the **navigation stack.**
+
 This package uses a single Python launch file `cartographer.launch.py` to handle both real-robot and simulated scenarios by adjusting parameters.
 For simulation set `use_sim_time:=True`.
 The `launch_rviz:=True` argument is optional and automatically opens the visualization tool.
@@ -48,15 +51,12 @@ ros2 launch rosrider_cartographer cartographer.launch.py launch_rviz:=True
 
 #### Using Gazebo Simulation
 
-You can find all the simulation assets and launch files inside the [rosrider_gz](https://github.com/acadadev/rosrider_gz) repository.  
+You can find all the simulation assets and launch files inside the [rosrider_gz](https://github.com/acadadev/rosrider_gz) repository.
 When using Gazebo, set the `use_sim_time:=True` argument.
 
 ```commandline
 ros2 launch rosrider_cartographer cartographer.launch.py use_sim_time:=True
 ```
-
-> ⚠️ **Important Note on Navigation:**
->  This package is only responsible for Mapping with **Cartographer.** To enable goal-driven movement, you must separately launch the **navigation stack.**
 
 ---
 
