@@ -51,3 +51,8 @@ ACADA Robotics <info@acada.dev>
 <p align="center">
   <img src="https://docs.acada.dev/rosrider_doc/images/MarmaraTeknokentLogo.png" alt="Marmara Teknokent" width="250" />
 </p>
+
+<p align="center">
+  <img src="https://docs.acada.dev/rosrider_doc/images/logo.svg" alt="ACADA Robotics" width="250" />
+</p>
+
