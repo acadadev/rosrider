@@ -50,6 +50,12 @@ When using Gazebo, the `use_sim_time:=True` argument is mandatory. This synchron
 ros2 launch rosrider_cartographer cartographer.launch.py use_sim_time:=True launch_rviz:=True
 ```
 
+> [!NOTE] 
+> **Important Note on Navigation:** This package is only responsible for Mapping with **Cartographer.** To enable goal-driven movement, you must separately launch the **navigation stack.**
+
+⚠️ 
+
+
 ---
 #### ACADA Robotics ● [https://acada.dev](https://acada.dev)  
 [![ACADA Robotics](https://docs.acada.dev/rosrider_doc/images/logo.svg)](https://acada.dev)
