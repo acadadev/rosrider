@@ -137,10 +137,6 @@ mode of the robot's embedded system.
 | SYSCTL_CODE_FACTORY_DEFAULTS | 0x99 | Factory Defaults. Requires reset   |
 | SYSCTL_CODE_PRINT_RTC        | 0xAA | Print RTC time on serial out       |
 
-These system control services provide the capability to **override critical settings** at the hardware level.
-While they can be used to issue commands to **recover the robot** from a difficult or unresponsive state, **users must exercise extreme caution**.
-Certain commands will result in the immediate **loss of connection** with the driver,
-potentially requiring a **system restart and/or direct physical intervention (e.g., pressing a reset button)** on the robot.
 ---
 #### ACADA Robotics - [https://acada.dev](https://acada.dev)  
 ![ACADA Robotics](https://docs.acada.dev/rosrider_doc/images/logo.svg)
