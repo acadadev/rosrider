@@ -15,8 +15,6 @@ The image displays a **ROSRider control card** on the left, which is a specializ
 a **ROS-compatible robot** assembled using the ROSRider system as its foundation.
 This robot integrates the control card with a **Raspberry Pi**, a **LiDAR** unit, and **two ordinary encoder motors** to create a functional robotic platform.
 
----
-
 ### Software Packages
 
 | Package                                                                                       | Description                                                                                                                                                 |
@@ -36,9 +34,7 @@ By integrating the ROSRider robot and its environment within the simulator, deve
 packages in a virtual world.  
 
 This allows for rapid iteration and safe debugging of control, navigation, and mapping algorithms before deployment onto the actual robot,
-serving as your virtual sandbox for all things ROSRider. You can find all the simulation assets and launch files inside the [rosrider_gz](https://github.com/acadadev/rosrider_gz) repository.  
-
----
+serving as your virtual sandbox for all things ROSRider. You can find all the simulation assets and launch files inside the [rosrider_gz](https://github.com/acadadev/rosrider_gz) repository.
 
 ### Documentation
 

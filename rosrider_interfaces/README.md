@@ -83,8 +83,6 @@ an EEPROM write failure `b0=1`, or the necessity of a system restart `b6=1`.
 
 ### Services
 
----
-
 `rosrider_interfaces/srv/PidCtl.srv`
 
 This service is used to **dynamically adjust the Proportional-Integral-Derivative (PID) controller gains**
@@ -97,8 +95,6 @@ for one of the robot's motor control loops at runtime.
 | kd    | float32 | The new **Derivative (D)** gain value to set.                              |
 | i     | uint8   | ID of the PID loop to be configured (0 for Left Wheel, 1 for Right Wheel). |
 | result| uint8   | Response code                                                              |
-
----
 
 `rosrider_interfaces/srv/SysCtl.srv`
 
