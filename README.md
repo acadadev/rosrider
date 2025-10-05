@@ -11,6 +11,10 @@ Furthermore, the board's behavior and hardware configuration are parametric, wit
 
 ![ROSRider Control Board](https://docs.acada.dev/rosrider_doc/images/rosrider_system.jpg)
 
+The image displays a **ROSRider control card** on the left, which is a specialized PCB designed for robotics, and on the right,
+a **ROS-compatible robot** assembled using the ROSRider system as its foundation.
+This robot integrates the control card with a **Raspberry Pi**, a **LiDAR** unit, and **two ordinary encoder motors** to create a functional robotic platform.
+
 ---
 
 ### Software Packages
@@ -43,3 +47,7 @@ For complete and comprehensive guides on all aspects of the ROSRider project, pl
 ---
 
 ACADA Robotics <info@acada.dev>
+
+<p align="center">
+  <img src="https://docs.acada.dev/rosrider_doc/images/MarmaraTeknokentLogo.png" alt="Marmara Teknokent" width="50" />
+</p>
