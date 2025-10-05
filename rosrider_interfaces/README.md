@@ -1,4 +1,4 @@
-# 🖧 ROSRider Interfaces Package
+# 🕸️ ROSRider Interfaces Package
 
 This package defines the custom messages `msg` and services `srv` used for internode communication across the robot's control and diagnostics systems.  
 
