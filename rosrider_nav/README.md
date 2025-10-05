@@ -2,7 +2,7 @@
 
 This guide outlines the common ROS 2 launch commands for essential navigation tasks, including Simultaneous Localization and Mapping (SLAM), localization with a known map, and configuring keepout filters.
 
-![Gazebo Simulation Willow World](https://docs.acada.dev/rosrider_doc/images/rosrider/rviz_navigation_with_keepout.png)
+![Gazebo Simulation Willow World](https://docs.acada.dev/rosrider_doc/images/rosrider/navigation_with_keepout.png)
 
 *Fig 1. RVIZ visualization program displaying navigation within known map*
 
