@@ -9,7 +9,7 @@ abstracting the hardware complexity away from the main application logic.
 
 Furthermore, the board's behavior and hardware configuration are parametric, with all settings easily managed and configured via a **YAML file**.
 
-![ROSRider Control Board](https://docs.acada.dev/rosrider_doc/images/ROSRider4D_800.png)
+![ROSRider Control Board](https://docs.acada.dev/rosrider_doc/images/ROSRider4D_medium.png)
 
 ---
 
