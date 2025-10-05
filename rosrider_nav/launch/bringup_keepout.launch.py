@@ -2,7 +2,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, ExecuteProcess
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from nav2_common.launch import RewrittenYaml
@@ -12,6 +12,8 @@ ROBOT_MODEL = os.environ['ROBOT_MODEL']
 def generate_launch_description():
 
     lifecycle_nodes = ['filter_mask_server', 'costmap_filter_info_server']
+
+    # notice: we do not use any other config file then map mask and keeepout parameters
 
     namespace = LaunchConfiguration('namespace')
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -24,14 +26,11 @@ def generate_launch_description():
 
     declare_namespace_cmd = DeclareLaunchArgument('namespace', default_value='', description='Top-level namespace')
     declare_use_sim_time_cmd = DeclareLaunchArgument('use_sim_time', default_value='false', description='Use simulation (Gazebo) clock if true')
-    # TODO:TEST autostart out, others use it as default.
     declare_autostart_cmd = DeclareLaunchArgument('autostart', default_value='true', description='Automatically startup the nav2 stack')
     declare_params_file_cmd = DeclareLaunchArgument('params_file', default_value=default_params_file, description='Full path to the ROS2 parameters file to use')
     declare_mask_yaml_file_cmd = DeclareLaunchArgument('mask', default_value=default_mask_yaml_file, description='Full path to filter mask yaml file to load')
 
-    # TODO: test autostart. audit autostart on others.
-    # TODO: leave empty the mask file, and let sim launcher do it.
-    # TODO: leave empty in others the specifics, like map file defaults.
+    # TODO: test autostart. audit autostart on others. autostart out, others use it as default.
 
     # TODO: apply this pattern. if sim. on others
     param_substitutions = {
@@ -64,8 +63,6 @@ def generate_launch_description():
             output='screen',
             parameters=[{configured_params}])
 
-
-
     start_costmap_filter_info_server_cmd = Node(
             package='nav2_map_server',
             executable='costmap_filter_info_server',
@@ -74,8 +71,13 @@ def generate_launch_description():
             output='screen',
             parameters=[{configured_params}])
 
+    keepout_script_path = os.path.join(get_package_share_directory('rosrider_nav'), 'scripts', 'service_call_keepout.py')
 
-    # TODO: enable keepout filter
+    keepout_launcher = ExecuteProcess(
+        cmd=['/usr/bin/env', 'python3', keepout_script_path],
+        name='service_call_keepout',
+        output='screen',
+    )
 
     ld = LaunchDescription()
 
@@ -88,5 +90,7 @@ def generate_launch_description():
     ld.add_action(start_lifecycle_manager_cmd)
     ld.add_action(start_map_server_cmd)
     ld.add_action(start_costmap_filter_info_server_cmd)
+
+    ld.add_action(keepout_launcher)
 
     return ld

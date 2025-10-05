@@ -25,6 +25,9 @@ ROBOT_MODEL = os.environ['ROBOT_MODEL']
 def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
+
+    # notice: we use same parameter file for both real world and simulation
+
     params_file = LaunchConfiguration('params_file',  default=os.path.join(get_package_share_directory('rosrider_nav'), 'param', 'mapper_params_' + ROBOT_MODEL + '.yaml'))
 
     slam2_launch_dir = os.path.join(get_package_share_directory('slam_toolbox'), 'launch')
