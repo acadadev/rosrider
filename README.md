@@ -48,7 +48,7 @@ For complete and comprehensive guides on all aspects of the ROSRider project, pl
 
 <div align="center">
 
-# ACADA Robotics - [https://acada.dev](https://acada.dev)
+### ACADA Robotics - [https://acada.dev](https://acada.dev)
 
 ![ACADA Robotics](https://docs.acada.dev/rosrider_doc/images/logo.svg)
 
