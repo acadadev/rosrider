@@ -45,7 +45,7 @@ serving as your virtual sandbox for all things ROSRider. You can find all the si
 For complete and comprehensive guides on all aspects of the ROSRider project, please refer to the dedicated documentation site: [https://docs.acada.dev/rosrider_doc](https://docs.acada.dev/rosrider_doc)
 
 ---
-ACADA Robotics info@acada.dev  
+ACADA Robotics - [https://acada.dev](https://acada.dev) 
   
 <img src="https://docs.acada.dev/rosrider_doc/images/logo.svg" alt="ACADA Robotics" width="200" />
 
