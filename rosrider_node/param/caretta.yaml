@@ -8,7 +8,7 @@
     PUB_JOINTS: True
     PUB_DIAGNOSTICS: True
     ROS2RPI_CONFIG: 0x33
-    AUTO_SYNC: True
+    AUTOSYNC: True
     DEBUG: False
     CONFIG_FLAGS: 48
     UPDATE_RATE: 20
@@ -46,3 +46,4 @@
     TRIM: 0.0
     MOTOR_CONSTANT: 1.0
     I2C_ADDRESS: 0x3c
+    OUTPUT_FILTER_TYPE: 0

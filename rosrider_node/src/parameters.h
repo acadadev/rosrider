@@ -16,6 +16,7 @@
 #define DEFAULT_MONITOR_RATE 100
 #define DEFAULT_ALLOWED_SKIP 3
 #define DEFAULT_I2C_ADDRESS 0x3C
+#define DEFAULT_OUTPUT_FILTER_TYPE 0
 
 #define PARAM_CONFIG_FLAGS 0
 #define PARAM_UPDATE_RATE 1
@@ -24,6 +25,7 @@
 #define PARAM_MONITOR_RATE 4
 #define PARAM_ALLOWED_SKIP 5
 #define PARAM_I2C_ADDRESS 6
+#define PARAM_OUTPUT_FILTER_TYPE 7
 
 // uint16
 #define DEFAULT_PWM_SCALE 256
@@ -95,11 +97,11 @@
 #define PARAM_TRIM 16
 #define PARAM_MOTOR_CONSTANT 17
 
-#define DEFAULT_AUTO_SYNC false
-#define PARAM_AUTO_SYNC 0
+#define DEFAULT_AUTOSYNC false
+#define PARAM_AUTOSYNC 0
 
 // uint8 array
-#define SIZE_PARAMS_UINT8 7
+#define SIZE_PARAMS_UINT8 8
 uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_CONFIG_FLAGS,
                                 DEFAULT_UPDATE_RATE,
@@ -107,7 +109,8 @@ uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_DRIVE_MODE,
                                 DEFAULT_MONITOR_RATE,
                                 DEFAULT_ALLOWED_SKIP,
-                                DEFAULT_I2C_ADDRESS
+                                DEFAULT_I2C_ADDRESS,
+                                DEFAULT_OUTPUT_FILTER_TYPE
                             };
 
 const char *names_uint8[] = { "CONFIG_FLAGS",
@@ -116,7 +119,8 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                               "DRIVE_MODE",
                               "MONITOR_RATE", 
                               "ALLOWED_SKIP",
-                              "I2C_ADDRESS"
+                              "I2C_ADDRESS",
+                              "OUTPUT_FILTER_TYPE"
                             };
 
 // uint16 array
@@ -202,8 +206,8 @@ const char *names_float[] = { "GEAR_RATIO",
                               "MOTOR_CONSTANT" };
 
 #define SIZE_PARAMS_BOOL 1
-bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC };
-const char *names_bool[] = { "AUTO_SYNC" };
+bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC };
+const char *names_bool[] = { "AUTOSYNC" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -216,6 +220,8 @@ float ANGULAR_RPM;
 double UPDATE_PERIOD;
 double MONITOR_PERIOD;
 
+// TODO: MC2
+/*
 // cached and calculated parameters for diff drive
 float MAX_RPM;
 float GAIN;
@@ -223,6 +229,7 @@ float TRIM;
 float MOTOR_CONSTANT;
 float MOTOR_CONSTANT_LEFT;
 float MOTOR_CONSTANT_RIGHT;
+*/
 
 // these are imaginary derived from config_flags
 bool LEFT_REVERSE;

@@ -54,6 +54,7 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("MONITOR_RATE", DEFAULT_MONITOR_RATE);
 			this->declare_parameter("ALLOWED_SKIP", DEFAULT_ALLOWED_SKIP);
 			this->declare_parameter("I2C_ADDRESS", DEFAULT_I2C_ADDRESS);
+			this->declare_parameter("OUTPUT_FILTER_TYPE", DEFAULT_OUTPUT_FILTER_TYPE);
 
 			params_uint8[PARAM_CONFIG_FLAGS] = this->get_parameter("CONFIG_FLAGS").as_int();
 			params_uint8[PARAM_UPDATE_RATE] = this->get_parameter("UPDATE_RATE").as_int();
@@ -62,6 +63,7 @@ class ROSRider : public rclcpp::Node {
 			params_uint8[PARAM_MONITOR_RATE] = this->get_parameter("MONITOR_RATE").as_int();
 			params_uint8[PARAM_ALLOWED_SKIP] = this->get_parameter("ALLOWED_SKIP").as_int();
 			params_uint8[PARAM_I2C_ADDRESS] = this->get_parameter("I2C_ADDRESS").as_int();
+			params_uint8[PARAM_OUTPUT_FILTER_TYPE] = this->get_parameter("OUTPUT_FILTER_TYPE").as_int();
 
             // uint16 parameters
 			this->declare_parameter("PWM_SCALE", DEFAULT_PWM_SCALE);
@@ -94,8 +96,8 @@ class ROSRider : public rclcpp::Node {
 			params_int16[PARAM_RIGHT_REVERSE_DEADZONE] = this->get_parameter("RIGHT_REVERSE_DEADZONE").as_int();
 
 			// boolean parameters
-			this->declare_parameter("AUTO_SYNC", DEFAULT_AUTO_SYNC);
-			params_bool[PARAM_AUTO_SYNC] = this->get_parameter("AUTO_SYNC").as_bool();
+			this->declare_parameter("AUTOSYNC", DEFAULT_AUTOSYNC);
+			params_bool[PARAM_AUTOSYNC] = this->get_parameter("AUTOSYNC").as_bool();
 
             // float parameters
 			this->declare_parameter("GEAR_RATIO", DEFAULT_GEAR_RATIO);
@@ -116,7 +118,7 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("RIGHT_KD", DEFAULT_RIGHT_KD);
 
 			this->declare_parameter("GAIN", DEFAULT_GAIN);
-			this->declare_parameter("TRIM", DEFAULT_TRIM);
+		    this->declare_parameter("TRIM", DEFAULT_TRIM);
 			this->declare_parameter("MOTOR_CONSTANT", DEFAULT_MOTOR_CONSTANT);
 
 			params_float[PARAM_GEAR_RATIO] = (float) this->get_parameter("GEAR_RATIO").as_double();
@@ -221,15 +223,17 @@ class ROSRider : public rclcpp::Node {
 		    UPDATE_PERIOD = 1.0 / params_uint8[PARAM_UPDATE_RATE];
 		    MONITOR_PERIOD = 1.0 / params_uint8[PARAM_MONITOR_RATE];
 		    
+		    // TODO: MC1
+		    /*
 		    // cached parameters for diff drive
 		    MAX_RPM = params_float[PARAM_MAX_RPM];
 			GAIN = params_float[PARAM_GAIN];
 			TRIM = params_float[PARAM_TRIM];
 			MOTOR_CONSTANT = params_float[PARAM_MOTOR_CONSTANT];
-			
-			// calculate trim 
+			// calculate trim
 		    MOTOR_CONSTANT_LEFT = (GAIN + TRIM) / MOTOR_CONSTANT;
 		    MOTOR_CONSTANT_RIGHT = (GAIN - TRIM) / MOTOR_CONSTANT;
+            */
 
 		    // calculate boolean parameters for display
     		if(params_uint8[PARAM_CONFIG_FLAGS] & 0b00000001) { LEFT_REVERSE = true; } else { LEFT_REVERSE = false; }
@@ -661,6 +665,7 @@ class ROSRider : public rclcpp::Node {
 
 	    void cmd_callback(const geometry_msgs::msg::Twist t) const {
 
+            /*
 	      	// calculate pid targets and apply trim
 		    target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM)) * MOTOR_CONSTANT_LEFT;
 		    target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM)) * MOTOR_CONSTANT_RIGHT;
@@ -668,10 +673,15 @@ class ROSRider : public rclcpp::Node {
 		    // if any command is above limit
 		    if(max(abs(target_left), abs(target_right)) >  params_float[PARAM_MAX_RPM]) {
 		        // calculate factor
-		        float factor =  params_float[PARAM_MAX_RPM] / max(abs(target_left), abs(target_right)); 
+		        float factor =  params_float[PARAM_MAX_RPM] / max(abs(target_left), abs(target_right));
 		        target_left *= factor; 		// multiply target by + factor
 		        target_right *= factor;		// targets will retain sign
 		    }
+		    */
+
+		    // calculate PID targets
+		    target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM));
+		    target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM));
 
 	   		unsigned char pid_target_buffer[9] = {0};
 			f.f32 = target_left;
