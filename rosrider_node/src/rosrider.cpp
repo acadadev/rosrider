@@ -209,8 +209,7 @@ class ROSRider : public rclcpp::Node {
 
 			}
 
-			// notice: calculated and cached params must take place
-			// after parameters are sent
+			// notice: calculated and cached params must take place after parameters are sent
 
 			// calculated parameters, according to parameters from yaml
 			PULSE_PER_REV = params_float[PARAM_GEAR_RATIO] * params_uint16[PARAM_ENCODER_PPR];
@@ -222,18 +221,8 @@ class ROSRider : public rclcpp::Node {
 		    COMMAND_TIMEOUT_SECS = ((double) params_uint8[PARAM_ALLOWED_SKIP]) / params_uint8[PARAM_UPDATE_RATE];
 		    UPDATE_PERIOD = 1.0 / params_uint8[PARAM_UPDATE_RATE];
 		    MONITOR_PERIOD = 1.0 / params_uint8[PARAM_MONITOR_RATE];
-		    
-		    // TODO: MC1
-		    /*
-		    // cached parameters for diff drive
-		    MAX_RPM = params_float[PARAM_MAX_RPM];
-			GAIN = params_float[PARAM_GAIN];
-			TRIM = params_float[PARAM_TRIM];
-			MOTOR_CONSTANT = params_float[PARAM_MOTOR_CONSTANT];
-			// calculate trim
-		    MOTOR_CONSTANT_LEFT = (GAIN + TRIM) / MOTOR_CONSTANT;
-		    MOTOR_CONSTANT_RIGHT = (GAIN - TRIM) / MOTOR_CONSTANT;
-            */
+
+		    // TODO: revisit calculated parameters
 
 		    // calculate boolean parameters for display
     		if(params_uint8[PARAM_CONFIG_FLAGS] & 0b00000001) { LEFT_REVERSE = true; } else { LEFT_REVERSE = false; }
@@ -664,20 +653,6 @@ class ROSRider : public rclcpp::Node {
 		}
 
 	    void cmd_callback(const geometry_msgs::msg::Twist t) const {
-
-            /*
-	      	// calculate pid targets and apply trim
-		    target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM)) * MOTOR_CONSTANT_LEFT;
-		    target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM)) * MOTOR_CONSTANT_RIGHT;
-
-		    // if any command is above limit
-		    if(max(abs(target_left), abs(target_right)) >  params_float[PARAM_MAX_RPM]) {
-		        // calculate factor
-		        float factor =  params_float[PARAM_MAX_RPM] / max(abs(target_left), abs(target_right));
-		        target_left *= factor; 		// multiply target by + factor
-		        target_right *= factor;		// targets will retain sign
-		    }
-		    */
 
 		    // calculate PID targets
 		    target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM));

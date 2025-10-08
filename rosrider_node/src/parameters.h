@@ -220,17 +220,6 @@ float ANGULAR_RPM;
 double UPDATE_PERIOD;
 double MONITOR_PERIOD;
 
-// TODO: MC2
-/*
-// cached and calculated parameters for diff drive
-float MAX_RPM;
-float GAIN;
-float TRIM;
-float MOTOR_CONSTANT;
-float MOTOR_CONSTANT_LEFT;
-float MOTOR_CONSTANT_RIGHT;
-*/
-
 // these are imaginary derived from config_flags
 bool LEFT_REVERSE;
 bool RIGHT_REVERSE;
