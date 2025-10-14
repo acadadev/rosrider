@@ -285,7 +285,7 @@ planner_server:
     costmap_update_timeout: 1.0
     GridBased:
       plugin: "nav2_navfn_planner::NavfnPlanner"
-      tolerance: 0.785 # default value: 0.5
+      tolerance: 0.5 # default value: 0.5
       use_astar: false
       allow_unknown: true
 
@@ -319,10 +319,10 @@ behavior_server:
     local_frame: odom
     global_frame: map
     robot_base_frame: base_link
-    transform_tolerance: 0.157 # default value: 0.1
+    transform_tolerance: 0.1  # default value: 0.1
     simulate_ahead_time: 2.0
-    max_rotational_vel: 1.57 # default value: 1.0
-    min_rotational_vel: 1.0 # default value: 0.4
+    max_rotational_vel: 2.0   # default value: 1.0
+    min_rotational_vel: 0.5   # default value: 0.4
     rotational_acc_lim: 3.2
 
 waypoint_follower:
@@ -341,8 +341,8 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.25, 0.0, 1.57] # default value: [0.5, 0.0, 2.0]
-    min_velocity: [-0.25, 0.0, -1.57] # default value: [-0.5, 0.0, -2.0]
+    max_velocity: [0.25, 0.0, 2.0]   # default value: [0.5, 0.0, 2.0]
+    min_velocity: [-0.25, 0.0, -2.0] # default value: [-0.5, 0.0, -2.0] # TODO: put these in ekf filter
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"
@@ -380,59 +380,6 @@ collision_monitor:
       min_height: 0.15
       max_height: 2.0
       enabled: True
-
-docking_server:
-  ros__parameters:
-    controller_frequency: 50.0
-    initial_perception_timeout: 5.0
-    wait_charge_timeout: 5.0
-    dock_approach_timeout: 30.0
-    undock_linear_tolerance: 0.05
-    undock_angular_tolerance: 0.1
-    max_retries: 3
-    base_frame: "base_link"
-    fixed_frame: "odom"
-    dock_backwards: false
-    dock_prestaging_tolerance: 0.5
-
-    # Types of docks
-    dock_plugins: ['simple_charging_dock']
-    simple_charging_dock:
-      plugin: 'opennav_docking::SimpleChargingDock'
-      docking_threshold: 0.05
-      staging_x_offset: -0.7
-      use_external_detection_pose: true
-      use_battery_status: false # true
-      use_stall_detection: false # true
-
-      external_detection_timeout: 1.0
-      external_detection_translation_x: -0.18
-      external_detection_translation_y: 0.0
-      external_detection_rotation_roll: -1.57
-      external_detection_rotation_pitch: -1.57
-      external_detection_rotation_yaw: 0.0
-      filter_coef: 0.1
-
-    # Dock instances
-    # The following example illustrates configuring dock instances.
-    # docks: ['home_dock']  # Input your docks here
-    # home_dock:
-    #   type: 'simple_charging_dock'
-    #   frame: map
-    #   pose: [0.0, 0.0, 0.0]
-
-    controller:
-      k_phi: 3.0
-      k_delta: 2.0
-      v_linear_min: 0.15
-      v_linear_max: 0.15
-      use_collision_detection: true
-      costmap_topic: "local_costmap/costmap_raw"
-      footprint_topic: "local_costmap/published_footprint"
-      transform_tolerance: 0.1
-      projection_time: 5.0
-      simulation_step: 0.1
-      dock_collision_threshold: 0.3
 
 loopback_simulator:
   ros__parameters:

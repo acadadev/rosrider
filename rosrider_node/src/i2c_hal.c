@@ -1,6 +1,5 @@
 #include "i2c_hal.h"
 
-
 uint8_t I2C_RW_Block(int fd, uint8_t reg, uint8_t read_write, uint8_t length, unsigned char* buffer) {
 
     struct i2c_smbus_ioctl_data ioctl_data;

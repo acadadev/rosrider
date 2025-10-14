@@ -96,6 +96,4 @@ uint8_t crc8ccitt(const void * data, size_t size) {
     return val;
 }
 
-
-
 #endif

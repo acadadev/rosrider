@@ -1,6 +1,15 @@
 #ifndef __PARAMETERS_h
 #define __PARAMETERS_h
 
+#define PARAM_WRITE     0x01                        // write parameter to eeprom
+#define PARAM_OVERRIDE  0x02                        // override parameter and make it instantly apply
+
+#define I2C_WRITE_RESULT_SUCCESS 0x00               // param operation success
+#define I2C_WRITE_RESULT_UNCHANGED 0x01             // param not changed
+#define I2C_WRITE_RESULT_CHECKSUM 0x03              // param operation checksum fail
+#define I2C_WRITE_RESULT_OVERRIDE 0xFF              // param override operation success
+
+// parameter types, or addresses
 #define EEPROM_WRITE_UINT8 0x0A
 #define EEPROM_WRITE_UINT16 0x0B
 #define EEPROM_WRITE_UINT32 0x0C
@@ -229,6 +238,98 @@ bool LEFT_ENC_AB;
 bool RIGHT_ENC_AB;
 bool MODE1;
 bool MODE2;
+
+enum class CParamDataType {
+    C_TYPE_UINT8,
+    C_TYPE_UINT16,
+    C_TYPE_INT16,
+    C_TYPE_FLOAT,
+    C_TYPE_BOOL
+};
+
+struct ParamMetadata {
+    CParamDataType c_type;          // The target C data type
+    uint8_t param_index;            // Parameter Index
+    uint8_t fp_index;               // Function Pointer Index
+};
+
+#define FP_DRIVE_MODE 0
+#define FP_OUTPUT_FILTER_TYPE 1
+
+#define FP_PWM_SCALE 0
+#define FP_MAX_IDLE_SECONDS 1
+#define FP_INTEGRAL_LIMIT 2
+#define FP_UPPER_LIMIT 3
+
+#define FP_LEFT_FORWARD_DEADZONE 0
+#define FP_LEFT_REVERSE_DEADZONE 1
+#define FP_RIGHT_FORWARD_DEADZONE 2
+#define FP_RIGHT_REVERSE_DEADZONE 3
+
+#define FP_MAX_RPM 0
+
+#define FP_LEFT_KP 1
+#define FP_RIGHT_KP 2
+#define FP_LEFT_KI 3
+#define FP_RIGHT_KI 4
+#define FP_LEFT_KD 5
+#define FP_RIGHT_KD 6
+
+#define FP_GAIN 7
+#define FP_TRIM 8
+#define FP_MOTOR_CONSTANT 9
+
+#define FP_BAT_VOLTS_LOW 10
+#define FP_BAT_VOLTS_HIGH 11
+#define FP_MAIN_AMP_LIMIT 12
+#define FP_LEFT_AMP_LIMIT 13
+#define FP_RIGHT_AMP_LIMIT 14
+
+#define FP_AUTOSYNC 0
+
+const std::map<std::string, ParamMetadata> ParamMap = {
+
+    {"DRIVE_MODE",              { CParamDataType::C_TYPE_UINT8,  PARAM_DRIVE_MODE, FP_DRIVE_MODE}},
+    {"OUTPUT_FILTER_TYPE",      { CParamDataType::C_TYPE_UINT8,  PARAM_OUTPUT_FILTER_TYPE, FP_OUTPUT_FILTER_TYPE}},
+
+    {"PWM_SCALE",               { CParamDataType::C_TYPE_UINT16, PARAM_PWM_SCALE, FP_PWM_SCALE}},
+    {"MAX_IDLE_SECONDS",        { CParamDataType::C_TYPE_UINT16, PARAM_MAX_IDLE_SECONDS, FP_MAX_IDLE_SECONDS}},
+    {"INTEGRAL_LIMIT",          { CParamDataType::C_TYPE_UINT16, PARAM_INTEGRAL_LIMIT, FP_INTEGRAL_LIMIT}},
+    {"UPPER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_UPPER_LIMIT, FP_UPPER_LIMIT}},
+
+    {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16, PARAM_LEFT_FORWARD_DEADZONE, FP_LEFT_FORWARD_DEADZONE}},
+    {"LEFT_REVERSE_DEADZONE",   { CParamDataType::C_TYPE_INT16, PARAM_LEFT_REVERSE_DEADZONE, FP_LEFT_REVERSE_DEADZONE}},
+    {"RIGHT_FORWARD_DEADZONE",  { CParamDataType::C_TYPE_INT16, PARAM_RIGHT_FORWARD_DEADZONE, FP_RIGHT_FORWARD_DEADZONE}},
+    {"RIGHT_REVERSE_DEADZONE",  { CParamDataType::C_TYPE_INT16, PARAM_RIGHT_REVERSE_DEADZONE, FP_RIGHT_REVERSE_DEADZONE}},
+
+    {"MAX_RPM",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_MAX_RPM, FP_MAX_RPM}},
+
+    {"LEFT_KP",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KP, FP_LEFT_KP}},
+    {"RIGHT_KP",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KP, FP_RIGHT_KP}},
+    {"LEFT_KI",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KI, FP_LEFT_KI}},
+    {"RIGHT_KI",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KI, FP_RIGHT_KI}},
+    {"LEFT_KD",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KD, FP_LEFT_KD}},
+    {"RIGHT_KD",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KD, FP_RIGHT_KD}},
+
+    {"GAIN",                    { CParamDataType::C_TYPE_FLOAT,  PARAM_GAIN, FP_GAIN}},
+    {"TRIM",                    { CParamDataType::C_TYPE_FLOAT,  PARAM_TRIM, FP_TRIM}},
+    {"MOTOR_CONSTANT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_MOTOR_CONSTANT, FP_MOTOR_CONSTANT}},
+
+    {"BAT_VOLTS_LOW",           { CParamDataType::C_TYPE_FLOAT,  PARAM_BAT_VOLTS_LOW, FP_BAT_VOLTS_LOW}},
+    {"BAT_VOLTS_HIGH",          { CParamDataType::C_TYPE_FLOAT,  PARAM_BAT_VOLTS_HIGH, FP_BAT_VOLTS_HIGH}},
+    {"MAIN_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_MAIN_AMP_LIMIT, FP_MAIN_AMP_LIMIT}},
+    {"LEFT_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_AMP_LIMIT, FP_LEFT_AMP_LIMIT}},
+    {"RIGHT_AMP_LIMIT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_AMP_LIMIT, FP_RIGHT_AMP_LIMIT}},
+
+    {"AUTOSYNC",                { CParamDataType::C_TYPE_FLOAT,  PARAM_AUTOSYNC, FP_AUTOSYNC}}
+
+};
+
+const ParamMetadata* get_param_metadata(const std::string& param_name) {
+    auto it = ParamMap.find(param_name);
+    if (it != ParamMap.end()) { return &(it->second); }
+    return nullptr;
+}
 
 #endif
 
