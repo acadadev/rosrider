@@ -321,7 +321,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"LEFT_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_AMP_LIMIT, FP_LEFT_AMP_LIMIT}},
     {"RIGHT_AMP_LIMIT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_AMP_LIMIT, FP_RIGHT_AMP_LIMIT}},
 
-    {"AUTOSYNC",                { CParamDataType::C_TYPE_FLOAT,  PARAM_AUTOSYNC, FP_AUTOSYNC}}
+    {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}}
 
 };
 
