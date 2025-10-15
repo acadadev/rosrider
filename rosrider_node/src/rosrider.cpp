@@ -636,10 +636,10 @@ class ROSRider : public rclcpp::Node {
         // TODO: test this by setting sysctl_buffer to size 4
 		uint8_t send_sysctl(int fd, uint8_t command) {
 
-			unsigned char sysctl_buffer[5] = {0};
+			unsigned char sysctl_buffer[4] = {0};
 			sysctl_buffer[3] = command;
 
-			uint8_t rw = I2C_RW_Block(fd, 0x04, I2C_SMBUS_WRITE, 5, sysctl_buffer);
+			uint8_t rw = I2C_RW_Block(fd, 0x04, I2C_SMBUS_WRITE, 4, sysctl_buffer);
 		    return i2c_default_error_handler(rw);
 
 		}
