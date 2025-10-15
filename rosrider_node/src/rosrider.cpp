@@ -610,7 +610,7 @@ class ROSRider : public rclcpp::Node {
 		    target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM));
 		    target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM));
 
-	   		unsigned char pid_target_buffer[9] = {0};
+	   		unsigned char pid_target_buffer[8] = {0};
 
 			f.f32 = target_left;
 			pid_target_buffer[0] = f.ui8[0];
@@ -624,7 +624,7 @@ class ROSRider : public rclcpp::Node {
 			pid_target_buffer[6] = f.ui8[2];
 			pid_target_buffer[7] = f.ui8[3];
 
-			uint8_t rw = I2C_RW_Block(fd, 0x02, I2C_SMBUS_WRITE, 9, pid_target_buffer);
+			uint8_t rw = I2C_RW_Block(fd, 0x02, I2C_SMBUS_WRITE, 8, pid_target_buffer);
 			i2c_default_error_handler(rw);
 
 	    }
