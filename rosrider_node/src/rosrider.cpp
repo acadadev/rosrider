@@ -493,6 +493,7 @@ class ROSRider : public rclcpp::Node {
 	            }
 
 	            if(MTR_STATUS != prev_MTR_STATUS) {
+	                // TODO: ignore fault, or print once and ignore
 	            	print_mtr_status(this->get_logger(), MTR_STATUS);
 	            }
 
