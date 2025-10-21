@@ -810,10 +810,10 @@ class ROSRider : public rclcpp::Node {
 		ParameterResult send_parameters() {
 
 		    ParameterResult parameter_result;
-		    uint32_t success;
-		    uint32_t error;
-		    uint32_t unmodified;
-		    uint32_t override;
+		    uint32_t success = 0;
+		    uint32_t error = 0;
+		    uint32_t unmodified = 0;
+		    uint32_t override = 0;
 
 			// send uint8 parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_UINT8; param_index++) {
