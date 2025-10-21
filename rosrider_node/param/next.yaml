@@ -47,3 +47,5 @@
     TRIM: 0.0
     MOTOR_CONSTANT: 1.0
     I2C_ADDRESS: 0x3c
+    ADCSYNC: True
+    FASTADC: False

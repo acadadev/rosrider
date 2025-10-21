@@ -107,7 +107,12 @@
 #define PARAM_MOTOR_CONSTANT 17
 
 #define DEFAULT_AUTOSYNC false
+#define DEFAULT_ADCSYNC false
+#define DEFAULT_FASTADC false
+
 #define PARAM_AUTOSYNC 0
+#define PARAM_ADCSYNC 1
+#define PARAM_FASTADC 2
 
 // uint8 array
 #define SIZE_PARAMS_UINT8 8
@@ -214,9 +219,13 @@ const char *names_float[] = { "GEAR_RATIO",
                               "TRIM",
                               "MOTOR_CONSTANT" };
 
-#define SIZE_PARAMS_BOOL 1
-bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC };
-const char *names_bool[] = { "AUTOSYNC" };
+#define SIZE_PARAMS_BOOL 3
+bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
+                                       DEFAULT_ADCSYNC,
+                                       DEFAULT_FASTADC };
+const char *names_bool[] = { "AUTOSYNC",
+                             "ADCSYNC",
+                             "FASTADC" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;

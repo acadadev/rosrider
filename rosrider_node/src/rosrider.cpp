@@ -98,7 +98,12 @@ class ROSRider : public rclcpp::Node {
 
 			// boolean parameters
 			this->declare_parameter("AUTOSYNC", DEFAULT_AUTOSYNC);
+			this->declare_parameter("ADCSYNC", DEFAULT_ADCSYNC);
+			this->declare_parameter("FASTADC", DEFAULT_FASTADC);
+
 			params_bool[PARAM_AUTOSYNC] = this->get_parameter("AUTOSYNC").as_bool();
+			params_bool[PARAM_ADCSYNC] = this->get_parameter("ADCSYNC").as_bool();
+			params_bool[PARAM_FASTADC] = this->get_parameter("FASTADC").as_bool();
 
             // float parameters
 			this->declare_parameter("GEAR_RATIO", DEFAULT_GEAR_RATIO);
