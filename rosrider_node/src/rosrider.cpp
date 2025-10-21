@@ -43,6 +43,10 @@ class ROSRider : public rclcpp::Node {
 		ROSRider() : Node("rosrider_node") {
 
 		    rclcpp::on_shutdown([this]() {
+		        // TODO: if ros2rpi_config is zero, this hibernates the board
+		        // TODO: and if there is no hardware for wake up.
+		        // TODO: make optional.
+		        // TODO: the board has idle seconds, can make that half hour or 10 minutes
 		        send_sysctl(fd, 0x05);                                      // system hibernate
                 if(ros2rpi_config > 0) { send_hat_command(fd, 0x0); }       // hat off runs only if ros2rpi_config > 0
             });
@@ -187,7 +191,9 @@ class ROSRider : public rclcpp::Node {
 			    }
 
                 // turn on hat with: PSEL_3V3_A, PSEL_3V3_B, PSEL_LIDAR, LIDAR_TX_ON
-                if(ros2rpi_config > 0) { send_hat_command(fd, ros2rpi_config); }
+                if(ros2rpi_config > 0) {
+                    send_hat_command(fd, ros2rpi_config);
+                }
 
                 // allow board to power up
 		        rclcpp::sleep_for(1000ms);
@@ -204,15 +210,23 @@ class ROSRider : public rclcpp::Node {
 			    }
 
 				// send params to device
-			    uint32_t send_fail_count = send_parameters();
-			    if(send_fail_count > 0) {
-			    	RCLCPP_INFO(this->get_logger(), "Parameter Fail Count: %d", send_fail_count);
+			    ParameterResult parameter_result = send_parameters();
+
+			    if(parameter_result.error_count > 0) {
+			    	RCLCPP_INFO(this->get_logger(), "Parameter Fail Count: %d", parameter_result.error_count);
 			    	exit(0);
 			    }
 
-			    send_device_reset();
-			    rclcpp::sleep_for(3000ms);
-
+			    if( (parameter_result.error_count == 0) &&
+			        (parameter_result.success_count == 0) &&
+			        (parameter_result.override_count == 0) &&
+			        (parameter_result.unmodified_count > 0)
+			      ) {
+			        // no errors, all unmodified
+			    } else {
+                    send_device_reset();
+                    rclcpp::sleep_for(3000ms);
+			    }
 			}
 
 			// notice: calculated and cached params must take place after parameters are sent
@@ -230,8 +244,6 @@ class ROSRider : public rclcpp::Node {
 		    COMMAND_TIMEOUT_SECS = ((double) params_uint8[PARAM_ALLOWED_SKIP]) / params_uint8[PARAM_UPDATE_RATE];
 		    UPDATE_PERIOD = 1.0 / params_uint8[PARAM_UPDATE_RATE];
 		    MONITOR_PERIOD = 1.0 / params_uint8[PARAM_MONITOR_RATE];
-
-		    // TODO: revisit calculated parameters - compare with board
 
 		    // calculate boolean parameters for display
     		if(params_uint8[PARAM_CONFIG_FLAGS] & 0b00000001) { LEFT_REVERSE = true; } else { LEFT_REVERSE = false; }
@@ -768,30 +780,40 @@ class ROSRider : public rclcpp::Node {
 
 		}
 
-	    bool process_parameter_result(uint8_t index, const char *names[], const char *value) {
+	    void process_parameter_result(uint8_t index,
+	                                     const char *names[],
+	                                     const char *value,
+	                                     uint32_t& success_count,
+	                                     uint32_t& error_count,
+	                                     uint32_t& unmodified_count,
+	                                     uint32_t& override_count) {
 
             if(param_result_buffer[3] == I2C_WRITE_RESULT_SUCCESS) {
                 RCLCPP_INFO(this->get_logger(), "%s: %s, Success", names[index], value);
-                return true;
+                success_count++;
             } else if(param_result_buffer[3] == I2C_WRITE_RESULT_UNCHANGED) {
                 RCLCPP_INFO(this->get_logger(), "%s: %s, Unmodified", names[index], value);
-                return true;
+                unmodified_count++;
             } else if(param_result_buffer[3] == I2C_WRITE_RESULT_OVERRIDE) {
                 RCLCPP_INFO(this->get_logger(), "%s: %s, Override", names[index], value);
-                return true;
+                override_count++;
             } else if(param_result_buffer[3] == I2C_WRITE_RESULT_CHECKSUM) {
                 RCLCPP_ERROR(this->get_logger(), "%s: %s, Parameter Checksum Error", names[index], value);
-                return false;
+                error_count++;
             } else {
                 RCLCPP_ERROR(this->get_logger(), "%s: %s, Parameter i2c_write_result[3]: %d", names[index], value, param_result_buffer[3]);
-                return false;
+                error_count++;
             }
 	    }
 
         // { param_index, operation_type, fp_index, MSB1, MSB2, MSB3, MSB4, checksum }
-		uint32_t send_parameters() {
+		ParameterResult send_parameters() {
 
-		    uint32_t send_fail_count = 0;
+		    ParameterResult parameter_result;
+		    uint32_t success;
+		    uint32_t error;
+		    uint32_t unmodified;
+		    uint32_t override;
 
 			// send uint8 parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_UINT8; param_index++) {
@@ -800,63 +822,56 @@ class ROSRider : public rclcpp::Node {
 			    }
 				uint8_t temp_uint8 = this->get_parameter(names_uint8[param_index]).as_int();
 			    uint8_t res = send_uint8_param(param_index, PARAM_WRITE, 0, temp_uint8);
-			    if(res != 0) { i2c_default_error_handler(res); send_fail_count++; continue; }
-			    if(!process_parameter_result(param_index, names_uint8, std::to_string(temp_uint8).c_str())) {
-			        send_fail_count++;
-			    }
+			    if(res != 0) { i2c_default_error_handler(res); error++; continue; }
+			    process_parameter_result(param_index, names_uint8, std::to_string(temp_uint8).c_str(), success, error, unmodified, override);
 			}
 
 			// send uint16 parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_UINT16; param_index++) {
 				uint16_t temp_uint16 = this->get_parameter(names_uint16[param_index]).as_int();
                 uint8_t res = send_uint16_param(param_index, PARAM_WRITE, 0, temp_uint16);
-                if(res != 0) { i2c_default_error_handler(res); send_fail_count++; continue; }
-			    if(!process_parameter_result(param_index, names_uint16, std::to_string(temp_uint16).c_str())) {
-			        send_fail_count++;
-			    }
+                if(res != 0) { i2c_default_error_handler(res); error++; continue; }
+                process_parameter_result(param_index, names_uint16, std::to_string(temp_uint16).c_str(), success, error, unmodified, override);
 			}
 
 			// send uint32 parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_UINT32; param_index++) {
 				uint32_t temp_uint32 = this->get_parameter(names_uint32[param_index]).as_int();
                 uint8_t res = send_uint32_param(param_index, PARAM_WRITE, 0, temp_uint32);
-                if(res != 0) { i2c_default_error_handler(res); send_fail_count++; continue; }
-			    if(!process_parameter_result(param_index, names_uint32, std::to_string(temp_uint32).c_str())) {
-			        send_fail_count++;
-			    }
+                if(res != 0) { i2c_default_error_handler(res); error++; continue; }
+                process_parameter_result(param_index, names_uint32, std::to_string(temp_uint32).c_str(), success, error, unmodified, override);
 			}			
 
 			// send int16 parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_INT16; param_index++) {
 				int16_t temp_int16 = this->get_parameter(names_int16[param_index]).as_int();
                 uint8_t res = send_int16_param(param_index, PARAM_WRITE, 0, temp_int16);
-                if(res != 0) { i2c_default_error_handler(res); send_fail_count++; continue; }
-			    if(!process_parameter_result(param_index, names_int16, std::to_string(temp_int16).c_str())) {
-			        send_fail_count++;
-			    }
+                if(res != 0) { i2c_default_error_handler(res); error++; continue; }
+                process_parameter_result(param_index, names_int16, std::to_string(temp_int16).c_str(), success, error, unmodified, override);
 			}		
 
 			// send boolean parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_BOOL; param_index++) {
 				bool temp_bool = this->get_parameter(names_bool[param_index]).as_bool();
 			    uint8_t res = send_bool_param(param_index, PARAM_WRITE, 0, temp_bool);
-                if(res != 0) { i2c_default_error_handler(res); send_fail_count++; continue; }
-				if(!process_parameter_result(param_index, names_bool, std::to_string(temp_bool).c_str())) {
-			        send_fail_count++;
-			    }
+                if(res != 0) { i2c_default_error_handler(res); error++; continue; }
+				process_parameter_result(param_index, names_bool, std::to_string(temp_bool).c_str(), success, error, unmodified, override);
 			}	
 
 			// send float parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_FLOAT; param_index++) {
 				float temp_float = this->get_parameter(names_float[param_index]).as_double();
 			    uint8_t res = send_float_param(param_index, PARAM_WRITE, 0, temp_float);
-                if(res != 0) { i2c_default_error_handler(res); send_fail_count++; continue; }
-			    if(!process_parameter_result(param_index, names_float, std::to_string(temp_float).c_str())) {
-			        send_fail_count++;
-			    }
+                if(res != 0) { i2c_default_error_handler(res); error++; continue; }
+                process_parameter_result(param_index, names_float, std::to_string(temp_float).c_str(), success, error, unmodified, override);
 			}
 
-			return send_fail_count;
+            parameter_result.success_count = success;
+            parameter_result.error_count = error;
+            parameter_result.unmodified_count = unmodified;
+            parameter_result.override_count = override;
+
+			return parameter_result;
 		}
 
 	    uint8_t send_hat_command(int fd, uint8_t output) {

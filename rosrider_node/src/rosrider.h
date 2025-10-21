@@ -43,6 +43,13 @@ typedef union {
     uint8_t ui8[4];
 } u32_to_ui8;
 
+struct ParameterResult {
+    uint32_t success_count = 0;
+    uint32_t error_count = 0;
+    uint32_t unmodified_count = 0;
+    uint32_t override_count = 0;
+};
+
 f32_to_ui8 f;
 u32_to_ui8 u;
 
