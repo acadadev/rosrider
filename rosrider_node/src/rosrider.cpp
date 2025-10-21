@@ -577,8 +577,8 @@ class ROSRider : public rclcpp::Node {
 					diag_message.bus_current = ((status_buffer[9] + (status_buffer[8] << 8)) / 10000.0);     // amps
 		            diag_message.bus_voltage = (status_buffer[11] + (status_buffer[10] << 8)) / 1000.0;
 
-		       		diag_message.cs_left = (status_buffer[13] + (status_buffer[12] << 8)) * 0.001611328;    // 6.6 / 4096
-		            diag_message.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * 0.001611328;
+		       		diag_message.cs_left = (status_buffer[13] + (status_buffer[12] << 8)) * (3.3 / 4095);    // 6.6 / 4096
+		            diag_message.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * (3.3 / 4095);
 
 					diag_message.pwm_left = status_buffer[17] + (status_buffer[16] << 8);
 					diag_message.pwm_right = status_buffer[19] + (status_buffer[18] << 8);
