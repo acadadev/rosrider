@@ -43,12 +43,12 @@ class ROSRider : public rclcpp::Node {
 		ROSRider() : Node("rosrider_node") {
 
 		    rclcpp::on_shutdown([this]() {
-		        // TODO: if ros2rpi_config is zero, this hibernates the board
-		        // TODO: and if there is no hardware for wake up.
-		        // TODO: make optional.
 		        // TODO: the board has idle seconds, can make that half hour or 10 minutes
-		        send_sysctl(fd, 0x05);                                      // system hibernate
-                if(ros2rpi_config > 0) { send_hat_command(fd, 0x0); }       // hat off runs only if ros2rpi_config > 0
+                if(ros2rpi_config > 0) {
+                    // procedure to hibernate and hat off runs only if ros2rpi_config > 0
+                    send_sysctl(fd, 0x05);       // system hibernate
+                    send_hat_command(fd, 0x0);   // hatoff
+                }
             });
 
             // uint8 parameters
@@ -574,10 +574,10 @@ class ROSRider : public rclcpp::Node {
 
 					diag_message.packet_age = packet_age;
 
-					diag_message.bus_current = ((status_buffer[9] + (status_buffer[8] << 8)) / 10.0) / 1000.0; // amps
+					diag_message.bus_current = ((status_buffer[9] + (status_buffer[8] << 8)) / 10000.0;     // amps
 		            diag_message.bus_voltage = (status_buffer[11] + (status_buffer[10] << 8)) / 1000.0;
 
-		       		diag_message.cs_left = (status_buffer[13] + (status_buffer[12] << 8)) * 0.001611328; // 6.6 / 4096
+		       		diag_message.cs_left = (status_buffer[13] + (status_buffer[12] << 8)) * 0.001611328;    // 6.6 / 4096
 		            diag_message.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * 0.001611328;
 
 					diag_message.pwm_left = status_buffer[17] + (status_buffer[16] << 8);
@@ -879,7 +879,7 @@ class ROSRider : public rclcpp::Node {
 	    uint8_t send_hat_command(int fd, uint8_t output) {
 
 	    	int rv_hat = ioctl(fd, I2C_SLAVE, 0x20);
-	    	if(rv_hat<0) { return rv_hat; }
+	    	if(rv_hat < 0) { return rv_hat; }
 
             unsigned char hat_command[1] = {0};
 
