@@ -321,8 +321,8 @@ behavior_server:
     robot_base_frame: base_link
     transform_tolerance: 0.1  # default value: 0.1
     simulate_ahead_time: 2.0
-    max_rotational_vel: 2.0   # default value: 1.0
-    min_rotational_vel: 0.5   # default value: 0.4
+    max_rotational_vel: 2.0    # default value: 1.0
+    min_rotational_vel: 0.785  # default value: 0.4
     rotational_acc_lim: 3.2
 
 waypoint_follower:
@@ -341,8 +341,8 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.25, 0.0, 2.0]   # default value: [0.5, 0.0, 2.0]
-    min_velocity: [-0.25, 0.0, -2.0] # default value: [-0.5, 0.0, -2.0] # TODO: put these in ekf filter
+    max_velocity: [0.5, 0.0, 2.0]   # default value: [0.5, 0.0, 2.0]
+    min_velocity: [-0.5, 0.0, -2.0] # default value: [-0.5, 0.0, -2.0] # TODO: put these in ekf filter
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"
