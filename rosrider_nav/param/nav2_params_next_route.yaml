@@ -1,11 +1,5 @@
 amcl:
   ros__parameters:
-    set_initial_pose: true
-    initial_pose: # for sim
-      x: -2.0
-      y: -5.85
-      z: 0.0
-      yaw: 0.0
     alpha1: 0.2
     alpha2: 0.2
     alpha3: 0.2
@@ -47,7 +41,7 @@ amcl:
 bt_navigator:
   ros__parameters:
     global_frame: map
-    robot_base_frame: base_link
+    robot_base_frame: base_footprint
     odom_topic: /odom
     bt_loop_duration: 10
     default_server_timeout: 20
@@ -197,15 +191,13 @@ local_costmap:
       update_frequency: 5.0
       publish_frequency: 2.0
       global_frame: odom
-      robot_base_frame: base_link
+      robot_base_frame: base_footprint
       rolling_window: true
       width: 3
       height: 3
       resolution: 0.05
-      footprint: "[ [0.059, -0.110], [0.075, -0.094], [0.075, 0.094], [0.059, 0.110], [-0.120, 0.110], [-0.162, 0.102], [-0.198, 0.078], [-0.222, 0.042], [-0.230, 0.000], [-0.222, -0.042], [-0.198, -0.078], [-0.162, -0.102], [-0.120, -0.110] ]"
-      #robot_radius: 0.22
+      robot_radius: 0.22
       plugins: ["voxel_layer", "inflation_layer"]
-      filters: ["keepout_filter"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
@@ -233,10 +225,6 @@ local_costmap:
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
-      keepout_filter:
-        plugin: "nav2_costmap_2d::KeepoutFilter"
-        enabled: False
-        filter_info_topic: "/costmap_filter_info"
       always_send_full_costmap: True
 
 global_costmap:
@@ -245,13 +233,11 @@ global_costmap:
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: map
-      robot_base_frame: base_link
-      footprint: "[ [0.059, -0.110], [0.075, -0.094], [0.075, 0.094], [0.059, 0.110], [-0.120, 0.110], [-0.162, 0.102], [-0.198, 0.078], [-0.222, 0.042], [-0.230, 0.000], [-0.222, -0.042], [-0.198, -0.078], [-0.162, -0.102], [-0.120, -0.110] ]"
-      #robot_radius: 0.22
+      robot_base_frame: base_footprint
+      robot_radius: 0.22
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
-      filters: ["keepout_filter"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -273,10 +259,6 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
         inflation_radius: 0.7
-      keepout_filter:
-        plugin: "nav2_costmap_2d::KeepoutFilter"
-        enabled: False
-        filter_info_topic: "/costmap_filter_info"
       always_send_full_costmap: True
 
 # The yaml_filename does not need to be specified since it going to be set by defaults in launch.
@@ -300,7 +282,7 @@ planner_server:
     costmap_update_timeout: 1.0
     GridBased:
       plugin: "nav2_navfn_planner::NavfnPlanner"
-      tolerance: 0.5 # robot value: 0.785
+      tolerance: 0.5
       use_astar: false
       allow_unknown: true
 
@@ -333,11 +315,11 @@ behavior_server:
       plugin: "nav2_behaviors::AssistedTeleop"
     local_frame: odom
     global_frame: map
-    robot_base_frame: base_link
-    transform_tolerance: 0.1 # robot value: 0.157
+    robot_base_frame: base_footprint
+    transform_tolerance: 0.1
     simulate_ahead_time: 2.0
-    max_rotational_vel: 1.0 # robot value: 1.57
-    min_rotational_vel: 0.4 # robot value: 0.314
+    max_rotational_vel: 2.0
+    min_rotational_vel: 0.5
     rotational_acc_lim: 3.2
 
 waypoint_follower:
@@ -351,13 +333,36 @@ waypoint_follower:
       enabled: True
       waypoint_pause_duration: 200
 
+route_server:
+  ros__parameters:
+    # The graph_filepath does not need to be specified since it going to be set by defaults in launch.
+    # If you'd rather set it in the yaml, remove the default "graph" value in the launch file(s).
+    # file & provide full path to map below. If graph config or launch default is provided, it is used
+    # graph_filepath: $(find-pkg-share nav2_route)/graphs/aws_graph.geojson
+    boundary_radius_to_achieve_node: 1.0
+    radius_to_achieve_node: 2.0
+    smooth_corners: true
+    operations: ["AdjustSpeedLimit", "ReroutingService", "CollisionMonitor"]
+    ReroutingService:
+      plugin: "nav2_route::ReroutingService"
+    AdjustSpeedLimit:
+      plugin: "nav2_route::AdjustSpeedLimit"
+    CollisionMonitor:
+      plugin: "nav2_route::CollisionMonitor"
+      max_collision_dist: 3.0
+    edge_cost_functions: ["DistanceScorer", "CostmapScorer"]
+    DistanceScorer:
+      plugin: "nav2_route::DistanceScorer"
+    CostmapScorer:
+      plugin: "nav2_route::CostmapScorer"
+
 velocity_smoother:
   ros__parameters:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.5, 0.0, 2.0] # robot value: [0.25, 0.0, 1.57]
-    min_velocity: [-0.5, 0.0, -2.0] # robot value: [-0.25, 0.0, -1.57]
+    max_velocity: [0.5, 0.0, 2.0]
+    min_velocity: [-0.5, 0.0, -2.0]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"
@@ -405,7 +410,7 @@ docking_server:
     undock_linear_tolerance: 0.05
     undock_angular_tolerance: 0.1
     max_retries: 3
-    base_frame: "base_link"
+    base_frame: "base_footprint"
     fixed_frame: "odom"
     dock_backwards: false
     dock_prestaging_tolerance: 0.5
