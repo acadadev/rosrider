@@ -356,7 +356,6 @@ const std::map<std::string, ParamMetadata> ParamMap = {
 
     {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}}
 
-    // ADC_CS_DIV
 
 };
 
