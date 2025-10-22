@@ -337,6 +337,7 @@ class ROSRider : public rclcpp::Node {
 		          } // param type set
 		        } // for loop end
 		        return result;
+
 		    };
 
 		    callback_handler = this->add_on_set_parameters_callback(param_change_callback);
