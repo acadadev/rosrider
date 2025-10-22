@@ -112,8 +112,8 @@
 #define PARAM_TANH_DIV 18
 #define PARAM_SIGM_DIV 19
 
-#define DEFAULT_AUTOSYNC false
-#define DEFAULT_ADCSYNC false
+#define DEFAULT_AUTOSYNC true
+#define DEFAULT_ADCSYNC true
 #define DEFAULT_FASTADC false
 
 #define PARAM_AUTOSYNC 0
