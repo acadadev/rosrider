@@ -78,6 +78,7 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("INTEGRAL_LIMIT", DEFAULT_INTEGRAL_LIMIT);
 			this->declare_parameter("ENCODER_PPR", DEFAULT_ENCODER_PPR);
 			this->declare_parameter("INA219_CAL", DEFAULT_INA219_CAL);
+			this->declare_parameter("ADC_CS_DIV", DEFAULT_ADC_CS_DIV);
 
 			params_uint16[PARAM_PWM_SCALE] = this->get_parameter("PWM_SCALE").as_int();
 			params_uint16[PARAM_PWM_FRQ] = this->get_parameter("PWM_FRQ").as_int();
@@ -86,6 +87,7 @@ class ROSRider : public rclcpp::Node {
 			params_uint16[PARAM_INTEGRAL_LIMIT] = this->get_parameter("INTEGRAL_LIMIT").as_int();
 			params_uint16[PARAM_ENCODER_PPR] = this->get_parameter("ENCODER_PPR").as_int();
 			params_uint16[PARAM_INA219_CAL] = this->get_parameter("INA219_CAL").as_int();
+			params_uint16[PARAM_ADC_CS_DIV] = this->get_parameter("ADC_CS_DIV").as_int();
 
             // uint32 parameters
 			this->declare_parameter("RTC_TRIM", DEFAULT_RTC_TRIM);
@@ -168,6 +170,7 @@ class ROSRider : public rclcpp::Node {
 		    this->declare_parameter("PUB_DIAGNOSTICS", true); 
 		    this->declare_parameter("DEBUG", false);
 		    this->declare_parameter("ROS2RPI_CONFIG", 0x0);
+		    this->declare_parameter("CMD_VEL_TOPIC", "cmd_vel");
 
 		    // cached parameters
 		    i2c_enabled = this->get_parameter("I2C_ENABLED").as_bool();
@@ -179,6 +182,7 @@ class ROSRider : public rclcpp::Node {
 		    pub_diagnostics = this->get_parameter("PUB_DIAGNOSTICS").as_bool();  
 		    debug_mode = this->get_parameter("DEBUG").as_bool();
 		    ros2rpi_config = this->get_parameter("ROS2RPI_CONFIG").as_int();
+		    cmd_vel_topic = this->get_parameter("CMD_VEL_TOPIC").as_string();
 			
 			// i2c-init
 			if(i2c_enabled) {
@@ -279,7 +283,7 @@ class ROSRider : public rclcpp::Node {
 			}
 
       		// cmd_vel subscriber
-      		cmd_sub = this->create_subscription<geometry_msgs::msg::Twist>("/cmd_vel", rclcpp::QoS(1), std::bind(&ROSRider::cmd_callback, this, _1));
+      		cmd_sub = this->create_subscription<geometry_msgs::msg::Twist>(cmd_vel_topic, rclcpp::QoS(1), std::bind(&ROSRider::cmd_callback, this, _1));
 
 			// main timer
 			timer_i2c = this->create_wall_timer(1000ms / params_uint8[PARAM_UPDATE_RATE], std::bind(&ROSRider::timer_i2c_callback, this));
@@ -373,6 +377,7 @@ class ROSRider : public rclcpp::Node {
 
 	    std::string odom_frame_id;
 	    std::string base_frame_id;
+	    std::string cmd_vel_topic;
 	    
 	    uint8_t prev_SYS_STATUS;
 		uint8_t prev_PWR_STATUS;

@@ -44,6 +44,7 @@
 #define DEFAULT_INTEGRAL_LIMIT 128
 #define DEFAULT_ENCODER_PPR 48
 #define DEFAULT_INA219_CAL 8192
+#define DEFAULT_ADC_CS_DIV 32
 
 #define PARAM_PWM_SCALE 0
 #define PARAM_PWM_FRQ 1
@@ -52,6 +53,7 @@
 #define PARAM_INTEGRAL_LIMIT 4
 #define PARAM_ENCODER_PPR 5
 #define PARAM_INA219_CAL 6
+#define PARAM_ADC_CS_DIV 7
 
 // uint32
 #define DEFAULT_RTC_TRIM 0x7FFF
@@ -144,7 +146,7 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                             };
 
 // uint16 array
-#define SIZE_PARAMS_UINT16 7
+#define SIZE_PARAMS_UINT16 8
 uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_PWM_SCALE,
                                 DEFAULT_PWM_FRQ,
@@ -152,7 +154,8 @@ uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_UPPER_LIMIT,
                                 DEFAULT_INTEGRAL_LIMIT,
                                 DEFAULT_ENCODER_PPR,
-                                DEFAULT_INA219_CAL
+                                DEFAULT_INA219_CAL,
+                                DEFAULT_ADC_CS_DIV
                             };
 
 const char *names_uint16[] = { "PWM_SCALE",
@@ -161,7 +164,8 @@ const char *names_uint16[] = { "PWM_SCALE",
                                "UPPER_LIMIT",
                                "INTEGRAL_LIMIT",
                                "ENCODER_PPR",
-                               "INA219_CAL" };
+                               "INA219_CAL",
+                               "ADC_CS_DIV" };
 
 // uint32 array
 #define SIZE_PARAMS_UINT32 1
@@ -281,6 +285,7 @@ struct ParamMetadata {
 #define FP_MAX_IDLE_SECONDS 1
 #define FP_INTEGRAL_LIMIT 2
 #define FP_UPPER_LIMIT 3
+#define FP_ADC_CS_DIV 4
 
 #define FP_LEFT_FORWARD_DEADZONE 0
 #define FP_LEFT_REVERSE_DEADZONE 1
@@ -306,6 +311,9 @@ struct ParamMetadata {
 #define FP_LEFT_AMP_LIMIT 13
 #define FP_RIGHT_AMP_LIMIT 14
 
+#define FP_TANH_DIV 15
+#define FP_SIGM_DIV 16
+
 #define FP_AUTOSYNC 0
 
 const std::map<std::string, ParamMetadata> ParamMap = {
@@ -317,6 +325,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"MAX_IDLE_SECONDS",        { CParamDataType::C_TYPE_UINT16, PARAM_MAX_IDLE_SECONDS, FP_MAX_IDLE_SECONDS}},
     {"INTEGRAL_LIMIT",          { CParamDataType::C_TYPE_UINT16, PARAM_INTEGRAL_LIMIT, FP_INTEGRAL_LIMIT}},
     {"UPPER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_UPPER_LIMIT, FP_UPPER_LIMIT}},
+    {"ADC_CS_DIV",              { CParamDataType::C_TYPE_UINT16, PARAM_ADC_CS_DIV, FP_ADC_CS_DIV}},
 
     {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16, PARAM_LEFT_FORWARD_DEADZONE, FP_LEFT_FORWARD_DEADZONE}},
     {"LEFT_REVERSE_DEADZONE",   { CParamDataType::C_TYPE_INT16, PARAM_LEFT_REVERSE_DEADZONE, FP_LEFT_REVERSE_DEADZONE}},
@@ -342,7 +351,12 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"LEFT_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_AMP_LIMIT, FP_LEFT_AMP_LIMIT}},
     {"RIGHT_AMP_LIMIT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_AMP_LIMIT, FP_RIGHT_AMP_LIMIT}},
 
+    {"TANH_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_TANH_DIV, FP_TANH_DIV}},
+    {"SIGM_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_SIGM_DIV, FP_SIGM_DIV}},
+
     {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}}
+
+    // ADC_CS_DIV
 
 };
 
