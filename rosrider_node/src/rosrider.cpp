@@ -279,7 +279,7 @@ class ROSRider : public rclcpp::Node {
 			}
 
       		// cmd_vel subscriber
-      		cmd_sub = this->create_subscription<geometry_msgs::msg::Twist>("/cmd_vel_nav", rclcpp::QoS(1), std::bind(&ROSRider::cmd_callback, this, _1));
+      		cmd_sub = this->create_subscription<geometry_msgs::msg::Twist>("/cmd_vel", rclcpp::QoS(1), std::bind(&ROSRider::cmd_callback, this, _1));
 
 			// main timer
 			timer_i2c = this->create_wall_timer(1000ms / params_uint8[PARAM_UPDATE_RATE], std::bind(&ROSRider::timer_i2c_callback, this));
