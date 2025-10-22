@@ -49,3 +49,6 @@
     I2C_ADDRESS: 0x3c
     ADCSYNC: True
     FASTADC: False
+    INA219_CAL: 8192
+    TANH_DIV: 2.0
+    SIGM_DIV: 10.0
