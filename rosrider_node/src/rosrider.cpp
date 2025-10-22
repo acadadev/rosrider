@@ -586,7 +586,7 @@ class ROSRider : public rclcpp::Node {
 
                     // 0.5V per amp, 4096 per 3.0V, reduced from (3.0 / 4095 / 2) = 0.0003663, we use V / 2 instead of V * 0.5
 		       		diag_message.cs_left = (status_buffer[13] + (status_buffer[12] << 8)) * 0.0003663;    // 3.0 / 4095 / 2.0
-		            diag_message.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * 0.0003663;   // TODO: do we conf this one?
+		            diag_message.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * 0.0003663;   // TODO: ?
 
 					diag_message.pwm_left = status_buffer[17] + (status_buffer[16] << 8);
 					diag_message.pwm_right = status_buffer[19] + (status_buffer[18] << 8);
