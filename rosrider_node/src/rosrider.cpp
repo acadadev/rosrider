@@ -77,6 +77,7 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("UPPER_LIMIT", DEFAULT_UPPER_LIMIT);
 			this->declare_parameter("INTEGRAL_LIMIT", DEFAULT_INTEGRAL_LIMIT);
 			this->declare_parameter("ENCODER_PPR", DEFAULT_ENCODER_PPR);
+			this->declare_parameter("INA219_CAL", DEFAULT_INA219_CAL);
 
 			params_uint16[PARAM_PWM_SCALE] = this->get_parameter("PWM_SCALE").as_int();
 			params_uint16[PARAM_PWM_FRQ] = this->get_parameter("PWM_FRQ").as_int();
@@ -84,6 +85,7 @@ class ROSRider : public rclcpp::Node {
 			params_uint16[PARAM_UPPER_LIMIT] = this->get_parameter("UPPER_LIMIT").as_int();
 			params_uint16[PARAM_INTEGRAL_LIMIT] = this->get_parameter("INTEGRAL_LIMIT").as_int();
 			params_uint16[PARAM_ENCODER_PPR] = this->get_parameter("ENCODER_PPR").as_int();
+			params_uint16[PARAM_INA219_CAL] = this->get_parameter("INA219_CAL").as_int();
 
             // uint32 parameters
 			this->declare_parameter("RTC_TRIM", DEFAULT_RTC_TRIM);
@@ -130,6 +132,8 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("GAIN", DEFAULT_GAIN);
 		    this->declare_parameter("TRIM", DEFAULT_TRIM);
 			this->declare_parameter("MOTOR_CONSTANT", DEFAULT_MOTOR_CONSTANT);
+			this->declare_parameter("TANH_DIV", DEFAULT_TANH_DIV);
+			this->declare_parameter("SIGM_DIV", DEFAULT_SIGM_DIV);
 
 			params_float[PARAM_GEAR_RATIO] = (float) this->get_parameter("GEAR_RATIO").as_double();
 			params_float[PARAM_WHEEL_DIA] = (float) this->get_parameter("WHEEL_DIA").as_double();
@@ -140,7 +144,9 @@ class ROSRider : public rclcpp::Node {
 			params_float[PARAM_MAX_RPM] = (float) this->get_parameter("MAX_RPM").as_double();
 			params_float[PARAM_LEFT_AMP_LIMIT] = (float) this->get_parameter("LEFT_AMP_LMT").as_double();
 			params_float[PARAM_RIGHT_AMP_LIMIT] = (float) this->get_parameter("RIGHT_AMP_LMT").as_double();
-			
+			params_float[PARAM_TANH_DIV] = (float) this->get_parameter("TANH_DIV").as_double();
+			params_float[PARAM_SIGM_DIV] = (float) this->get_parameter("SIGM_DIV").as_double();
+
 			params_float[PARAM_LEFT_KP] = (float) this->get_parameter("LEFT_KP").as_double();
 			params_float[PARAM_LEFT_KI] = (float) this->get_parameter("LEFT_KI").as_double();
 			params_float[PARAM_LEFT_KD] = (float) this->get_parameter("LEFT_KD").as_double();
@@ -580,7 +586,7 @@ class ROSRider : public rclcpp::Node {
 
                     // 0.5V per amp, 4096 per 3.0V, reduced from (3.0 / 4095 / 2) = 0.0003663, we use V / 2 instead of V * 0.5
 		       		diag_message.cs_left = (status_buffer[13] + (status_buffer[12] << 8)) * 0.0003663;    // 3.0 / 4095 / 2.0
-		            diag_message.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * 0.0003663;
+		            diag_message.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * 0.0003663;   // TODO: do we conf this one?
 
 					diag_message.pwm_left = status_buffer[17] + (status_buffer[16] << 8);
 					diag_message.pwm_right = status_buffer[19] + (status_buffer[18] << 8);
