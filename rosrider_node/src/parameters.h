@@ -43,6 +43,7 @@
 #define DEFAULT_UPPER_LIMIT 255
 #define DEFAULT_INTEGRAL_LIMIT 224
 #define DEFAULT_ENCODER_PPR 48
+#define DEFAULT_INA219_CAL 8192
 
 #define PARAM_PWM_SCALE 0
 #define PARAM_PWM_FRQ 1
@@ -50,6 +51,7 @@
 #define PARAM_UPPER_LIMIT 3
 #define PARAM_INTEGRAL_LIMIT 4
 #define PARAM_ENCODER_PPR 5
+#define PARAM_INA219_CAL 6
 
 // uint32
 #define DEFAULT_RTC_TRIM 0x7FFF
@@ -86,6 +88,8 @@
 #define DEFAULT_GAIN (1.0F)
 #define DEFAULT_TRIM (0.0F)
 #define DEFAULT_MOTOR_CONSTANT (1.0F)
+#define DEFAULT_TANH_DIV (2.0F)
+#define DEFAULT_SIGM_DIV (10.0F)
 
 #define PARAM_GEAR_RATIO 0
 #define PARAM_WHEEL_DIA 1
@@ -105,6 +109,8 @@
 #define PARAM_GAIN 15
 #define PARAM_TRIM 16
 #define PARAM_MOTOR_CONSTANT 17
+#define PARAM_TANH_DIV 18
+#define PARAM_SIGM_DIV 19
 
 #define DEFAULT_AUTOSYNC false
 #define DEFAULT_ADCSYNC false
@@ -138,14 +144,15 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                             };
 
 // uint16 array
-#define SIZE_PARAMS_UINT16 6
+#define SIZE_PARAMS_UINT16 7
 uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_PWM_SCALE,
                                 DEFAULT_PWM_FRQ,
                                 DEFAULT_MAX_IDLE_SECONDS,
                                 DEFAULT_UPPER_LIMIT,
                                 DEFAULT_INTEGRAL_LIMIT,
-                                DEFAULT_ENCODER_PPR
+                                DEFAULT_ENCODER_PPR,
+                                DEFAULT_INA219_CAL
                             };
 
 const char *names_uint16[] = { "PWM_SCALE",
@@ -153,7 +160,8 @@ const char *names_uint16[] = { "PWM_SCALE",
                                "MAX_IDLE_SECONDS",
                                "UPPER_LIMIT",
                                "INTEGRAL_LIMIT",
-                               "ENCODER_PPR" };
+                               "ENCODER_PPR",
+                               "INA219_CAL" };
 
 // uint32 array
 #define SIZE_PARAMS_UINT32 1
@@ -178,7 +186,7 @@ const char *names_int16[] = { "LEFT_FORWARD_DEADZONE",
                               "RIGHT_REVERSE_DEADZONE" };
 
 // float array
-#define SIZE_PARAMS_FLOAT 18
+#define SIZE_PARAMS_FLOAT 20
 float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_GEAR_RATIO,
                                DEFAULT_WHEEL_DIA,
@@ -197,7 +205,9 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_RIGHT_KD,
                                DEFAULT_GAIN,
                                DEFAULT_TRIM,
-                               DEFAULT_MOTOR_CONSTANT
+                               DEFAULT_MOTOR_CONSTANT,
+                               DEFAULT_TANH_DIV,
+                               DEFAULT_SIGM_DIV
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -217,7 +227,9 @@ const char *names_float[] = { "GEAR_RATIO",
                               "RIGHT_KD",
                               "GAIN",
                               "TRIM",
-                              "MOTOR_CONSTANT" };
+                              "MOTOR_CONSTANT",
+                              "TANH_DIV",
+                              "SIGM_DIV" };
 
 #define SIZE_PARAMS_BOOL 3
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
