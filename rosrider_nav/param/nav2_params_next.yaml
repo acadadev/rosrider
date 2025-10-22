@@ -1,11 +1,6 @@
 amcl:
   ros__parameters:
     set_initial_pose: true
-    initial_pose: # for sim
-      x: -2.0
-      y: -5.85
-      z: 0.0
-      yaw: 0.0
     alpha1: 0.2
     alpha2: 0.2
     alpha3: 0.2
@@ -205,7 +200,6 @@ local_costmap:
       footprint: "[ [0.059, -0.110], [0.075, -0.094], [0.075, 0.094], [0.059, 0.110], [-0.120, 0.110], [-0.162, 0.102], [-0.198, 0.078], [-0.222, 0.042], [-0.230, 0.000], [-0.222, -0.042], [-0.198, -0.078], [-0.162, -0.102], [-0.120, -0.110] ]"
       #robot_radius: 0.22
       plugins: ["voxel_layer", "inflation_layer"]
-      filters: ["keepout_filter"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
@@ -233,10 +227,6 @@ local_costmap:
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
-      keepout_filter:
-        plugin: "nav2_costmap_2d::KeepoutFilter"
-        enabled: False
-        filter_info_topic: "/costmap_filter_info"
       always_send_full_costmap: True
 
 global_costmap:
@@ -251,7 +241,6 @@ global_costmap:
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
-      filters: ["keepout_filter"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -273,10 +262,6 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
         inflation_radius: 0.7
-      keepout_filter:
-        plugin: "nav2_costmap_2d::KeepoutFilter"
-        enabled: False
-        filter_info_topic: "/costmap_filter_info"
       always_send_full_costmap: True
 
 # The yaml_filename does not need to be specified since it going to be set by defaults in launch.
@@ -300,7 +285,7 @@ planner_server:
     costmap_update_timeout: 1.0
     GridBased:
       plugin: "nav2_navfn_planner::NavfnPlanner"
-      tolerance: 0.5 # robot value: 0.785
+      tolerance: 0.5 # default value: 0.5
       use_astar: false
       allow_unknown: true
 
@@ -334,10 +319,10 @@ behavior_server:
     local_frame: odom
     global_frame: map
     robot_base_frame: base_link
-    transform_tolerance: 0.1 # robot value: 0.157
+    transform_tolerance: 0.1  # default value: 0.1
     simulate_ahead_time: 2.0
-    max_rotational_vel: 1.0 # robot value: 1.57
-    min_rotational_vel: 0.4 # robot value: 0.314
+    max_rotational_vel: 2.0   # default value: 1.0
+    min_rotational_vel: 0.5   # default value: 0.4
     rotational_acc_lim: 3.2
 
 waypoint_follower:
@@ -356,8 +341,8 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.5, 0.0, 2.0] # robot value: [0.25, 0.0, 1.57]
-    min_velocity: [-0.5, 0.0, -2.0] # robot value: [-0.25, 0.0, -1.57]
+    max_velocity: [0.25, 0.0, 2.0]   # default value: [0.5, 0.0, 2.0]
+    min_velocity: [-0.25, 0.0, -2.0] # default value: [-0.5, 0.0, -2.0] # TODO: put these in ekf filter
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"
