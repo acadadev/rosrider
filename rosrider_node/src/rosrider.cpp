@@ -593,6 +593,12 @@ class ROSRider : public rclcpp::Node {
                     // we use 12 bit adc, 1.65V reference, and 0.5V per amp
                     // 1.65V / 4096 / 0.5V
                     // 0.000805664
+
+                    uint16_t a = (status_buffer[13] + (status_buffer[12] << 8));
+                    uint16_t b = (status_buffer[15] + (status_buffer[14] << 8));
+
+                    RCLCPP_INFO(this->get_logger(), "%d %d", a, b);
+
 		       		diag_message.cs_left = (status_buffer[13] + (status_buffer[12] << 8)) * CS_ADC_MULTIPLIER;
 		            diag_message.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * CS_ADC_MULTIPLIER;
 
