@@ -53,4 +53,4 @@
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
     ADC_CS_DIV: 32
-    CMD_VEL_TOPIC: 'cmd_vel_nav'
+    CMD_VEL_TOPIC: 'cmd_vel'
