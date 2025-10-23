@@ -12,7 +12,9 @@
 #include <fcntl.h>
 #include <math.h>
 
-#define MATHPI 3.14159265359
+#define CS_ADC_MULTIPLIER 0.000805664f
+#define MATHPI 3.14159265359f
+
 #define NS_CONVERSION_CONSTANT 1000000000L
 #define QOS_HIST_DEPTH 8
 
