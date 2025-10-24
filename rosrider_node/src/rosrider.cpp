@@ -590,14 +590,12 @@ class ROSRider : public rclcpp::Node {
 					diag_message.bus_current = ((status_buffer[9] + (status_buffer[8] << 8)) / 10000.0);     // amps
 		            diag_message.bus_voltage = (status_buffer[11] + (status_buffer[10] << 8)) / 1000.0;
 
-                    // we use 12 bit adc, 1.65V reference, and 0.5V per amp
-                    // 1.65V / 4096 / 0.5V
-                    // 0.000805664
-
-                    uint16_t a = (status_buffer[13] + (status_buffer[12] << 8));
-                    uint16_t b = (status_buffer[15] + (status_buffer[14] << 8));
-
-                    RCLCPP_INFO(this->get_logger(), "%d %d", a, b);
+                    // we use 12 bit adc, 3.3V reference, and 0.5V per amp
+                    // 3.3V / 4096 / 0.5V
+                    // 0.001611328
+                    //
+                    // PWM_FRQ < 1000, we get a bias in current sense pin
+                    // Also slow-decay vs fast-decay mode changes cs readings
 
 		       		diag_message.cs_left = (status_buffer[13] + (status_buffer[12] << 8)) * CS_ADC_MULTIPLIER;
 		            diag_message.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * CS_ADC_MULTIPLIER;
