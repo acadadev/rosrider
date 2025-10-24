@@ -12,7 +12,7 @@
 #include <fcntl.h>
 #include <math.h>
 
-#define CS_ADC_MULTIPLIER 0.000805664
+#define CS_ADC_MULTIPLIER 0.001611328
 #define MATHPI 3.14159265359
 
 #define NS_CONVERSION_CONSTANT 1000000000L
