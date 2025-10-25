@@ -50,6 +50,7 @@
     ADCSYNC: True
     FASTADC: False
     CASCADED: False
+    BACKEMF: False
     INA219_CAL: 11469
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
