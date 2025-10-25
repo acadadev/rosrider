@@ -47,7 +47,7 @@
     TRIM: 0.0
     MOTOR_CONSTANT: 1.0
     I2C_ADDRESS: 0x3c
-    ADCSYNC: False
+    ADCSYNC: True
     FASTADC: False
     CASCADED: False
     INA219_CAL: 11469
