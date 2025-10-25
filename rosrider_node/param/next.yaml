@@ -7,7 +7,7 @@
     PUB_ODOMETRY: True
     PUB_JOINTS: True
     PUB_DIAGNOSTICS: True
-    ROS2RPI_CONFIG: 0x33 # 0x0F # 0x33
+    ROS2RPI_CONFIG: 0x0F # 0x0F # 0x33
     AUTOSYNC: True
     DEBUG: False
     CONFIG_FLAGS: 48
