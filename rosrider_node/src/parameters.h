@@ -117,10 +117,12 @@
 #define DEFAULT_AUTOSYNC true
 #define DEFAULT_ADCSYNC true
 #define DEFAULT_FASTADC false
+#define DEFAULT_CASCADED false
 
 #define PARAM_AUTOSYNC 0
 #define PARAM_ADCSYNC 1
 #define PARAM_FASTADC 2
+#define PARAM_CASCADED 3
 
 // uint8 array
 #define SIZE_PARAMS_UINT8 8
@@ -235,13 +237,15 @@ const char *names_float[] = { "GEAR_RATIO",
                               "TANH_DIV",
                               "SIGM_DIV" };
 
-#define SIZE_PARAMS_BOOL 3
+#define SIZE_PARAMS_BOOL 4
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
                                        DEFAULT_ADCSYNC,
-                                       DEFAULT_FASTADC };
+                                       DEFAULT_FASTADC,
+                                       DEFAULT_CASCADED };
 const char *names_bool[] = { "AUTOSYNC",
                              "ADCSYNC",
-                             "FASTADC" };
+                             "FASTADC",
+                             "CASCADED" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -315,6 +319,7 @@ struct ParamMetadata {
 #define FP_SIGM_DIV 16
 
 #define FP_AUTOSYNC 0
+#define FP_CASCADED 1
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
@@ -354,8 +359,8 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"TANH_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_TANH_DIV, FP_TANH_DIV}},
     {"SIGM_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_SIGM_DIV, FP_SIGM_DIV}},
 
-    {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}}
-
+    {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}},
+    {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}}
 
 };
 
