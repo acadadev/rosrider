@@ -12,7 +12,7 @@
 #include <fcntl.h>
 #include <math.h>
 
-#define CONVERSION_UNSCALER (3.3f / 32767.0f)
+#define CONVERSION_UNSCALER (3.3f / 32767.0f)   // TODO: Document
 #define CS_ADC_MULTIPLIER 0.001611328
 #define MATHPI 3.14159265359
 
