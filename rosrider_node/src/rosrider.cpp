@@ -31,10 +31,12 @@ using std::placeholders::_1;
 
 const std::string i2c_filename = "/dev/i2c-1";
 
-// TODO: detect node if node already running and exit if so
+int16_t cs_left_scaled;
+int16_t cs_right_scaled;
+
+// TODO: detect node if node already running and exit or make it lifecycle based
 // TODO: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
 // TODO: base_width default 0.1, equalize on firmware
-// TODO: driver can detect state of read, was it checksum, seq repeat, seq jump, depending on that state, next cycle calculate params for two steps ahead.
 
 class ROSRider : public rclcpp::Node {
 
@@ -591,18 +593,15 @@ class ROSRider : public rclcpp::Node {
 
 					diag_message.packet_age = packet_age;
 
-					diag_message.bus_current = ((status_buffer[9] + (status_buffer[8] << 8)) / 10000.0);     // amps
+					diag_message.bus_current = (status_buffer[9] + (status_buffer[8] << 8)) / 10000.0;     // amps
 		            diag_message.bus_voltage = (status_buffer[11] + (status_buffer[10] << 8)) / 1000.0;
 
-                    // we use 12 bit adc, 3.3V reference, and 0.5V per amp
-                    // 3.3V / 4096 / 0.5V
-                    // 0.001611328
-                    //
-                    // PWM_FRQ < 1000, we get a bias in current sense pin
-                    // Also slow-decay vs fast-decay mode changes cs readings
+                    cs_left_scaled = (int16_t) (status_buffer[13] + (status_buffer[12] << 8));
+                    cs_right_scaled = (int16_t) (status_buffer[15] + (status_buffer[14] << 8));
 
-		       		diag_message.cs_left = (status_buffer[13] + (status_buffer[12] << 8)) * CS_ADC_MULTIPLIER;
-		            diag_message.cs_right = (status_buffer[15] + (status_buffer[14] << 8)) * CS_ADC_MULTIPLIER;
+                    // CONVERSION_UNSCALER = (3.3f / 32767.0f)
+		       		diag_message.cs_left =  cs_left_scaled * CONVERSION_UNSCALER;
+		            diag_message.cs_right = cs_right_scaled * CONVERSION_UNSCALER;
 
 					diag_message.pwm_left = status_buffer[17] + (status_buffer[16] << 8);
 					diag_message.pwm_right = status_buffer[19] + (status_buffer[18] << 8);
