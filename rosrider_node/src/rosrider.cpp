@@ -599,7 +599,7 @@ class ROSRider : public rclcpp::Node {
                     cs_left_scaled = (int16_t) (status_buffer[13] + (status_buffer[12] << 8));
                     cs_right_scaled = (int16_t) (status_buffer[15] + (status_buffer[14] << 8));
 
-                    // CONVERSION_UNSCALER = (3.3f / 32767.0f)
+                    // CONVERSION_UNSCALER = 3.3f / 32767.0f
 		       		diag_message.cs_left =  cs_left_scaled * CONVERSION_UNSCALER;
 		            diag_message.cs_right = cs_right_scaled * CONVERSION_UNSCALER;
 
