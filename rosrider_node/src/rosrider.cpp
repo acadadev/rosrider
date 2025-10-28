@@ -127,8 +127,8 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("BAT_VOLTS_HIGH", DEFAULT_BAT_VOLTS_HIGH);
 			this->declare_parameter("BAT_VOLTS_LOW", DEFAULT_BAT_VOLTS_LOW);
 			this->declare_parameter("MAX_RPM", DEFAULT_MAX_RPM);
-			this->declare_parameter("LEFT_AMP_LMT", DEFAULT_LEFT_AMP_LIMIT);
-			this->declare_parameter("RIGHT_AMP_LMT", DEFAULT_RIGHT_AMP_LIMIT);
+			this->declare_parameter("LEFT_AMP_LIMIT", DEFAULT_LEFT_AMP_LIMIT);
+			this->declare_parameter("RIGHT_AMP_LIMIT", DEFAULT_RIGHT_AMP_LIMIT);
 
 			this->declare_parameter("LEFT_KP", DEFAULT_LEFT_KP);
 			this->declare_parameter("LEFT_KI", DEFAULT_LEFT_KI);
