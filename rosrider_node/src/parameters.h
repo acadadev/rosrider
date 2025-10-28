@@ -249,7 +249,7 @@ const char *names_float[] = { "GEAR_RATIO",
                               "MOTOR_CONSTANT",
                               "TANH_DIV",
                               "SIGM_DIV",
-                              "CKP2",
+                              "CURRENT_LIMIT_KP",
                               "CKI",
                               "CINTG" };
 
