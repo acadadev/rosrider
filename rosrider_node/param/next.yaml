@@ -52,8 +52,9 @@
     I2C_ADDRESS: 0x3c
     ADCSYNC: True
     FASTADC: False
-    CASCADED: False
+    CASCADED: True
     BACKEMF: True
+    IDLE_BRAKE: False
     INA219_CAL: 11469
     TANH_DIV: 2.0
     SIGM_DIV: 10.0

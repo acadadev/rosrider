@@ -127,12 +127,14 @@
 #define DEFAULT_FASTADC false
 #define DEFAULT_CASCADED false
 #define DEFAULT_BACKEMF false
+#define DEFAULT_IDLE_BRAKE false
 
 #define PARAM_AUTOSYNC 0
 #define PARAM_ADCSYNC 1
 #define PARAM_FASTADC 2
 #define PARAM_CASCADED 3
 #define PARAM_BACKEMF 4
+#define PARAM_IDLE_BRAKE 5
 
 // uint8 array
 #define SIZE_PARAMS_UINT8 8
@@ -253,17 +255,19 @@ const char *names_float[] = { "GEAR_RATIO",
                               "CURRENT_KP",
                               "CURRENT_KI" };
 
-#define SIZE_PARAMS_BOOL 5
+#define SIZE_PARAMS_BOOL 6
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
                                        DEFAULT_ADCSYNC,
                                        DEFAULT_FASTADC,
                                        DEFAULT_CASCADED,
-                                       DEFAULT_BACKEMF };
+                                       DEFAULT_BACKEMF,
+                                       DEFAULT_IDLE_BRAKE };
 const char *names_bool[] = { "AUTOSYNC",
                              "ADCSYNC",
                              "FASTADC",
                              "CASCADED",
-                             "BACKEMF" };
+                             "BACKEMF",
+                             "IDLE_BRAKE" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -343,6 +347,7 @@ struct ParamMetadata {
 #define FP_AUTOSYNC 0
 #define FP_CASCADED 1
 #define FP_BACKEMF 2
+#define FP_IDLE_BRAKE 3
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
@@ -389,6 +394,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}},
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}},
     {"BACKEMF",                 { CParamDataType::C_TYPE_BOOL,  PARAM_BACKEMF, FP_BACKEMF}},
+    {"IDLE_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_IDLE_BRAKE, FP_IDLE_BRAKE}},
 
 };
 
