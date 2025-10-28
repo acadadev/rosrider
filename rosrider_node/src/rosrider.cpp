@@ -123,7 +123,7 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("GEAR_RATIO", DEFAULT_GEAR_RATIO);
 			this->declare_parameter("WHEEL_DIA", DEFAULT_WHEEL_DIA);
 			this->declare_parameter("BASE_WIDTH", DEFAULT_BASE_WIDTH);
-			this->declare_parameter("MAIN_AMP_LMT", DEFAULT_MAIN_AMP_LIMIT);
+			this->declare_parameter("MAIN_AMP_LIMIT", DEFAULT_MAIN_AMP_LIMIT);
 			this->declare_parameter("BAT_VOLTS_HIGH", DEFAULT_BAT_VOLTS_HIGH);
 			this->declare_parameter("BAT_VOLTS_LOW", DEFAULT_BAT_VOLTS_LOW);
 			this->declare_parameter("MAX_RPM", DEFAULT_MAX_RPM);
@@ -150,7 +150,7 @@ class ROSRider : public rclcpp::Node {
 			params_float[PARAM_GEAR_RATIO] = (float) this->get_parameter("GEAR_RATIO").as_double();
 			params_float[PARAM_WHEEL_DIA] = (float) this->get_parameter("WHEEL_DIA").as_double();
 			params_float[PARAM_BASE_WIDTH] = (float) this->get_parameter("BASE_WIDTH").as_double();
-			params_float[PARAM_MAIN_AMP_LIMIT] = (float) this->get_parameter("MAIN_AMP_LMT").as_double();
+			params_float[PARAM_MAIN_AMP_LIMIT] = (float) this->get_parameter("MAIN_AMP_LIMIT").as_double();
 			params_float[PARAM_BAT_VOLTS_HIGH] = (float) this->get_parameter("BAT_VOLTS_HIGH").as_double();
 			params_float[PARAM_BAT_VOLTS_LOW] = (float) this->get_parameter("BAT_VOLTS_LOW").as_double();
 			params_float[PARAM_MAX_RPM] = (float) this->get_parameter("MAX_RPM").as_double();

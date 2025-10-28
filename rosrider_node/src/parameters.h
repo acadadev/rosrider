@@ -232,7 +232,7 @@ float params_float[SIZE_PARAMS_FLOAT] = {
 const char *names_float[] = { "GEAR_RATIO",
                               "WHEEL_DIA",
                               "BASE_WIDTH",
-                              "MAIN_AMP_LMT",
+                              "MAIN_AMP_LIMIT",
                               "BAT_VOLTS_HIGH",
                               "BAT_VOLTS_LOW",
                               "MAX_RPM",
