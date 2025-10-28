@@ -154,8 +154,8 @@ class ROSRider : public rclcpp::Node {
 			params_float[PARAM_BAT_VOLTS_HIGH] = (float) this->get_parameter("BAT_VOLTS_HIGH").as_double();
 			params_float[PARAM_BAT_VOLTS_LOW] = (float) this->get_parameter("BAT_VOLTS_LOW").as_double();
 			params_float[PARAM_MAX_RPM] = (float) this->get_parameter("MAX_RPM").as_double();
-			params_float[PARAM_LEFT_AMP_LIMIT] = (float) this->get_parameter("LEFT_AMP_LMT").as_double();
-			params_float[PARAM_RIGHT_AMP_LIMIT] = (float) this->get_parameter("RIGHT_AMP_LMT").as_double();
+			params_float[PARAM_LEFT_AMP_LIMIT] = (float) this->get_parameter("LEFT_AMP_LIMIT").as_double();
+			params_float[PARAM_RIGHT_AMP_LIMIT] = (float) this->get_parameter("RIGHT_AMP_LIMIT").as_double();
 			params_float[PARAM_TANH_DIV] = (float) this->get_parameter("TANH_DIV").as_double();
 			params_float[PARAM_SIGM_DIV] = (float) this->get_parameter("SIGM_DIV").as_double();
 
