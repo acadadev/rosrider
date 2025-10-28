@@ -249,9 +249,9 @@ const char *names_float[] = { "GEAR_RATIO",
                               "MOTOR_CONSTANT",
                               "TANH_DIV",
                               "SIGM_DIV",
-                              "CURRENT_LIMIT_KP",
-                              "CKI",
-                              "CINTG" };
+                              "CURRENT_KP",
+                              "CURRENT_KI",
+                              "CURRENT_INTEGRAL_LIMIT" };
 
 #define SIZE_PARAMS_BOOL 5
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
