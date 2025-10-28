@@ -81,6 +81,7 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("ENCODER_PPR", DEFAULT_ENCODER_PPR);
 			this->declare_parameter("INA219_CAL", DEFAULT_INA219_CAL);
 			this->declare_parameter("ADC_CS_DIV", DEFAULT_ADC_CS_DIV);
+			this->declare_parameter("CURRENT_INTEGRAL_LIMIT", DEFAULT_CURRENT_INTEGRAL_LIMIT);
 
 			params_uint16[PARAM_PWM_SCALE] = this->get_parameter("PWM_SCALE").as_int();
 			params_uint16[PARAM_PWM_FRQ] = this->get_parameter("PWM_FRQ").as_int();
@@ -90,6 +91,7 @@ class ROSRider : public rclcpp::Node {
 			params_uint16[PARAM_ENCODER_PPR] = this->get_parameter("ENCODER_PPR").as_int();
 			params_uint16[PARAM_INA219_CAL] = this->get_parameter("INA219_CAL").as_int();
 			params_uint16[PARAM_ADC_CS_DIV] = this->get_parameter("ADC_CS_DIV").as_int();
+			params_uint16[PARAM_CURRENT_INTEGRAL_LIMIT] = this->get_parameter("CURRENT_INTEGRAL_LIMIT").as_int();
 
             // uint32 parameters
 			this->declare_parameter("RTC_TRIM", DEFAULT_RTC_TRIM);
@@ -145,7 +147,6 @@ class ROSRider : public rclcpp::Node {
 
 			this->declare_parameter("CURRENT_KP", DEFAULT_CURRENT_KP);
 			this->declare_parameter("CURRENT_KI", DEFAULT_CURRENT_KI);
-			this->declare_parameter("CURRENT_INTEGRAL_LIMIT", DEFAULT_CURRENT_INTEGRAL_LIMIT);
 
 			params_float[PARAM_GEAR_RATIO] = (float) this->get_parameter("GEAR_RATIO").as_double();
 			params_float[PARAM_WHEEL_DIA] = (float) this->get_parameter("WHEEL_DIA").as_double();
@@ -172,8 +173,7 @@ class ROSRider : public rclcpp::Node {
 
 			params_float[PARAM_CURRENT_KP] = (float) this->get_parameter("CURRENT_KP").as_double();
 			params_float[PARAM_CURRENT_KI] = (float) this->get_parameter("CURRENT_KI").as_double();
-			params_float[PARAM_CURRENT_INTEGRAL_LIMIT] = (float) this->get_parameter("CURRENT_INTEGRAL_LIMIT").as_double();
-			
+
 			// local parameters
 			this->declare_parameter("I2C_ENABLED", true);
 		    this->declare_parameter("ODOM_FRAME_ID", "odom");

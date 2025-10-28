@@ -45,6 +45,7 @@
 #define DEFAULT_ENCODER_PPR 48
 #define DEFAULT_INA219_CAL 8192
 #define DEFAULT_ADC_CS_DIV 32
+#define DEFAULT_CURRENT_INTEGRAL_LIMIT 128
 
 #define PARAM_PWM_SCALE 0
 #define PARAM_PWM_FRQ 1
@@ -54,6 +55,7 @@
 #define PARAM_ENCODER_PPR 5
 #define PARAM_INA219_CAL 6
 #define PARAM_ADC_CS_DIV 7
+#define PARAM_CURRENT_INTEGRAL_LIMIT 8
 
 // uint32
 #define DEFAULT_RTC_TRIM 0x7FFF
@@ -95,7 +97,6 @@
 
 #define DEFAULT_CURRENT_KP (1.0F)
 #define DEFAULT_CURRENT_KI (1.0F)
-#define DEFAULT_CURRENT_INTEGRAL_LIMIT (128.0F)
 
 #define PARAM_GEAR_RATIO 0
 #define PARAM_WHEEL_DIA 1
@@ -120,7 +121,6 @@
 
 #define PARAM_CURRENT_KP 20
 #define PARAM_CURRENT_KI 21
-#define PARAM_CURRENT_INTEGRAL_LIMIT 22
 
 #define DEFAULT_AUTOSYNC true
 #define DEFAULT_ADCSYNC true
@@ -158,7 +158,7 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                             };
 
 // uint16 array
-#define SIZE_PARAMS_UINT16 8
+#define SIZE_PARAMS_UINT16 9
 uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_PWM_SCALE,
                                 DEFAULT_PWM_FRQ,
@@ -167,7 +167,8 @@ uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_INTEGRAL_LIMIT,
                                 DEFAULT_ENCODER_PPR,
                                 DEFAULT_INA219_CAL,
-                                DEFAULT_ADC_CS_DIV
+                                DEFAULT_ADC_CS_DIV,
+                                DEFAULT_CURRENT_INTEGRAL_LIMIT
                             };
 
 const char *names_uint16[] = { "PWM_SCALE",
@@ -177,7 +178,8 @@ const char *names_uint16[] = { "PWM_SCALE",
                                "INTEGRAL_LIMIT",
                                "ENCODER_PPR",
                                "INA219_CAL",
-                               "ADC_CS_DIV" };
+                               "ADC_CS_DIV",
+                               "CURRENT_INTEGRAL_LIMIT" };
 
 // uint32 array
 #define SIZE_PARAMS_UINT32 1
@@ -202,7 +204,7 @@ const char *names_int16[] = { "LEFT_FORWARD_DEADZONE",
                               "RIGHT_REVERSE_DEADZONE" };
 
 // float array
-#define SIZE_PARAMS_FLOAT 23
+#define SIZE_PARAMS_FLOAT 22
 float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_GEAR_RATIO,
                                DEFAULT_WHEEL_DIA,
@@ -225,8 +227,7 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_TANH_DIV,
                                DEFAULT_SIGM_DIV,
                                DEFAULT_CURRENT_KP,
-                               DEFAULT_CURRENT_KI,
-                               DEFAULT_CURRENT_INTEGRAL_LIMIT
+                               DEFAULT_CURRENT_KI
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -250,8 +251,7 @@ const char *names_float[] = { "GEAR_RATIO",
                               "TANH_DIV",
                               "SIGM_DIV",
                               "CURRENT_KP",
-                              "CURRENT_KI",
-                              "CURRENT_INTEGRAL_LIMIT" };
+                              "CURRENT_KI" };
 
 #define SIZE_PARAMS_BOOL 5
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
@@ -308,6 +308,7 @@ struct ParamMetadata {
 #define FP_INTEGRAL_LIMIT 2
 #define FP_UPPER_LIMIT 3
 #define FP_ADC_CS_DIV 4
+#define FP_CURRENT_INTEGRAL_LIMIT 5
 
 #define FP_LEFT_FORWARD_DEADZONE 0
 #define FP_LEFT_REVERSE_DEADZONE 1
@@ -338,7 +339,6 @@ struct ParamMetadata {
 
 #define FP_CURRENT_KP 17
 #define FP_CURRENT_KI 18
-#define FP_CURRENT_INTEGRAL_LIMIT 19
 
 #define FP_AUTOSYNC 0
 #define FP_CASCADED 1
@@ -354,6 +354,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"INTEGRAL_LIMIT",          { CParamDataType::C_TYPE_UINT16, PARAM_INTEGRAL_LIMIT, FP_INTEGRAL_LIMIT}},
     {"UPPER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_UPPER_LIMIT, FP_UPPER_LIMIT}},
     {"ADC_CS_DIV",              { CParamDataType::C_TYPE_UINT16, PARAM_ADC_CS_DIV, FP_ADC_CS_DIV}},
+    {"CURRENT_INTEGRAL_LIMIT",  { CParamDataType::C_TYPE_UINT16, PARAM_CURRENT_INTEGRAL_LIMIT, FP_CURRENT_INTEGRAL_LIMIT}},
 
     {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16, PARAM_LEFT_FORWARD_DEADZONE, FP_LEFT_FORWARD_DEADZONE}},
     {"LEFT_REVERSE_DEADZONE",   { CParamDataType::C_TYPE_INT16, PARAM_LEFT_REVERSE_DEADZONE, FP_LEFT_REVERSE_DEADZONE}},
@@ -384,7 +385,6 @@ const std::map<std::string, ParamMetadata> ParamMap = {
 
     {"CURRENT_KP",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KP, FP_CURRENT_KP}},
     {"CURRENT_KI",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KI, FP_CURRENT_KI}},
-    {"CURRENT_INTEGRAL_LIMIT",  { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_INTEGRAL_LIMIT, FP_CURRENT_INTEGRAL_LIMIT}},
 
     {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}},
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}},
