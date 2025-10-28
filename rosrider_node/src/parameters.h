@@ -345,9 +345,11 @@ struct ParamMetadata {
 #define FP_CURRENT_KI 18
 
 #define FP_AUTOSYNC 0
-#define FP_CASCADED 1
-#define FP_BACKEMF 2
-#define FP_IDLE_BRAKE 3
+#define FP_ADCSYNC 1
+#define FP_FASTADC 2
+#define FP_CASCADED 3
+#define FP_BACKEMF 4
+#define FP_IDLE_BRAKE 6
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
@@ -392,6 +394,8 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"CURRENT_KI",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KI, FP_CURRENT_KI}},
 
     {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}},
+    {"ADCSYNC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_ADCSYNC, FP_ADCSYNC}},
+    {"FASTADC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_FASTADC, FP_FASTADC}},
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}},
     {"BACKEMF",                 { CParamDataType::C_TYPE_BOOL,  PARAM_BACKEMF, FP_BACKEMF}},
     {"IDLE_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_IDLE_BRAKE, FP_IDLE_BRAKE}},
