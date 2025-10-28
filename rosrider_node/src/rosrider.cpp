@@ -143,6 +143,10 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("TANH_DIV", DEFAULT_TANH_DIV);
 			this->declare_parameter("SIGM_DIV", DEFAULT_SIGM_DIV);
 
+			this->declare_parameter("CURRENT_KP", DEFAULT_CURRENT_KP);
+			this->declare_parameter("CURRENT_KI", DEFAULT_CURRENT_KI);
+			this->declare_parameter("CURRENT_INTEGRAL_LIMIT", DEFAULT_CURRENT_INTEGRAL_LIMIT);
+
 			params_float[PARAM_GEAR_RATIO] = (float) this->get_parameter("GEAR_RATIO").as_double();
 			params_float[PARAM_WHEEL_DIA] = (float) this->get_parameter("WHEEL_DIA").as_double();
 			params_float[PARAM_BASE_WIDTH] = (float) this->get_parameter("BASE_WIDTH").as_double();
@@ -165,6 +169,10 @@ class ROSRider : public rclcpp::Node {
 			params_float[PARAM_GAIN] = (float) this->get_parameter("GAIN").as_double();
 			params_float[PARAM_TRIM] = (float) this->get_parameter("TRIM").as_double();
 			params_float[PARAM_MOTOR_CONSTANT] = (float) this->get_parameter("MOTOR_CONSTANT").as_double();
+
+			params_float[PARAM_CURRENT_KP] = (float) this->get_parameter("CURRENT_KP").as_double();
+			params_float[PARAM_CURRENT_KI] = (float) this->get_parameter("CURRENT_KI").as_double();
+			params_float[PARAM_CURRENT_INTEGRAL_LIMIT] = (float) this->get_parameter("CURRENT_INTEGRAL_LIMIT").as_double();
 			
 			// local parameters
 			this->declare_parameter("I2C_ENABLED", true);

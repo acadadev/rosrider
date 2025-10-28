@@ -93,6 +93,10 @@
 #define DEFAULT_TANH_DIV (2.0F)
 #define DEFAULT_SIGM_DIV (10.0F)
 
+#define DEFAULT_CURRENT_KP (1.0F)
+#define DEFAULT_CURRENT_KI (1.0F)
+#define DEFAULT_CURRENT_INTEGRAL_LIMIT (128.0F)
+
 #define PARAM_GEAR_RATIO 0
 #define PARAM_WHEEL_DIA 1
 #define PARAM_BASE_WIDTH 2
@@ -113,6 +117,10 @@
 #define PARAM_MOTOR_CONSTANT 17
 #define PARAM_TANH_DIV 18
 #define PARAM_SIGM_DIV 19
+
+#define PARAM_CURRENT_KP 20
+#define PARAM_CURRENT_KI 21
+#define PARAM_CURRENT_INTEGRAL_LIMIT 22
 
 #define DEFAULT_AUTOSYNC true
 #define DEFAULT_ADCSYNC true
@@ -194,7 +202,7 @@ const char *names_int16[] = { "LEFT_FORWARD_DEADZONE",
                               "RIGHT_REVERSE_DEADZONE" };
 
 // float array
-#define SIZE_PARAMS_FLOAT 20
+#define SIZE_PARAMS_FLOAT 23
 float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_GEAR_RATIO,
                                DEFAULT_WHEEL_DIA,
@@ -215,7 +223,10 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_TRIM,
                                DEFAULT_MOTOR_CONSTANT,
                                DEFAULT_TANH_DIV,
-                               DEFAULT_SIGM_DIV
+                               DEFAULT_SIGM_DIV,
+                               DEFAULT_CURRENT_KP,
+                               DEFAULT_CURRENT_KI,
+                               DEFAULT_CURRENT_INTEGRAL_LIMIT
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -237,7 +248,10 @@ const char *names_float[] = { "GEAR_RATIO",
                               "TRIM",
                               "MOTOR_CONSTANT",
                               "TANH_DIV",
-                              "SIGM_DIV" };
+                              "SIGM_DIV",
+                              "CKP",
+                              "CKI",
+                              "CINTG" };
 
 #define SIZE_PARAMS_BOOL 5
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
@@ -322,6 +336,10 @@ struct ParamMetadata {
 #define FP_TANH_DIV 15
 #define FP_SIGM_DIV 16
 
+#define FP_CURRENT_KP 17
+#define FP_CURRENT_KI 18
+#define FP_CURRENT_INTEGRAL_LIMIT 19
+
 #define FP_AUTOSYNC 0
 #define FP_CASCADED 1
 #define FP_BACKEMF 2
@@ -363,6 +381,10 @@ const std::map<std::string, ParamMetadata> ParamMap = {
 
     {"TANH_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_TANH_DIV, FP_TANH_DIV}},
     {"SIGM_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_SIGM_DIV, FP_SIGM_DIV}},
+
+    {"CURRENT_KP",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KP, FP_CURRENT_KP}},
+    {"CURRENT_KI",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KI, FP_CURRENT_KI}},
+    {"CURRENT_INTEGRAL_LIMIT",  { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_INTEGRAL_LIMIT, FP_CURRENT_INTEGRAL_LIMIT}},
 
     {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}},
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}},
