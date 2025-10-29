@@ -52,7 +52,7 @@
     I2C_ADDRESS: 0x3c
     ADCSYNC: True
     FASTADC: False
-    CASCADED: True
+    CASCADED: False
     BACKEMF: False
     IDLE_BRAKE: False
     INA219_CAL: 11469
