@@ -53,7 +53,7 @@
     ADCSYNC: True
     FASTADC: False
     CASCADED: True
-    BACKEMF: True
+    BACKEMF: False
     IDLE_BRAKE: False
     INA219_CAL: 11469
     TANH_DIV: 2.0
