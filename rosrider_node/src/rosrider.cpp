@@ -102,11 +102,15 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("LEFT_REVERSE_DEADZONE", DEFAULT_LEFT_REVERSE_DEADZONE);
 			this->declare_parameter("RIGHT_FORWARD_DEADZONE", DEFAULT_RIGHT_FORWARD_DEADZONE);
 			this->declare_parameter("RIGHT_REVERSE_DEADZONE", DEFAULT_RIGHT_REVERSE_DEADZONE);
+			this->declare_parameter("CS_LEFT_OFFSET", DEFAULT_CS_LEFT_OFFSET);
+			this->declare_parameter("CS_RIGHT_OFFSET", DEFAULT_CS_RIGHT_OFFSET);
 
 			params_int16[PARAM_LEFT_FORWARD_DEADZONE] = this->get_parameter("LEFT_FORWARD_DEADZONE").as_int();
 			params_int16[PARAM_LEFT_REVERSE_DEADZONE] = this->get_parameter("LEFT_REVERSE_DEADZONE").as_int();
 			params_int16[PARAM_RIGHT_FORWARD_DEADZONE] = this->get_parameter("RIGHT_FORWARD_DEADZONE").as_int();
 			params_int16[PARAM_RIGHT_REVERSE_DEADZONE] = this->get_parameter("RIGHT_REVERSE_DEADZONE").as_int();
+			params_int16[PARAM_CS_LEFT_OFFSET] = this->get_parameter("LEFT_CS_OFFSET").as_int();
+			params_int16[PARAM_CS_RIGHT_OFFSET] = this->get_parameter("RIGHT_CS_OFFSET").as_int();
 
 			// boolean parameters
 			this->declare_parameter("AUTOSYNC", DEFAULT_AUTOSYNC);
