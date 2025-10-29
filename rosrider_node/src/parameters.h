@@ -305,14 +305,16 @@ struct ParamMetadata {
 };
 
 #define FP_DRIVE_MODE 0
-#define FP_OUTPUT_FILTER_TYPE 1
+#define FP_PWM_DIV 1
+#define FP_OUTPUT_FILTER_TYPE 2
 
 #define FP_PWM_SCALE 0
-#define FP_MAX_IDLE_SECONDS 1
-#define FP_INTEGRAL_LIMIT 2
-#define FP_UPPER_LIMIT 3
-#define FP_ADC_CS_DIV 4
-#define FP_CURRENT_INTEGRAL_LIMIT 5
+#define FP_PWM_FRQ 1
+#define FP_MAX_IDLE_SECONDS 2
+#define FP_INTEGRAL_LIMIT 3
+#define FP_UPPER_LIMIT 4
+#define FP_ADC_CS_DIV 5
+#define FP_CURRENT_INTEGRAL_LIMIT 6
 
 #define FP_LEFT_FORWARD_DEADZONE 0
 #define FP_LEFT_REVERSE_DEADZONE 1
@@ -354,9 +356,11 @@ struct ParamMetadata {
 const std::map<std::string, ParamMetadata> ParamMap = {
 
     {"DRIVE_MODE",              { CParamDataType::C_TYPE_UINT8,  PARAM_DRIVE_MODE, FP_DRIVE_MODE}},
+    {"PWM_DIV",                 { CParamDataType::C_TYPE_UINT8,  PARAM_PWM_DIV, FP_PWM_DIV}},
     {"OUTPUT_FILTER_TYPE",      { CParamDataType::C_TYPE_UINT8,  PARAM_OUTPUT_FILTER_TYPE, FP_OUTPUT_FILTER_TYPE}},
 
     {"PWM_SCALE",               { CParamDataType::C_TYPE_UINT16, PARAM_PWM_SCALE, FP_PWM_SCALE}},
+    {"PWM_FRQ",                 { CParamDataType::C_TYPE_UINT16, PARAM_PWM_FRQ, FP_PWM_FRQ}},
     {"MAX_IDLE_SECONDS",        { CParamDataType::C_TYPE_UINT16, PARAM_MAX_IDLE_SECONDS, FP_MAX_IDLE_SECONDS}},
     {"INTEGRAL_LIMIT",          { CParamDataType::C_TYPE_UINT16, PARAM_INTEGRAL_LIMIT, FP_INTEGRAL_LIMIT}},
     {"UPPER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_UPPER_LIMIT, FP_UPPER_LIMIT}},

@@ -512,7 +512,7 @@ class ROSRider : public rclcpp::Node {
 	            	print_sys_status(this->get_logger(), SYS_STATUS);
 	            	if(SYS_STATUS & 0x40) { 
 					    send_device_reset();
-					    rclcpp::sleep_for(2000ms);
+					    rclcpp::sleep_for(1000ms); // TODO: 2000
 	            	}
 	            }
 
