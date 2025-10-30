@@ -8,10 +8,6 @@ import pathlib
 import launch.actions
 from launch.actions import DeclareLaunchArgument
 
-'''
-TODO: ability to have own teleop launch with own config instead of the systems.
-'''
-
 def generate_launch_description():
 
     ROBOT_MODEL = os.environ['ROBOT_MODEL']

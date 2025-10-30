@@ -34,9 +34,13 @@ const std::string i2c_filename = "/dev/i2c-1";
 int16_t cs_left_scaled;
 int16_t cs_right_scaled;
 
-// TODO: detect node if node already running and exit or make it lifecycle based
-// TODO: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
-// TODO: base_width default 0.1, equalize on firmware
+// TODO: HEAD: detect node if node already running and exit or make it lifecycle based
+// TODO: HEAD: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
+// TODO: HEAD: base_width default 0.1, equalize on firmware
+// TODO: HEAD: the board has idle seconds, can make that 1800 or 600 instead of 3600
+// TODO: HEAD: ros2pri config can be improved. right now we send hibernate, and hat-off command during shutdown
+//             and haton comment at startup.
+// TODO: ignore motor_status fault, or print once and ignore
 
 class ROSRider : public rclcpp::Node {
 
@@ -45,7 +49,6 @@ class ROSRider : public rclcpp::Node {
 		ROSRider() : Node("rosrider_node") {
 
 		    rclcpp::on_shutdown([this]() {
-		        // TODO: the board has idle seconds, can make that half hour or 10 minutes
                 if(ros2rpi_config > 0) {
                     // procedure to hibernate and hat off runs only if ros2rpi_config > 0
                     send_sysctl(fd, 0x05);       // system hibernate
@@ -62,7 +65,6 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("ALLOWED_SKIP", DEFAULT_ALLOWED_SKIP);
 			this->declare_parameter("I2C_ADDRESS", DEFAULT_I2C_ADDRESS);
 			this->declare_parameter("OUTPUT_FILTER_TYPE", DEFAULT_OUTPUT_FILTER_TYPE);
-
 			this->declare_parameter("INNER_FILTER_TYPE", DEFAULT_INNER_FILTER_TYPE);
 
 			params_uint8[PARAM_CONFIG_FLAGS] = this->get_parameter("CONFIG_FLAGS").as_int();
@@ -73,7 +75,6 @@ class ROSRider : public rclcpp::Node {
 			params_uint8[PARAM_ALLOWED_SKIP] = this->get_parameter("ALLOWED_SKIP").as_int();
 			params_uint8[PARAM_I2C_ADDRESS] = this->get_parameter("I2C_ADDRESS").as_int();
 			params_uint8[PARAM_OUTPUT_FILTER_TYPE] = this->get_parameter("OUTPUT_FILTER_TYPE").as_int();
-
 			params_uint8[PARAM_INNER_FILTER_TYPE] = this->get_parameter("INNER_FILTER_TYPE").as_int();
 
             // uint16 parameters
@@ -84,7 +85,6 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("INTEGRAL_LIMIT", DEFAULT_INTEGRAL_LIMIT);
 			this->declare_parameter("ENCODER_PPR", DEFAULT_ENCODER_PPR);
 			this->declare_parameter("INA219_CAL", DEFAULT_INA219_CAL);
-			this->declare_parameter("ADC_CS_DIV", DEFAULT_ADC_CS_DIV);
 			this->declare_parameter("CURRENT_INTEGRAL_LIMIT", DEFAULT_CURRENT_INTEGRAL_LIMIT);
 
 			params_uint16[PARAM_PWM_SCALE] = this->get_parameter("PWM_SCALE").as_int();
@@ -94,7 +94,6 @@ class ROSRider : public rclcpp::Node {
 			params_uint16[PARAM_INTEGRAL_LIMIT] = this->get_parameter("INTEGRAL_LIMIT").as_int();
 			params_uint16[PARAM_ENCODER_PPR] = this->get_parameter("ENCODER_PPR").as_int();
 			params_uint16[PARAM_INA219_CAL] = this->get_parameter("INA219_CAL").as_int();
-			params_uint16[PARAM_ADC_CS_DIV] = this->get_parameter("ADC_CS_DIV").as_int();
 			params_uint16[PARAM_CURRENT_INTEGRAL_LIMIT] = this->get_parameter("CURRENT_INTEGRAL_LIMIT").as_int();
 
             // uint32 parameters
@@ -119,23 +118,17 @@ class ROSRider : public rclcpp::Node {
 			// boolean parameters
 			this->declare_parameter("AUTOSYNC", DEFAULT_AUTOSYNC);
 			this->declare_parameter("ADCSYNC", DEFAULT_ADCSYNC);
-			this->declare_parameter("FASTADC", DEFAULT_FASTADC);
 			this->declare_parameter("CASCADED", DEFAULT_CASCADED);
 			this->declare_parameter("BACKEMF", DEFAULT_BACKEMF);
 			this->declare_parameter("IDLE_BRAKE", DEFAULT_IDLE_BRAKE);
-
 			this->declare_parameter("CASCADE_FILTER", DEFAULT_CASCADE_FILTER);
-			this->declare_parameter("AUTO_BIAS", DEFAULT_AUTO_BIAS);
 
 			params_bool[PARAM_AUTOSYNC] = this->get_parameter("AUTOSYNC").as_bool();
 			params_bool[PARAM_ADCSYNC] = this->get_parameter("ADCSYNC").as_bool();
-			params_bool[PARAM_FASTADC] = this->get_parameter("FASTADC").as_bool();
 			params_bool[PARAM_CASCADED] = this->get_parameter("CASCADED").as_bool();
 			params_bool[PARAM_BACKEMF] = this->get_parameter("BACKEMF").as_bool();
 			params_bool[PARAM_IDLE_BRAKE] = this->get_parameter("IDLE_BRAKE").as_bool();
-
 			params_bool[PARAM_CASCADE_FILTER] = this->get_parameter("CASCADE_FILTER").as_bool();
-			params_bool[PARAM_AUTO_BIAS] = this->get_parameter("AUTO_BIAS").as_bool();
 
             // float parameters
 			this->declare_parameter("GEAR_RATIO", DEFAULT_GEAR_RATIO);
@@ -163,6 +156,8 @@ class ROSRider : public rclcpp::Node {
 
 			this->declare_parameter("CURRENT_KP", DEFAULT_CURRENT_KP);
 			this->declare_parameter("CURRENT_KI", DEFAULT_CURRENT_KI);
+			this->declare_parameter("CURRENT_MULTIPLIER", DEFAULT_CURRENT_OBSERVED_MULTIPLIER);
+			this->declare_parameter("CURRENT_BIAS", DEFAULT_CURRENT_OBSERVED_BIAS);
 
 			params_float[PARAM_GEAR_RATIO] = (float) this->get_parameter("GEAR_RATIO").as_double();
 			params_float[PARAM_WHEEL_DIA] = (float) this->get_parameter("WHEEL_DIA").as_double();
@@ -189,6 +184,8 @@ class ROSRider : public rclcpp::Node {
 
 			params_float[PARAM_CURRENT_KP] = (float) this->get_parameter("CURRENT_KP").as_double();
 			params_float[PARAM_CURRENT_KI] = (float) this->get_parameter("CURRENT_KI").as_double();
+			params_float[PARAM_CURRENT_OBSERVED_MULTIPLIER] = (float) this->get_parameter("CURRENT_MULTIPLIER").as_double();
+			params_float[PARAM_CURRENT_OBSERVED_BIAS] = (float) this->get_parameter("CURRENT_BIAS").as_double();
 
 			// local parameters
 			this->declare_parameter("I2C_ENABLED", true);
@@ -526,7 +523,7 @@ class ROSRider : public rclcpp::Node {
 	            	print_sys_status(this->get_logger(), SYS_STATUS);
 	            	if(SYS_STATUS & 0x40) { 
 					    send_device_reset();
-					    rclcpp::sleep_for(1000ms); // TODO: 2000
+					    rclcpp::sleep_for(1000ms);
 	            	}
 	            }
 
@@ -535,7 +532,6 @@ class ROSRider : public rclcpp::Node {
 	            }
 
 	            if(MTR_STATUS != prev_MTR_STATUS) {
-	                // TODO: ignore fault, or print once and ignore
 	            	print_mtr_status(this->get_logger(), MTR_STATUS);
 	            }
 

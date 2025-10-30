@@ -46,7 +46,6 @@
 #define DEFAULT_INTEGRAL_LIMIT 128
 #define DEFAULT_ENCODER_PPR 48
 #define DEFAULT_INA219_CAL 8192
-#define DEFAULT_ADC_CS_DIV 32
 #define DEFAULT_CURRENT_INTEGRAL_LIMIT 128
 
 #define PARAM_PWM_SCALE 0
@@ -56,8 +55,7 @@
 #define PARAM_INTEGRAL_LIMIT 4
 #define PARAM_ENCODER_PPR 5
 #define PARAM_INA219_CAL 6
-#define PARAM_ADC_CS_DIV 7
-#define PARAM_CURRENT_INTEGRAL_LIMIT 8
+#define PARAM_CURRENT_INTEGRAL_LIMIT 7
 
 // uint32
 #define DEFAULT_RTC_TRIM 0x7FFF
@@ -102,6 +100,8 @@
 #define DEFAULT_SIGM_DIV (10.0F)
 #define DEFAULT_CURRENT_KP (1.0F)
 #define DEFAULT_CURRENT_KI (1.0F)
+#define DEFAULT_CURRENT_OBSERVED_MULTIPLIER (1.0F)
+#define DEFAULT_CURRENT_OBSERVED_BIAS (0.0F)
 
 #define PARAM_GEAR_RATIO 0
 #define PARAM_WHEEL_DIA 1
@@ -125,24 +125,22 @@
 #define PARAM_SIGM_DIV 19
 #define PARAM_CURRENT_KP 20
 #define PARAM_CURRENT_KI 21
+#define PARAM_CURRENT_OBSERVED_MULTIPLIER 22
+#define PARAM_CURRENT_OBSERVED_BIAS 23
 
 #define DEFAULT_AUTOSYNC true
 #define DEFAULT_ADCSYNC true
-#define DEFAULT_FASTADC false
 #define DEFAULT_CASCADED false
 #define DEFAULT_BACKEMF false
 #define DEFAULT_IDLE_BRAKE false
 #define DEFAULT_CASCADE_FILTER false
-#define DEFAULT_AUTO_BIAS false
 
 #define PARAM_AUTOSYNC 0
 #define PARAM_ADCSYNC 1
-#define PARAM_FASTADC 2
-#define PARAM_CASCADED 3
-#define PARAM_BACKEMF 4
-#define PARAM_IDLE_BRAKE 5
-#define PARAM_CASCADE_FILTER 6
-#define PARAM_AUTO_BIAS 7
+#define PARAM_CASCADED 2
+#define PARAM_BACKEMF 3
+#define PARAM_IDLE_BRAKE 4
+#define PARAM_CASCADE_FILTER 5
 
 // uint8 array
 #define SIZE_PARAMS_UINT8 9
@@ -170,7 +168,7 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                             };
 
 // uint16 array
-#define SIZE_PARAMS_UINT16 9
+#define SIZE_PARAMS_UINT16 8
 uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_PWM_SCALE,
                                 DEFAULT_PWM_FRQ,
@@ -179,7 +177,6 @@ uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_INTEGRAL_LIMIT,
                                 DEFAULT_ENCODER_PPR,
                                 DEFAULT_INA219_CAL,
-                                DEFAULT_ADC_CS_DIV,
                                 DEFAULT_CURRENT_INTEGRAL_LIMIT
                             };
 
@@ -190,7 +187,6 @@ const char *names_uint16[] = { "PWM_SCALE",
                                "INTEGRAL_LIMIT",
                                "ENCODER_PPR",
                                "INA219_CAL",
-                               "ADC_CS_DIV",
                                "CURRENT_INTEGRAL_LIMIT" };
 
 // uint32 array
@@ -220,7 +216,7 @@ const char *names_int16[] = { "LEFT_FORWARD_DEADZONE",
                               "CS_RIGHT_OFFSET" };
 
 // float array
-#define SIZE_PARAMS_FLOAT 22
+#define SIZE_PARAMS_FLOAT 24
 float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_GEAR_RATIO,
                                DEFAULT_WHEEL_DIA,
@@ -243,7 +239,9 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_TANH_DIV,
                                DEFAULT_SIGM_DIV,
                                DEFAULT_CURRENT_KP,
-                               DEFAULT_CURRENT_KI
+                               DEFAULT_CURRENT_KI,
+                               DEFAULT_CURRENT_OBSERVED_MULTIPLIER,
+                               DEFAULT_CURRENT_OBSERVED_BIAS
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -267,25 +265,24 @@ const char *names_float[] = { "GEAR_RATIO",
                               "TANH_DIV",
                               "SIGM_DIV",
                               "CURRENT_KP",
-                              "CURRENT_KI" };
+                              "CURRENT_KI",
+                              "CURRENT_MULTIPLIER",
+                              "CURRENT_BIAS" };
 
-#define SIZE_PARAMS_BOOL 8
+#define SIZE_PARAMS_BOOL 6
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
                                        DEFAULT_ADCSYNC,
-                                       DEFAULT_FASTADC,
                                        DEFAULT_CASCADED,
                                        DEFAULT_BACKEMF,
                                        DEFAULT_IDLE_BRAKE,
-                                       DEFAULT_CASCADE_FILTER,
-                                       DEFAULT_AUTO_BIAS };
+                                       DEFAULT_CASCADE_FILTER };
+
 const char *names_bool[] = { "AUTOSYNC",
                              "ADCSYNC",
-                             "FASTADC",
                              "CASCADED",
                              "BACKEMF",
                              "IDLE_BRAKE",
-                             "CASCADE_FILTER",
-                             "AUTO_BIAS" };
+                             "CASCADE_FILTER" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -332,8 +329,7 @@ struct ParamMetadata {
 #define FP_MAX_IDLE_SECONDS 2
 #define FP_INTEGRAL_LIMIT 3
 #define FP_UPPER_LIMIT 4
-#define FP_ADC_CS_DIV 5
-#define FP_CURRENT_INTEGRAL_LIMIT 6
+#define FP_CURRENT_INTEGRAL_LIMIT 5
 
 #define FP_LEFT_FORWARD_DEADZONE 0
 #define FP_LEFT_REVERSE_DEADZONE 1
@@ -343,38 +339,33 @@ struct ParamMetadata {
 #define FP_CS_RIGHT_OFFSET 5
 
 #define FP_MAX_RPM 0
-
 #define FP_LEFT_KP 1
 #define FP_RIGHT_KP 2
 #define FP_LEFT_KI 3
 #define FP_RIGHT_KI 4
 #define FP_LEFT_KD 5
 #define FP_RIGHT_KD 6
-
 #define FP_GAIN 7
 #define FP_TRIM 8
 #define FP_MOTOR_CONSTANT 9
-
 #define FP_BAT_VOLTS_LOW 10
 #define FP_BAT_VOLTS_HIGH 11
 #define FP_MAIN_AMP_LIMIT 12
 #define FP_LEFT_AMP_LIMIT 13
 #define FP_RIGHT_AMP_LIMIT 14
-
 #define FP_TANH_DIV 15
 #define FP_SIGM_DIV 16
-
 #define FP_CURRENT_KP 17
 #define FP_CURRENT_KI 18
+#define FP_CURRENT_OBSERVED_MULTIPLIER 19
+#define FP_CURRENT_OBSERVED_BIAS 20
 
 #define FP_AUTOSYNC 0
 #define FP_ADCSYNC 1
-#define FP_FASTADC 2
-#define FP_CASCADED 3
-#define FP_BACKEMF 4
-#define FP_IDLE_BRAKE 5
-#define FP_CASCADE_FILTER 6
-#define FP_AUTO_BIAS 7
+#define FP_CASCADED 2
+#define FP_BACKEMF 3
+#define FP_IDLE_BRAKE 4
+#define FP_CASCADE_FILTER 5
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
@@ -388,7 +379,6 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"MAX_IDLE_SECONDS",        { CParamDataType::C_TYPE_UINT16, PARAM_MAX_IDLE_SECONDS, FP_MAX_IDLE_SECONDS}},
     {"INTEGRAL_LIMIT",          { CParamDataType::C_TYPE_UINT16, PARAM_INTEGRAL_LIMIT, FP_INTEGRAL_LIMIT}},
     {"UPPER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_UPPER_LIMIT, FP_UPPER_LIMIT}},
-    {"ADC_CS_DIV",              { CParamDataType::C_TYPE_UINT16, PARAM_ADC_CS_DIV, FP_ADC_CS_DIV}},
     {"CURRENT_INTEGRAL_LIMIT",  { CParamDataType::C_TYPE_UINT16, PARAM_CURRENT_INTEGRAL_LIMIT, FP_CURRENT_INTEGRAL_LIMIT}},
 
     {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_FORWARD_DEADZONE, FP_LEFT_FORWARD_DEADZONE}},
@@ -422,15 +412,15 @@ const std::map<std::string, ParamMetadata> ParamMap = {
 
     {"CURRENT_KP",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KP, FP_CURRENT_KP}},
     {"CURRENT_KI",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KI, FP_CURRENT_KI}},
+    {"CURRENT_MULTIPLIER",      { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_OBSERVED_MULTIPLIER, FP_CURRENT_OBSERVED_MULTIPLIER}},
+    {"CURRENT_BIAS",            { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_OBSERVED_BIAS, FP_CURRENT_OBSERVED_BIAS}},
 
     {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}},
     {"ADCSYNC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_ADCSYNC, FP_ADCSYNC}},
-    {"FASTADC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_FASTADC, FP_FASTADC}},
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}},
     {"BACKEMF",                 { CParamDataType::C_TYPE_BOOL,  PARAM_BACKEMF, FP_BACKEMF}},
     {"IDLE_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_IDLE_BRAKE, FP_IDLE_BRAKE}},
-    {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER, FP_CASCADE_FILTER}},
-    {"AUTO_BIAS",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BIAS, FP_AUTO_BIAS}},
+    {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER, FP_CASCADE_FILTER}}
 
 };
 

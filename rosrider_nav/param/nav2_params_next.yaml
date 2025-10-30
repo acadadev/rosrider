@@ -342,7 +342,7 @@ velocity_smoother:
     scale_velocities: False
     feedback: "OPEN_LOOP"
     max_velocity: [0.5, 0.0, 2.0]   # default value: [0.5, 0.0, 2.0]
-    min_velocity: [-0.5, 0.0, -2.0] # default value: [-0.5, 0.0, -2.0] # TODO: put these in ekf filter
+    min_velocity: [-0.5, 0.0, -2.0] # default value: [-0.5, 0.0, -2.0] # TODO: CONFIG: put these in ekf filter
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"

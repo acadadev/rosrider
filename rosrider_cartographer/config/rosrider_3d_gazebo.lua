@@ -8,7 +8,7 @@ options = {
   tracking_frame = "base_link",
   published_frame = "odom",
   odom_frame = "odom",
-  provide_odom_frame = false, -- TODO: research, was true
+  provide_odom_frame = false, -- TODO: AUDIT: research, was true
   publish_frame_projected_to_2d = false,
   use_pose_extrapolator = true,
   use_odometry = true,
@@ -32,7 +32,7 @@ options = {
 TRAJECTORY_BUILDER_3D.num_accumulated_range_data = 160
 
 MAP_BUILDER.use_trajectory_builder_3d = true
-MAP_BUILDER.num_background_threads = 14 -- TODO: was 7
+MAP_BUILDER.num_background_threads = 14 -- TODO: CONFIG: was 7
 POSE_GRAPH.optimization_problem.huber_scale = 5e2
 POSE_GRAPH.optimize_every_n_nodes = 320
 POSE_GRAPH.constraint_builder.sampling_ratio = 0.03
