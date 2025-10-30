@@ -41,7 +41,7 @@
 // uint16
 #define DEFAULT_PWM_SCALE 256
 #define DEFAULT_PWM_FRQ 50
-#define DEFAULT_MAX_IDLE_SECONDS 3600
+#define DEFAULT_MAX_IDLE_SECONDS 1800
 #define DEFAULT_UPPER_LIMIT 244
 #define DEFAULT_INTEGRAL_LIMIT 128
 #define DEFAULT_ENCODER_PPR 48
@@ -132,15 +132,13 @@
 #define DEFAULT_ADCSYNC true
 #define DEFAULT_CASCADED false
 #define DEFAULT_BACKEMF false
-#define DEFAULT_IDLE_BRAKE false
 #define DEFAULT_CASCADE_FILTER false
 
 #define PARAM_AUTOSYNC 0
 #define PARAM_ADCSYNC 1
 #define PARAM_CASCADED 2
 #define PARAM_BACKEMF 3
-#define PARAM_IDLE_BRAKE 4
-#define PARAM_CASCADE_FILTER 5
+#define PARAM_CASCADE_FILTER 4
 
 // uint8 array
 #define SIZE_PARAMS_UINT8 9
@@ -269,19 +267,17 @@ const char *names_float[] = { "GEAR_RATIO",
                               "CURRENT_MULTIPLIER",
                               "CURRENT_BIAS" };
 
-#define SIZE_PARAMS_BOOL 6
+#define SIZE_PARAMS_BOOL 5
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
                                        DEFAULT_ADCSYNC,
                                        DEFAULT_CASCADED,
                                        DEFAULT_BACKEMF,
-                                       DEFAULT_IDLE_BRAKE,
                                        DEFAULT_CASCADE_FILTER };
 
 const char *names_bool[] = { "AUTOSYNC",
                              "ADCSYNC",
                              "CASCADED",
                              "BACKEMF",
-                             "IDLE_BRAKE",
                              "CASCADE_FILTER" };
 
 // calculated parameters
@@ -365,8 +361,7 @@ struct ParamMetadata {
 #define FP_ADCSYNC 1
 #define FP_CASCADED 2
 #define FP_BACKEMF 3
-#define FP_IDLE_BRAKE 4
-#define FP_CASCADE_FILTER 5
+#define FP_CASCADE_FILTER 4
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
@@ -421,7 +416,6 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"ADCSYNC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_ADCSYNC, FP_ADCSYNC}},
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}},
     {"BACKEMF",                 { CParamDataType::C_TYPE_BOOL,  PARAM_BACKEMF, FP_BACKEMF}},
-    {"IDLE_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_IDLE_BRAKE, FP_IDLE_BRAKE}},
     {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER, FP_CASCADE_FILTER}}
 
 };

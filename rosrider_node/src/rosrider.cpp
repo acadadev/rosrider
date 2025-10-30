@@ -37,7 +37,6 @@ int16_t cs_right_scaled;
 // TODO: HEAD: detect node if node already running and exit or make it lifecycle based
 // TODO: HEAD: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
 // TODO: HEAD: base_width default 0.1, equalize on firmware
-// TODO: HEAD: the board has idle seconds, can make that 1800 or 600 instead of 3600
 // TODO: HEAD: ros2pri config can be improved. right now we send hibernate, and hat-off command during shutdown
 //             and haton comment at startup.
 // TODO: ignore motor_status fault, or print once and ignore
@@ -120,14 +119,12 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("ADCSYNC", DEFAULT_ADCSYNC);
 			this->declare_parameter("CASCADED", DEFAULT_CASCADED);
 			this->declare_parameter("BACKEMF", DEFAULT_BACKEMF);
-			this->declare_parameter("IDLE_BRAKE", DEFAULT_IDLE_BRAKE);
 			this->declare_parameter("CASCADE_FILTER", DEFAULT_CASCADE_FILTER);
 
 			params_bool[PARAM_AUTOSYNC] = this->get_parameter("AUTOSYNC").as_bool();
 			params_bool[PARAM_ADCSYNC] = this->get_parameter("ADCSYNC").as_bool();
 			params_bool[PARAM_CASCADED] = this->get_parameter("CASCADED").as_bool();
 			params_bool[PARAM_BACKEMF] = this->get_parameter("BACKEMF").as_bool();
-			params_bool[PARAM_IDLE_BRAKE] = this->get_parameter("IDLE_BRAKE").as_bool();
 			params_bool[PARAM_CASCADE_FILTER] = this->get_parameter("CASCADE_FILTER").as_bool();
 
             // float parameters
