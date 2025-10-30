@@ -55,7 +55,6 @@
     ADCSYNC: True
     CASCADED: False
     BACKEMF: False
-    IDLE_BRAKE: False
     CASCADE_FILTER: False
     INA219_CAL: 8192
     TANH_DIV: 2.0

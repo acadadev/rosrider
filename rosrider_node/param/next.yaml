@@ -10,7 +10,7 @@
     ROS2RPI_CONFIG: 0x0F # 0x00 # 0x0F # 0x33
     AUTOSYNC: True
     DEBUG: False
-    CONFIG_FLAGS: 48
+    CONFIG_FLAGS: 112
     UPDATE_RATE: 20
     ALLOWED_SKIP: 3
     PWM_DIV: 16
@@ -53,9 +53,8 @@
     MOTOR_CONSTANT: 1.0
     I2C_ADDRESS: 0x3c
     ADCSYNC: True
-    CASCADED: False
-    BACKEMF: False
-    IDLE_BRAKE: False
+    CASCADED: True
+    BACKEMF: True
     CASCADE_FILTER: False
     INA219_CAL: 11469
     TANH_DIV: 2.0
