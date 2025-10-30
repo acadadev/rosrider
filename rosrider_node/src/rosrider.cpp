@@ -834,7 +834,7 @@ class ROSRider : public rclcpp::Node {
                 RCLCPP_INFO(this->get_logger(), "%s: %s, Success", names[index], value);
                 success_count++;
             } else if(param_result_buffer[3] == I2C_WRITE_RESULT_UNCHANGED) {
-                RCLCPP_INFO(this->get_logger(), "%s: %s, Unmodified", names[index], value);
+                // RCLCPP_INFO(this->get_logger(), "%s: %s, Unmodified", names[index], value);
                 unmodified_count++;
             } else if(param_result_buffer[3] == I2C_WRITE_RESULT_OVERRIDE) {
                 RCLCPP_INFO(this->get_logger(), "%s: %s, Override", names[index], value);
