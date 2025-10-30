@@ -319,10 +319,11 @@ struct ParamMetadata {
     uint8_t fp_index;               // Function Pointer Index
 };
 
-#define FP_DRIVE_MODE 0
-#define FP_PWM_DIV 1
-#define FP_OUTPUT_FILTER_TYPE 2
-#define FP_INNER_FILTER_TYPE 3
+#define FP_CONFIG_FLAGS 0
+#define FP_DRIVE_MODE 1
+#define FP_PWM_DIV 2
+#define FP_OUTPUT_FILTER_TYPE 3
+#define FP_INNER_FILTER_TYPE 4
 
 #define FP_PWM_SCALE 0
 #define FP_PWM_FRQ 1
@@ -369,6 +370,7 @@ struct ParamMetadata {
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
+    {"CONFIG_FLAGS",            { CParamDataType::C_TYPE_UINT8,  PARAM_CONFIG_FLAGS, FP_CONFIG_FLAGS}},
     {"DRIVE_MODE",              { CParamDataType::C_TYPE_UINT8,  PARAM_DRIVE_MODE, FP_DRIVE_MODE}},
     {"PWM_DIV",                 { CParamDataType::C_TYPE_UINT8,  PARAM_PWM_DIV, FP_PWM_DIV}},
     {"OUTPUT_FILTER_TYPE",      { CParamDataType::C_TYPE_UINT8,  PARAM_OUTPUT_FILTER_TYPE, FP_OUTPUT_FILTER_TYPE}},
