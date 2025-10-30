@@ -63,6 +63,8 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("I2C_ADDRESS", DEFAULT_I2C_ADDRESS);
 			this->declare_parameter("OUTPUT_FILTER_TYPE", DEFAULT_OUTPUT_FILTER_TYPE);
 
+			this->declare_parameter("INNER_FILTER_TYPE", DEFAULT_INNER_FILTER_TYPE);
+
 			params_uint8[PARAM_CONFIG_FLAGS] = this->get_parameter("CONFIG_FLAGS").as_int();
 			params_uint8[PARAM_UPDATE_RATE] = this->get_parameter("UPDATE_RATE").as_int();
 			params_uint8[PARAM_PWM_DIV] = this->get_parameter("PWM_DIV").as_int();
@@ -71,6 +73,8 @@ class ROSRider : public rclcpp::Node {
 			params_uint8[PARAM_ALLOWED_SKIP] = this->get_parameter("ALLOWED_SKIP").as_int();
 			params_uint8[PARAM_I2C_ADDRESS] = this->get_parameter("I2C_ADDRESS").as_int();
 			params_uint8[PARAM_OUTPUT_FILTER_TYPE] = this->get_parameter("OUTPUT_FILTER_TYPE").as_int();
+
+			params_uint8[PARAM_INNER_FILTER_TYPE] = this->get_parameter("INNER_FILTER_TYPE").as_int();
 
             // uint16 parameters
 			this->declare_parameter("PWM_SCALE", DEFAULT_PWM_SCALE);
@@ -120,12 +124,18 @@ class ROSRider : public rclcpp::Node {
 			this->declare_parameter("BACKEMF", DEFAULT_BACKEMF);
 			this->declare_parameter("IDLE_BRAKE", DEFAULT_IDLE_BRAKE);
 
+			this->declare_parameter("CASCADE_FILTER", DEFAULT_CASCADE_FILTER);
+			this->declare_parameter("AUTO_BIAS", DEFAULT_AUTO_BIAS);
+
 			params_bool[PARAM_AUTOSYNC] = this->get_parameter("AUTOSYNC").as_bool();
 			params_bool[PARAM_ADCSYNC] = this->get_parameter("ADCSYNC").as_bool();
 			params_bool[PARAM_FASTADC] = this->get_parameter("FASTADC").as_bool();
 			params_bool[PARAM_CASCADED] = this->get_parameter("CASCADED").as_bool();
 			params_bool[PARAM_BACKEMF] = this->get_parameter("BACKEMF").as_bool();
 			params_bool[PARAM_IDLE_BRAKE] = this->get_parameter("IDLE_BRAKE").as_bool();
+
+			params_bool[PARAM_CASCADE_FILTER] = this->get_parameter("CASCADE_FILTER").as_bool();
+			params_bool[PARAM_AUTO_BIAS] = this->get_parameter("AUTO_BIAS").as_bool();
 
             // float parameters
 			this->declare_parameter("GEAR_RATIO", DEFAULT_GEAR_RATIO);

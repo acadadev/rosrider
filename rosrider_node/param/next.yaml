@@ -55,10 +55,13 @@
     CASCADED: True
     BACKEMF: True
     IDLE_BRAKE: False
+    CASCADE_FILTER: False
+    AUTO_BIAS: False
     INA219_CAL: 11469
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
     ADC_CS_DIV: 32
     CS_LEFT_OFFSET: 0
     CS_RIGHT_OFFSET: 0
+    INNER_FILTER_TYPE: 0
     CMD_VEL_TOPIC: 'cmd_vel_nav'

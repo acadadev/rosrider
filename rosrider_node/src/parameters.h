@@ -26,6 +26,7 @@
 #define DEFAULT_ALLOWED_SKIP 3
 #define DEFAULT_I2C_ADDRESS 0x3C
 #define DEFAULT_OUTPUT_FILTER_TYPE 0
+#define DEFAULT_INNER_FILTER_TYPE 0
 
 #define PARAM_CONFIG_FLAGS 0
 #define PARAM_UPDATE_RATE 1
@@ -35,6 +36,7 @@
 #define PARAM_ALLOWED_SKIP 5
 #define PARAM_I2C_ADDRESS 6
 #define PARAM_OUTPUT_FILTER_TYPE 7
+#define PARAM_INNER_FILTER_TYPE 8
 
 // uint16
 #define DEFAULT_PWM_SCALE 256
@@ -130,6 +132,8 @@
 #define DEFAULT_CASCADED false
 #define DEFAULT_BACKEMF false
 #define DEFAULT_IDLE_BRAKE false
+#define DEFAULT_CASCADE_FILTER false
+#define DEFAULT_AUTO_BIAS false
 
 #define PARAM_AUTOSYNC 0
 #define PARAM_ADCSYNC 1
@@ -137,9 +141,11 @@
 #define PARAM_CASCADED 3
 #define PARAM_BACKEMF 4
 #define PARAM_IDLE_BRAKE 5
+#define PARAM_CASCADE_FILTER 6
+#define PARAM_AUTO_BIAS 7
 
 // uint8 array
-#define SIZE_PARAMS_UINT8 8
+#define SIZE_PARAMS_UINT8 9
 uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_CONFIG_FLAGS,
                                 DEFAULT_UPDATE_RATE,
@@ -148,7 +154,8 @@ uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_MONITOR_RATE,
                                 DEFAULT_ALLOWED_SKIP,
                                 DEFAULT_I2C_ADDRESS,
-                                DEFAULT_OUTPUT_FILTER_TYPE
+                                DEFAULT_OUTPUT_FILTER_TYPE,
+                                DEFAULT_INNER_FILTER_TYPE
                             };
 
 const char *names_uint8[] = { "CONFIG_FLAGS",
@@ -158,7 +165,8 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                               "MONITOR_RATE", 
                               "ALLOWED_SKIP",
                               "I2C_ADDRESS",
-                              "OUTPUT_FILTER_TYPE"
+                              "OUTPUT_FILTER_TYPE",
+                              "INNER_FILTER_TYPE"
                             };
 
 // uint16 array
@@ -261,19 +269,23 @@ const char *names_float[] = { "GEAR_RATIO",
                               "CURRENT_KP",
                               "CURRENT_KI" };
 
-#define SIZE_PARAMS_BOOL 6
+#define SIZE_PARAMS_BOOL 8
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
                                        DEFAULT_ADCSYNC,
                                        DEFAULT_FASTADC,
                                        DEFAULT_CASCADED,
                                        DEFAULT_BACKEMF,
-                                       DEFAULT_IDLE_BRAKE };
+                                       DEFAULT_IDLE_BRAKE,
+                                       DEFAULT_CASCADE_FILTER,
+                                       DEFAULT_AUTO_BIAS };
 const char *names_bool[] = { "AUTOSYNC",
                              "ADCSYNC",
                              "FASTADC",
                              "CASCADED",
                              "BACKEMF",
-                             "IDLE_BRAKE" };
+                             "IDLE_BRAKE",
+                             "CASCADE_FILTER",
+                             "AUTO_BIAS" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -313,6 +325,7 @@ struct ParamMetadata {
 #define FP_DRIVE_MODE 0
 #define FP_PWM_DIV 1
 #define FP_OUTPUT_FILTER_TYPE 2
+#define FP_INNER_FILTER_TYPE 3
 
 #define FP_PWM_SCALE 0
 #define FP_PWM_FRQ 1
@@ -359,13 +372,16 @@ struct ParamMetadata {
 #define FP_FASTADC 2
 #define FP_CASCADED 3
 #define FP_BACKEMF 4
-#define FP_IDLE_BRAKE 6
+#define FP_IDLE_BRAKE 5
+#define FP_CASCADE_FILTER 6
+#define FP_AUTO_BIAS 7
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
     {"DRIVE_MODE",              { CParamDataType::C_TYPE_UINT8,  PARAM_DRIVE_MODE, FP_DRIVE_MODE}},
     {"PWM_DIV",                 { CParamDataType::C_TYPE_UINT8,  PARAM_PWM_DIV, FP_PWM_DIV}},
     {"OUTPUT_FILTER_TYPE",      { CParamDataType::C_TYPE_UINT8,  PARAM_OUTPUT_FILTER_TYPE, FP_OUTPUT_FILTER_TYPE}},
+    {"INNER_FILTER_TYPE",       { CParamDataType::C_TYPE_UINT8,  PARAM_INNER_FILTER_TYPE, FP_INNER_FILTER_TYPE}},
 
     {"PWM_SCALE",               { CParamDataType::C_TYPE_UINT16, PARAM_PWM_SCALE, FP_PWM_SCALE}},
     {"PWM_FRQ",                 { CParamDataType::C_TYPE_UINT16, PARAM_PWM_FRQ, FP_PWM_FRQ}},
@@ -413,6 +429,8 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}},
     {"BACKEMF",                 { CParamDataType::C_TYPE_BOOL,  PARAM_BACKEMF, FP_BACKEMF}},
     {"IDLE_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_IDLE_BRAKE, FP_IDLE_BRAKE}},
+    {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER, FP_CASCADE_FILTER}},
+    {"AUTO_BIAS",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BIAS, FP_AUTO_BIAS}},
 
 };
 
