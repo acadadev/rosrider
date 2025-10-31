@@ -55,8 +55,8 @@
     ADCSYNC: True
     CASCADED: True
     BACKEMF: True
-    CASCADE_FILTER: False
-    INA219_CAL: 11469
+    CASCADE_FILTER: True
+    INA219_CAL: 8192
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
     CS_LEFT_OFFSET: 0
