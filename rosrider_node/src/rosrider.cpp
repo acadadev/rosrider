@@ -37,8 +37,7 @@ int16_t cs_right_scaled;
 // TODO: HEAD: detect node if node already running and exit or make it lifecycle based
 // TODO: HEAD: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
 // TODO: HEAD: base_width default 0.1, equalize on firmware
-// TODO: HEAD: ros2pri config can be improved. right now we send hibernate, and hat-off command during shutdown
-//             and haton comment at startup.
+// TODO: HEAD: ros2pri config can be improved. right now we send hibernate, and hat-off command during shutdown and haton comment at startup.
 // TODO: ignore motor_status fault, or print once and ignore
 
 class ROSRider : public rclcpp::Node {
@@ -56,133 +55,40 @@ class ROSRider : public rclcpp::Node {
             });
 
             // uint8 parameters
-			this->declare_parameter("CONFIG_FLAGS", DEFAULT_CONFIG_FLAGS);
-			this->declare_parameter("UPDATE_RATE", DEFAULT_UPDATE_RATE);
-			this->declare_parameter("PWM_DIV", DEFAULT_PWM_DIV);
-			this->declare_parameter("DRIVE_MODE", DEFAULT_DRIVE_MODE);
-			this->declare_parameter("MONITOR_RATE", DEFAULT_MONITOR_RATE);
-			this->declare_parameter("ALLOWED_SKIP", DEFAULT_ALLOWED_SKIP);
-			this->declare_parameter("I2C_ADDRESS", DEFAULT_I2C_ADDRESS);
-			this->declare_parameter("OUTPUT_FILTER_TYPE", DEFAULT_OUTPUT_FILTER_TYPE);
-			this->declare_parameter("INNER_FILTER_TYPE", DEFAULT_INNER_FILTER_TYPE);
-
-			params_uint8[PARAM_CONFIG_FLAGS] = this->get_parameter("CONFIG_FLAGS").as_int();
-			params_uint8[PARAM_UPDATE_RATE] = this->get_parameter("UPDATE_RATE").as_int();
-			params_uint8[PARAM_PWM_DIV] = this->get_parameter("PWM_DIV").as_int();
-			params_uint8[PARAM_DRIVE_MODE] = this->get_parameter("DRIVE_MODE").as_int();
-			params_uint8[PARAM_MONITOR_RATE] = this->get_parameter("MONITOR_RATE").as_int();
-			params_uint8[PARAM_ALLOWED_SKIP] = this->get_parameter("ALLOWED_SKIP").as_int();
-			params_uint8[PARAM_I2C_ADDRESS] = this->get_parameter("I2C_ADDRESS").as_int();
-			params_uint8[PARAM_OUTPUT_FILTER_TYPE] = this->get_parameter("OUTPUT_FILTER_TYPE").as_int();
-			params_uint8[PARAM_INNER_FILTER_TYPE] = this->get_parameter("INNER_FILTER_TYPE").as_int();
+            for(uint8_t i = 0; i < SIZE_PARAMS_UINT8; i++) {
+                this->declare_parameter(names_uint8[i], params_uint8[i]);
+                params_uint8[i] = this->get_parameter(names_uint8[i]).as_int();
+            }
 
             // uint16 parameters
-			this->declare_parameter("PWM_SCALE", DEFAULT_PWM_SCALE);
-			this->declare_parameter("PWM_FRQ", DEFAULT_PWM_FRQ);
-			this->declare_parameter("MAX_IDLE_SECONDS", DEFAULT_MAX_IDLE_SECONDS);
-			this->declare_parameter("UPPER_LIMIT", DEFAULT_UPPER_LIMIT);
-			this->declare_parameter("INTEGRAL_LIMIT", DEFAULT_INTEGRAL_LIMIT);
-			this->declare_parameter("ENCODER_PPR", DEFAULT_ENCODER_PPR);
-			this->declare_parameter("INA219_CAL", DEFAULT_INA219_CAL);
-			this->declare_parameter("CURRENT_INTEGRAL_LIMIT", DEFAULT_CURRENT_INTEGRAL_LIMIT);
-
-			params_uint16[PARAM_PWM_SCALE] = this->get_parameter("PWM_SCALE").as_int();
-			params_uint16[PARAM_PWM_FRQ] = this->get_parameter("PWM_FRQ").as_int();
-			params_uint16[PARAM_MAX_IDLE_SECONDS] = this->get_parameter("MAX_IDLE_SECONDS").as_int();
-			params_uint16[PARAM_UPPER_LIMIT] = this->get_parameter("UPPER_LIMIT").as_int();
-			params_uint16[PARAM_INTEGRAL_LIMIT] = this->get_parameter("INTEGRAL_LIMIT").as_int();
-			params_uint16[PARAM_ENCODER_PPR] = this->get_parameter("ENCODER_PPR").as_int();
-			params_uint16[PARAM_INA219_CAL] = this->get_parameter("INA219_CAL").as_int();
-			params_uint16[PARAM_CURRENT_INTEGRAL_LIMIT] = this->get_parameter("CURRENT_INTEGRAL_LIMIT").as_int();
-
-            // uint32 parameters
-			this->declare_parameter("RTC_TRIM", DEFAULT_RTC_TRIM);
-			params_uint32[PARAM_RTC_TRIM] = this->get_parameter("RTC_TRIM").as_int();
+            for(uint8_t i = 0; i < SIZE_PARAMS_UINT16; i++) {
+                this->declare_parameter(names_uint16[i], params_uint16[i]);
+                params_uint16[i] = this->get_parameter(names_uint16[i]).as_int();
+            }
 
             // int16 parameters
-			this->declare_parameter("LEFT_FORWARD_DEADZONE", DEFAULT_LEFT_FORWARD_DEADZONE);
-			this->declare_parameter("LEFT_REVERSE_DEADZONE", DEFAULT_LEFT_REVERSE_DEADZONE);
-			this->declare_parameter("RIGHT_FORWARD_DEADZONE", DEFAULT_RIGHT_FORWARD_DEADZONE);
-			this->declare_parameter("RIGHT_REVERSE_DEADZONE", DEFAULT_RIGHT_REVERSE_DEADZONE);
-			this->declare_parameter("CS_LEFT_OFFSET", DEFAULT_CS_LEFT_OFFSET);
-			this->declare_parameter("CS_RIGHT_OFFSET", DEFAULT_CS_RIGHT_OFFSET);
+            for(uint8_t i = 0; i < SIZE_PARAMS_INT16; i++) {
+                this->declare_parameter(names_int16[i], params_int16[i]);
+                params_int16[i] = this->get_parameter(names_int16[i]).as_int();
+            }
 
-			params_int16[PARAM_LEFT_FORWARD_DEADZONE] = this->get_parameter("LEFT_FORWARD_DEADZONE").as_int();
-			params_int16[PARAM_LEFT_REVERSE_DEADZONE] = this->get_parameter("LEFT_REVERSE_DEADZONE").as_int();
-			params_int16[PARAM_RIGHT_FORWARD_DEADZONE] = this->get_parameter("RIGHT_FORWARD_DEADZONE").as_int();
-			params_int16[PARAM_RIGHT_REVERSE_DEADZONE] = this->get_parameter("RIGHT_REVERSE_DEADZONE").as_int();
-			params_int16[PARAM_CS_LEFT_OFFSET] = this->get_parameter("CS_LEFT_OFFSET").as_int();
-			params_int16[PARAM_CS_RIGHT_OFFSET] = this->get_parameter("CS_RIGHT_OFFSET").as_int();
-
-			// boolean parameters
-			this->declare_parameter("AUTOSYNC", DEFAULT_AUTOSYNC);
-			this->declare_parameter("ADCSYNC", DEFAULT_ADCSYNC);
-			this->declare_parameter("CASCADED", DEFAULT_CASCADED);
-			this->declare_parameter("BACKEMF", DEFAULT_BACKEMF);
-			this->declare_parameter("CASCADE_FILTER", DEFAULT_CASCADE_FILTER);
-
-			params_bool[PARAM_AUTOSYNC] = this->get_parameter("AUTOSYNC").as_bool();
-			params_bool[PARAM_ADCSYNC] = this->get_parameter("ADCSYNC").as_bool();
-			params_bool[PARAM_CASCADED] = this->get_parameter("CASCADED").as_bool();
-			params_bool[PARAM_BACKEMF] = this->get_parameter("BACKEMF").as_bool();
-			params_bool[PARAM_CASCADE_FILTER] = this->get_parameter("CASCADE_FILTER").as_bool();
+            // uint32 parameters
+            for(uint8_t i = 0; i < SIZE_PARAMS_UINT32; i++) {
+                this->declare_parameter(names_uint32[i], (int64_t) params_uint32[i]);
+                params_uint32[i] = this->get_parameter(names_uint32[i]).as_int();
+            }
 
             // float parameters
-			this->declare_parameter("GEAR_RATIO", DEFAULT_GEAR_RATIO);
-			this->declare_parameter("WHEEL_DIA", DEFAULT_WHEEL_DIA);
-			this->declare_parameter("BASE_WIDTH", DEFAULT_BASE_WIDTH);
-			this->declare_parameter("MAIN_AMP_LIMIT", DEFAULT_MAIN_AMP_LIMIT);
-			this->declare_parameter("BAT_VOLTS_HIGH", DEFAULT_BAT_VOLTS_HIGH);
-			this->declare_parameter("BAT_VOLTS_LOW", DEFAULT_BAT_VOLTS_LOW);
-			this->declare_parameter("MAX_RPM", DEFAULT_MAX_RPM);
-			this->declare_parameter("LEFT_AMP_LIMIT", DEFAULT_LEFT_AMP_LIMIT);
-			this->declare_parameter("RIGHT_AMP_LIMIT", DEFAULT_RIGHT_AMP_LIMIT);
+            for(uint8_t i = 0; i < SIZE_PARAMS_FLOAT; i++) {
+                this->declare_parameter(names_float[i], params_float[i]);
+                params_float[i] = this->get_parameter(names_float[i]).as_double();
+            }
 
-			this->declare_parameter("LEFT_KP", DEFAULT_LEFT_KP);
-			this->declare_parameter("LEFT_KI", DEFAULT_LEFT_KI);
-			this->declare_parameter("LEFT_KD", DEFAULT_LEFT_KD);
-			this->declare_parameter("RIGHT_KP", DEFAULT_RIGHT_KP);
-			this->declare_parameter("RIGHT_KI", DEFAULT_RIGHT_KI);
-			this->declare_parameter("RIGHT_KD", DEFAULT_RIGHT_KD);
-
-			this->declare_parameter("GAIN", DEFAULT_GAIN);
-		    this->declare_parameter("TRIM", DEFAULT_TRIM);
-			this->declare_parameter("MOTOR_CONSTANT", DEFAULT_MOTOR_CONSTANT);
-			this->declare_parameter("TANH_DIV", DEFAULT_TANH_DIV);
-			this->declare_parameter("SIGM_DIV", DEFAULT_SIGM_DIV);
-
-			this->declare_parameter("CURRENT_KP", DEFAULT_CURRENT_KP);
-			this->declare_parameter("CURRENT_KI", DEFAULT_CURRENT_KI);
-			this->declare_parameter("CURRENT_MULTIPLIER", DEFAULT_CURRENT_OBSERVED_MULTIPLIER);
-			this->declare_parameter("CURRENT_BIAS", DEFAULT_CURRENT_OBSERVED_BIAS);
-
-			params_float[PARAM_GEAR_RATIO] = (float) this->get_parameter("GEAR_RATIO").as_double();
-			params_float[PARAM_WHEEL_DIA] = (float) this->get_parameter("WHEEL_DIA").as_double();
-			params_float[PARAM_BASE_WIDTH] = (float) this->get_parameter("BASE_WIDTH").as_double();
-			params_float[PARAM_MAIN_AMP_LIMIT] = (float) this->get_parameter("MAIN_AMP_LIMIT").as_double();
-			params_float[PARAM_BAT_VOLTS_HIGH] = (float) this->get_parameter("BAT_VOLTS_HIGH").as_double();
-			params_float[PARAM_BAT_VOLTS_LOW] = (float) this->get_parameter("BAT_VOLTS_LOW").as_double();
-			params_float[PARAM_MAX_RPM] = (float) this->get_parameter("MAX_RPM").as_double();
-			params_float[PARAM_LEFT_AMP_LIMIT] = (float) this->get_parameter("LEFT_AMP_LIMIT").as_double();
-			params_float[PARAM_RIGHT_AMP_LIMIT] = (float) this->get_parameter("RIGHT_AMP_LIMIT").as_double();
-			params_float[PARAM_TANH_DIV] = (float) this->get_parameter("TANH_DIV").as_double();
-			params_float[PARAM_SIGM_DIV] = (float) this->get_parameter("SIGM_DIV").as_double();
-
-			params_float[PARAM_LEFT_KP] = (float) this->get_parameter("LEFT_KP").as_double();
-			params_float[PARAM_LEFT_KI] = (float) this->get_parameter("LEFT_KI").as_double();
-			params_float[PARAM_LEFT_KD] = (float) this->get_parameter("LEFT_KD").as_double();
-			params_float[PARAM_RIGHT_KP] = (float) this->get_parameter("RIGHT_KP").as_double();
-			params_float[PARAM_RIGHT_KI] = (float) this->get_parameter("RIGHT_KI").as_double();
-			params_float[PARAM_RIGHT_KD] = (float) this->get_parameter("RIGHT_KD").as_double();
-
-			params_float[PARAM_GAIN] = (float) this->get_parameter("GAIN").as_double();
-			params_float[PARAM_TRIM] = (float) this->get_parameter("TRIM").as_double();
-			params_float[PARAM_MOTOR_CONSTANT] = (float) this->get_parameter("MOTOR_CONSTANT").as_double();
-
-			params_float[PARAM_CURRENT_KP] = (float) this->get_parameter("CURRENT_KP").as_double();
-			params_float[PARAM_CURRENT_KI] = (float) this->get_parameter("CURRENT_KI").as_double();
-			params_float[PARAM_CURRENT_OBSERVED_MULTIPLIER] = (float) this->get_parameter("CURRENT_MULTIPLIER").as_double();
-			params_float[PARAM_CURRENT_OBSERVED_BIAS] = (float) this->get_parameter("CURRENT_BIAS").as_double();
+            // bool parameters
+            for(uint8_t i = 0; i < SIZE_PARAMS_BOOL; i++) {
+                this->declare_parameter(names_bool[i], params_bool[i]);
+                params_bool[i] = this->get_parameter(names_bool[i]).as_bool();
+            }
 
 			// local parameters
 			this->declare_parameter("I2C_ENABLED", true);

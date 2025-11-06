@@ -27,6 +27,7 @@
 #define DEFAULT_I2C_ADDRESS 0x3C
 #define DEFAULT_OUTPUT_FILTER_TYPE 0
 #define DEFAULT_INNER_FILTER_TYPE 0
+#define DEFAULT_CS_WAVEFORM_DIVIDER 16
 
 #define PARAM_CONFIG_FLAGS 0
 #define PARAM_UPDATE_RATE 1
@@ -37,6 +38,7 @@
 #define PARAM_I2C_ADDRESS 6
 #define PARAM_OUTPUT_FILTER_TYPE 7
 #define PARAM_INNER_FILTER_TYPE 8
+#define PARAM_CS_WAVEFORM_DIVIDER 9
 
 // uint16
 #define DEFAULT_PWM_SCALE 256
@@ -47,6 +49,7 @@
 #define DEFAULT_ENCODER_PPR 48
 #define DEFAULT_INA219_CAL 8192
 #define DEFAULT_CURRENT_INTEGRAL_LIMIT 128
+#define DEFAULT_ADC_SPEED 16000
 
 #define PARAM_PWM_SCALE 0
 #define PARAM_PWM_FRQ 1
@@ -56,6 +59,7 @@
 #define PARAM_ENCODER_PPR 5
 #define PARAM_INA219_CAL 6
 #define PARAM_CURRENT_INTEGRAL_LIMIT 7
+#define PARAM_ADC_SPEED 8
 
 // uint32
 #define DEFAULT_RTC_TRIM 0x7FFF
@@ -133,15 +137,19 @@
 #define DEFAULT_CASCADED false
 #define DEFAULT_BACKEMF false
 #define DEFAULT_CASCADE_FILTER false
+#define DEFAULT_AUTO_BIAS false
+#define DEFAULT_ADC_MULTIPHASE false
 
 #define PARAM_AUTOSYNC 0
 #define PARAM_ADCSYNC 1
 #define PARAM_CASCADED 2
 #define PARAM_BACKEMF 3
 #define PARAM_CASCADE_FILTER 4
+#define PARAM_AUTO_BIAS 5
+#define PARAM_ADC_MULTIPHASE 6
 
 // uint8 array
-#define SIZE_PARAMS_UINT8 9
+#define SIZE_PARAMS_UINT8 10
 uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_CONFIG_FLAGS,
                                 DEFAULT_UPDATE_RATE,
@@ -151,7 +159,8 @@ uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_ALLOWED_SKIP,
                                 DEFAULT_I2C_ADDRESS,
                                 DEFAULT_OUTPUT_FILTER_TYPE,
-                                DEFAULT_INNER_FILTER_TYPE
+                                DEFAULT_INNER_FILTER_TYPE,
+                                DEFAULT_CS_WAVEFORM_DIVIDER
                             };
 
 const char *names_uint8[] = { "CONFIG_FLAGS",
@@ -162,11 +171,12 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                               "ALLOWED_SKIP",
                               "I2C_ADDRESS",
                               "OUTPUT_FILTER_TYPE",
-                              "INNER_FILTER_TYPE"
+                              "INNER_FILTER_TYPE",
+                              "CS_WAVEFORM_DIVIDER"
                             };
 
 // uint16 array
-#define SIZE_PARAMS_UINT16 8
+#define SIZE_PARAMS_UINT16 9
 uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_PWM_SCALE,
                                 DEFAULT_PWM_FRQ,
@@ -175,7 +185,8 @@ uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_INTEGRAL_LIMIT,
                                 DEFAULT_ENCODER_PPR,
                                 DEFAULT_INA219_CAL,
-                                DEFAULT_CURRENT_INTEGRAL_LIMIT
+                                DEFAULT_CURRENT_INTEGRAL_LIMIT,
+                                DEFAULT_ADC_SPEED
                             };
 
 const char *names_uint16[] = { "PWM_SCALE",
@@ -185,7 +196,8 @@ const char *names_uint16[] = { "PWM_SCALE",
                                "INTEGRAL_LIMIT",
                                "ENCODER_PPR",
                                "INA219_CAL",
-                               "CURRENT_INTEGRAL_LIMIT" };
+                               "CURRENT_INTEGRAL_LIMIT",
+                               "ADC_SPEED" };
 
 // uint32 array
 #define SIZE_PARAMS_UINT32 1
@@ -267,18 +279,22 @@ const char *names_float[] = { "GEAR_RATIO",
                               "CURRENT_MULTIPLIER",
                               "CURRENT_BIAS" };
 
-#define SIZE_PARAMS_BOOL 5
+#define SIZE_PARAMS_BOOL 7
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
                                        DEFAULT_ADCSYNC,
                                        DEFAULT_CASCADED,
                                        DEFAULT_BACKEMF,
-                                       DEFAULT_CASCADE_FILTER };
+                                       DEFAULT_CASCADE_FILTER,
+                                       DEFAULT_AUTO_BIAS,
+                                       DEFAULT_ADC_MULTIPHASE };
 
 const char *names_bool[] = { "AUTOSYNC",
                              "ADCSYNC",
                              "CASCADED",
                              "BACKEMF",
-                             "CASCADE_FILTER" };
+                             "CASCADE_FILTER",
+                             "AUTO_BIAS",
+                             "ADC_MULTIPHASE" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -316,18 +332,20 @@ struct ParamMetadata {
 };
 
 #define FP_CONFIG_FLAGS 0
-#define FP_DRIVE_MODE 1
-#define FP_PWM_DIV 2
+#define FP_PWM_DIV 1
+#define FP_DRIVE_MODE 2
 #define FP_OUTPUT_FILTER_TYPE 3
 #define FP_INNER_FILTER_TYPE 4
+#define FP_CS_WAVEFORM_DIVIDER 5
 
 #define FP_PWM_SCALE 0
 #define FP_PWM_FRQ 1
 #define FP_MAX_IDLE_SECONDS 2
-#define FP_INTEGRAL_LIMIT 3
-#define FP_UPPER_LIMIT 4
+#define FP_UPPER_LIMIT 3
+#define FP_INTEGRAL_LIMIT 4
 #define FP_INA219_CAL 5
 #define FP_CURRENT_INTEGRAL_LIMIT 6
+#define FP_ADC_SPEED 7
 
 #define FP_LEFT_FORWARD_DEADZONE 0
 #define FP_LEFT_REVERSE_DEADZONE 1
@@ -363,22 +381,26 @@ struct ParamMetadata {
 #define FP_CASCADED 2
 #define FP_BACKEMF 3
 #define FP_CASCADE_FILTER 4
+#define FP_AUTO_BIAS 5
+#define FP_ADC_MULTIPHASE 6
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
     {"CONFIG_FLAGS",            { CParamDataType::C_TYPE_UINT8,  PARAM_CONFIG_FLAGS, FP_CONFIG_FLAGS}},
-    {"DRIVE_MODE",              { CParamDataType::C_TYPE_UINT8,  PARAM_DRIVE_MODE, FP_DRIVE_MODE}},
     {"PWM_DIV",                 { CParamDataType::C_TYPE_UINT8,  PARAM_PWM_DIV, FP_PWM_DIV}},
+    {"DRIVE_MODE",              { CParamDataType::C_TYPE_UINT8,  PARAM_DRIVE_MODE, FP_DRIVE_MODE}},
     {"OUTPUT_FILTER_TYPE",      { CParamDataType::C_TYPE_UINT8,  PARAM_OUTPUT_FILTER_TYPE, FP_OUTPUT_FILTER_TYPE}},
     {"INNER_FILTER_TYPE",       { CParamDataType::C_TYPE_UINT8,  PARAM_INNER_FILTER_TYPE, FP_INNER_FILTER_TYPE}},
+    {"CS_WAVEFORM_DIV",         { CParamDataType::C_TYPE_UINT8,  PARAM_CS_WAVEFORM_DIVIDER, FP_CS_WAVEFORM_DIVIDER}},
 
     {"PWM_SCALE",               { CParamDataType::C_TYPE_UINT16, PARAM_PWM_SCALE, FP_PWM_SCALE}},
     {"PWM_FRQ",                 { CParamDataType::C_TYPE_UINT16, PARAM_PWM_FRQ, FP_PWM_FRQ}},
     {"MAX_IDLE_SECONDS",        { CParamDataType::C_TYPE_UINT16, PARAM_MAX_IDLE_SECONDS, FP_MAX_IDLE_SECONDS}},
-    {"INTEGRAL_LIMIT",          { CParamDataType::C_TYPE_UINT16, PARAM_INTEGRAL_LIMIT, FP_INTEGRAL_LIMIT}},
     {"UPPER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_UPPER_LIMIT, FP_UPPER_LIMIT}},
+    {"INTEGRAL_LIMIT",          { CParamDataType::C_TYPE_UINT16, PARAM_INTEGRAL_LIMIT, FP_INTEGRAL_LIMIT}},
     {"INA219_CAL",              { CParamDataType::C_TYPE_UINT16, PARAM_INA219_CAL, FP_INA219_CAL}},
     {"CURRENT_INTEGRAL_LIMIT",  { CParamDataType::C_TYPE_UINT16, PARAM_CURRENT_INTEGRAL_LIMIT, FP_CURRENT_INTEGRAL_LIMIT}},
+    {"ADC_SPEED",               { CParamDataType::C_TYPE_UINT16, PARAM_ADC_SPEED, FP_ADC_SPEED}},
 
     {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_FORWARD_DEADZONE, FP_LEFT_FORWARD_DEADZONE}},
     {"LEFT_REVERSE_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_REVERSE_DEADZONE, FP_LEFT_REVERSE_DEADZONE}},
@@ -418,7 +440,10 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"ADCSYNC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_ADCSYNC, FP_ADCSYNC}},
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}},
     {"BACKEMF",                 { CParamDataType::C_TYPE_BOOL,  PARAM_BACKEMF, FP_BACKEMF}},
-    {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER, FP_CASCADE_FILTER}}
+    {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER, FP_CASCADE_FILTER}},
+
+    {"AUTO_BIAS",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BIAS, FP_AUTO_BIAS}},
+    {"ADC_MULTIPHASE",          { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_MULTIPHASE, FP_ADC_MULTIPHASE}}
 
 };
 
