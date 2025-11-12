@@ -544,6 +544,9 @@ class ROSRider : public rclcpp::Node {
 		            diag_message.target_left = target_left;
 		            diag_message.target_right = target_right;
 
+		            target_left = 0.0; // TODO:
+		            target_right = 0.0;
+
 		            diag_message.system_status = SYS_STATUS;
 					diag_message.power_status = PWR_STATUS;
 		            diag_message.motor_status = MTR_STATUS;
