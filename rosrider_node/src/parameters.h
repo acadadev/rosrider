@@ -139,6 +139,7 @@
 #define DEFAULT_CASCADE_FILTER false
 #define DEFAULT_AUTO_BIAS false
 #define DEFAULT_ADC_MULTIPHASE false
+#define DEFAULT_ADC_BIPHASE false
 
 #define PARAM_AUTOSYNC 0
 #define PARAM_ADCSYNC 1
@@ -147,6 +148,7 @@
 #define PARAM_CASCADE_FILTER 4
 #define PARAM_AUTO_BIAS 5
 #define PARAM_ADC_MULTIPHASE 6
+#define PARAM_ADC_BIPHASE 7
 
 // uint8 array
 #define SIZE_PARAMS_UINT8 10
@@ -279,14 +281,15 @@ const char *names_float[] = { "GEAR_RATIO",
                               "CURRENT_MULTIPLIER",
                               "CURRENT_BIAS" };
 
-#define SIZE_PARAMS_BOOL 7
+#define SIZE_PARAMS_BOOL 8
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
                                        DEFAULT_ADCSYNC,
                                        DEFAULT_CASCADED,
                                        DEFAULT_BACKEMF,
                                        DEFAULT_CASCADE_FILTER,
                                        DEFAULT_AUTO_BIAS,
-                                       DEFAULT_ADC_MULTIPHASE };
+                                       DEFAULT_ADC_MULTIPHASE,
+                                       DEFAULT_ADC_BIPHASE };
 
 const char *names_bool[] = { "AUTOSYNC",
                              "ADCSYNC",
@@ -294,7 +297,8 @@ const char *names_bool[] = { "AUTOSYNC",
                              "BACKEMF",
                              "CASCADE_FILTER",
                              "AUTO_BIAS",
-                             "ADC_MULTIPHASE" };
+                             "ADC_MULTIPHASE",
+                             "ADC_BIPHASE" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -383,6 +387,7 @@ struct ParamMetadata {
 #define FP_CASCADE_FILTER 4
 #define FP_AUTO_BIAS 5
 #define FP_ADC_MULTIPHASE 6
+#define FP_ADC_BIPHASE 7
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
@@ -443,7 +448,8 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER, FP_CASCADE_FILTER}},
 
     {"AUTO_BIAS",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BIAS, FP_AUTO_BIAS}},
-    {"ADC_MULTIPHASE",          { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_MULTIPHASE, FP_ADC_MULTIPHASE}}
+    {"ADC_MULTIPHASE",          { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_MULTIPHASE, FP_ADC_MULTIPHASE}},
+    {"ADC_BIPHASE",             { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_BIPHASE, FP_ADC_BIPHASE}}
 
 };
 
