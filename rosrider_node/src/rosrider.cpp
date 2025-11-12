@@ -575,7 +575,8 @@ class ROSRider : public rclcpp::Node {
 		    target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM));
 		    target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM));
 
-		    RCLCPP_ERROR(this->get_logger(), "T %f %f", target_left, target_right);
+
+		    RCLCPP_ERROR(this->get_logger(), "T";
 
 	   		unsigned char pid_target_buffer[8] = {0};
 
