@@ -541,7 +541,7 @@ class ROSRider : public rclcpp::Node {
 		                diag_message.rpm_right = (status_buffer[22] << 8 | status_buffer[23]) * ROUNDS_PER_MINUTE;
 		            }
 
-		            diag_message.target_left = target_left;
+		            diag_message.target_left = 20; //target_left;
 		            diag_message.target_right = target_right;
 
 		            diag_message.system_status = SYS_STATUS;
