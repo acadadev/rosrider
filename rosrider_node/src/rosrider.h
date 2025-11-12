@@ -29,8 +29,8 @@
 #include "encoders.h"
 #include "odometry.h"
 
-float target_left;
-float target_right;
+volatile float target_left;
+volatile float target_right;
 
 uint8_t SYS_STATUS;
 uint8_t PWR_STATUS;
@@ -39,7 +39,7 @@ uint8_t MTR_STATUS;
 typedef union {
     float f32;
     uint8_t ui8[4];
-} f32_to_ui8;
+} f32_to_ui8; // TODO: AUDIT: check if we use these
 
 typedef union {
     uint32_t u32;

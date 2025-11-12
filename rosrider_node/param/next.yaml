@@ -57,7 +57,7 @@
     BACKEMF: False
     CASCADE_FILTER: False
     AUTO_BIAS: False
-    ADC_MULTIPHASE: False
+    ADC_MULTIPHASE: True
     INA219_CAL: 8192
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
