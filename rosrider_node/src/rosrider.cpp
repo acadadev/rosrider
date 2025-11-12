@@ -424,6 +424,7 @@ class ROSRider : public rclcpp::Node {
 
 	            if(SYS_STATUS != prev_SYS_STATUS) {
 	            	print_sys_status(this->get_logger(), SYS_STATUS);
+	            	// TODO: DOC
 	            	if(SYS_STATUS & 0x40) { 
 					    send_device_reset();
 					    rclcpp::sleep_for(1000ms);
@@ -432,6 +433,11 @@ class ROSRider : public rclcpp::Node {
 
 	            if(PWR_STATUS != prev_PWR_STATUS) {
 	            	print_pwr_status(this->get_logger(), PWR_STATUS);
+	            	// timeout
+	            	if( PWR_STATUS & 0b10000000 ) {
+	            	    target_left = 0.0f;
+	            	    target_right = 0.0f;
+	            	}
 	            }
 
 	            if(MTR_STATUS != prev_MTR_STATUS) {
