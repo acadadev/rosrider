@@ -212,7 +212,7 @@ class ROSRider : public rclcpp::Node {
 				diag_pub = this->create_publisher<rosrider_interfaces::msg::Diagnostics>("/rosrider/diagnostics", rclcpp::QoS(QOS_HIST_DEPTH));
 			}
 
-      		// cmd_vel subscriber - TODO:
+      		// cmd_vel subscriber
       		cmd_sub = this->create_subscription<geometry_msgs::msg::Twist>(cmd_vel_topic, rclcpp::QoS(1), std::bind(&ROSRider::cmd_callback, this, _1));
 
 			// main timer
@@ -541,7 +541,7 @@ class ROSRider : public rclcpp::Node {
 		                diag_message.rpm_right = (status_buffer[22] << 8 | status_buffer[23]) * ROUNDS_PER_MINUTE;
 		            }
 
-		            diag_message.target_left = 20; //target_left;
+		            diag_message.target_left = target_left;
 		            diag_message.target_right = target_right;
 
 		            diag_message.system_status = SYS_STATUS;
@@ -570,13 +570,10 @@ class ROSRider : public rclcpp::Node {
 		}
 
 	    void cmd_callback(const geometry_msgs::msg::Twist t) const {
-            /*
+
 		    // calculate PID targets
 		    target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM));
 		    target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM));
-
-
-		    RCLCPP_INFO(this->get_logger(), "T");
 
 	   		unsigned char pid_target_buffer[8] = {0};
 
@@ -594,7 +591,6 @@ class ROSRider : public rclcpp::Node {
 
 			uint8_t rw = I2C_RW_Block(fd, 0x02, I2C_SMBUS_WRITE, 8, pid_target_buffer);
 			i2c_default_error_handler(rw);
-			*/
 
 	    }
 
