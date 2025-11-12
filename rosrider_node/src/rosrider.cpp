@@ -570,7 +570,7 @@ class ROSRider : public rclcpp::Node {
 		}
 
 	    void cmd_callback(const geometry_msgs::msg::Twist t) const {
-
+            /*
 		    // calculate PID targets
 		    target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM));
 		    target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM));
@@ -594,6 +594,7 @@ class ROSRider : public rclcpp::Node {
 
 			uint8_t rw = I2C_RW_Block(fd, 0x02, I2C_SMBUS_WRITE, 8, pid_target_buffer);
 			i2c_default_error_handler(rw);
+			*/
 
 	    }
 
