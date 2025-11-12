@@ -212,7 +212,7 @@ class ROSRider : public rclcpp::Node {
 				diag_pub = this->create_publisher<rosrider_interfaces::msg::Diagnostics>("/rosrider/diagnostics", rclcpp::QoS(QOS_HIST_DEPTH));
 			}
 
-      		// cmd_vel subscriber
+      		// cmd_vel subscriber - TODO:
       		cmd_sub = this->create_subscription<geometry_msgs::msg::Twist>(cmd_vel_topic, rclcpp::QoS(1), std::bind(&ROSRider::cmd_callback, this, _1));
 
 			// main timer
