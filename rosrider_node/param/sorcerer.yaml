@@ -1,5 +1,6 @@
 /rosrider_node:
   ros__parameters:
+    # system parameters
     I2C_ENABLED: True
     ODOM_FRAME_ID: 'odom'
     BASE_FRAME_ID: 'base_footprint'
@@ -7,62 +8,85 @@
     PUB_ODOMETRY: True
     PUB_JOINTS: True
     PUB_DIAGNOSTICS: True
-    ROS2RPI_CONFIG: 0x0F # 0x00 # 0x0F # 0x33
-    AUTOSYNC: True
+    ROS2RPI_CONFIG: 0x00 # 0x00 # 0x0F # 0x33
+    I2C_ADDRESS: 0x3c
     DEBUG: False
-    CONFIG_FLAGS: 48
-    UPDATE_RATE: 10
+    RTC_TRIM: 0x7FFF
     ALLOWED_SKIP: 3
-    PWM_DIV: 32
-    DRIVE_MODE: 3
-    OUTPUT_FILTER_TYPE: 0
     MONITOR_RATE: 100
+    MAX_IDLE_SECONDS: 1800
+    # driver configuration
+    DRIVE_MODE: 3
+    CONFIG_FLAGS: 48
+    UPDATE_RATE: 20
+    # pwm configuration
+    PWM_DIV: 32
     PWM_SCALE: 256
     PWM_FRQ: 100
-    MAX_IDLE_SECONDS: 1800
-    UPPER_LIMIT: 192
-    INNER_LIMIT: 192
+    # motor configuration
+    GEAR_RATIO: 45.0
     ENCODER_PPR: 12
-    RTC_TRIM: 0x7FFF
+    WHEEL_DIA: 0.0685
+    BASE_WIDTH: 0.1
+    MAX_RPM: 90.0
+    # dead zones
     LEFT_FORWARD_DEADZONE: 8
     LEFT_REVERSE_DEADZONE: 8
     RIGHT_FORWARD_DEADZONE: 8
     RIGHT_REVERSE_DEADZONE: 8
-    GEAR_RATIO: 45.0
-    WHEEL_DIA: 0.0685
-    BASE_WIDTH: 0.1
-    MAIN_AMP_LIMIT: 3.6
-    BAT_VOLTS_HIGH: 15.0
-    BAT_VOLTS_LOW: 6.0
-    MAX_RPM: 90.0
-    LEFT_AMP_LIMIT: 1.2
-    RIGHT_AMP_LIMIT: 1.2
+    # pid configuration
+    UPPER_240: 160
     LEFT_KP: 1.8
     LEFT_KI: 0.9
     LEFT_KD: 0.0
     RIGHT_KP: 1.8
     RIGHT_KI: 0.9
     RIGHT_KD: 0.0
+    TANH_DIV: 2.0
+    SIGM_DIV: 10.0
+    KB: 0.5
+    K_FF_VEL: 1.0
+    K_FF_ACCEL: 1.0
+    # cascaded loop
+    INNER_LIMIT: 240
+    STATIC_KICK: 90
+    COULOMB_RUN: 10
+    OMEGA_STICTION_THRESHOLD: 10
     CURRENT_KP: 1.0
     CURRENT_KI: 1.0
-    CURRENT_MULTIPLIER: 1.0
+    CURRENT_MULTIPLIER: 3.6
+    TORQUE_CONSTANT: 0.015
+    R_ARM: 2.0
+    L_ARM: 0.001
+    # filter configuration
+    OUTPUT_FILTER_TYPE: 0
+    INNER_FILTER_TYPE: 0
+    # electrical
+    MAIN_AMP_LIMIT: 2.8
+    BAT_VOLTS_HIGH: 15.0
+    BAT_VOLTS_LOW: 6.0
+    LEFT_AMP_LIMIT: 1.2
+    RIGHT_AMP_LIMIT: 1.2
+    INA219_CAL: 8192
+    # calibration
+    CS_LEFT_OFFSET: 0
+    CS_RIGHT_OFFSET: 0
+    # motor scope
+    ADC_SPEED: 16000
+    CS_WAVEFORM_DIV: 16
+    # trim
     GAIN: 1.0
     TRIM: 0.0
     MOTOR_CONSTANT: 1.0
-    I2C_ADDRESS: 0x3c
+    # boolean parameters
+    AUTOSYNC: True
     ADCSYNC: True
     CASCADED: False
     BACKEMF: False
     CASCADE_FILTER: False
-    AUTO_BIAS: False
+    AUTO_BIAS: True
     ADC_MULTIPHASE: False
     ADC_BIPHASE: False
-    INA219_CAL: 8192
-    TANH_DIV: 2.0
-    SIGM_DIV: 10.0
-    CS_LEFT_OFFSET: 0
-    CS_RIGHT_OFFSET: 0
-    INNER_FILTER_TYPE: 0
-    ADC_SPEED: 16000
-    CS_WAVEFORM_DIV: 16
-    CMD_VEL_TOPIC: "/cmd_vel"
+    OUTER_FEEDFORWARD: True
+    # topic paramters
+    CMD_VEL_TOPIC: 'cmd_vel'
