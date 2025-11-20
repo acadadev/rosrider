@@ -40,26 +40,26 @@
 #define PARAM_INNER_FILTER_TYPE 8
 #define PARAM_CS_WAVEFORM_DIVIDER 9
 
+// TODO: make embedded defaults equal
+
 // uint16
 #define DEFAULT_PWM_SCALE 256
 #define DEFAULT_PWM_FRQ 50
 #define DEFAULT_MAX_IDLE_SECONDS 1800
-#define DEFAULT_UPPER_LIMIT 244
-#define DEFAULT_INTEGRAL_LIMIT 128
+#define DEFAULT_UPPER_LIMIT 240
+#define DEFAULT_INNER_LIMIT 240
 #define DEFAULT_ENCODER_PPR 48
 #define DEFAULT_INA219_CAL 8192
-#define DEFAULT_CURRENT_INTEGRAL_LIMIT 128
 #define DEFAULT_ADC_SPEED 16000
 
 #define PARAM_PWM_SCALE 0
 #define PARAM_PWM_FRQ 1
 #define PARAM_MAX_IDLE_SECONDS 2
 #define PARAM_UPPER_LIMIT 3
-#define PARAM_INTEGRAL_LIMIT 4
+#define PARAM_INNER_LIMIT 4
 #define PARAM_ENCODER_PPR 5
 #define PARAM_INA219_CAL 6
-#define PARAM_CURRENT_INTEGRAL_LIMIT 7
-#define PARAM_ADC_SPEED 8
+#define PARAM_ADC_SPEED 6
 
 // uint32
 #define DEFAULT_RTC_TRIM 0x7FFF
@@ -178,16 +178,15 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                             };
 
 // uint16 array
-#define SIZE_PARAMS_UINT16 9
+#define SIZE_PARAMS_UINT16 8
 uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_PWM_SCALE,
                                 DEFAULT_PWM_FRQ,
                                 DEFAULT_MAX_IDLE_SECONDS,
                                 DEFAULT_UPPER_LIMIT,
-                                DEFAULT_INTEGRAL_LIMIT,
+                                DEFAULT_INNER_LIMIT,
                                 DEFAULT_ENCODER_PPR,
                                 DEFAULT_INA219_CAL,
-                                DEFAULT_CURRENT_INTEGRAL_LIMIT,
                                 DEFAULT_ADC_SPEED
                             };
 
@@ -195,10 +194,9 @@ const char *names_uint16[] = { "PWM_SCALE",
                                "PWM_FRQ",
                                "MAX_IDLE_SECONDS",
                                "UPPER_LIMIT",
-                               "INTEGRAL_LIMIT",
+                               "INNER_LIMIT",
                                "ENCODER_PPR",
                                "INA219_CAL",
-                               "CURRENT_INTEGRAL_LIMIT",
                                "ADC_SPEED" };
 
 // uint32 array
@@ -228,7 +226,7 @@ const char *names_int16[] = { "LEFT_FORWARD_DEADZONE",
                               "CS_RIGHT_OFFSET" };
 
 // float array
-#define SIZE_PARAMS_FLOAT 24
+#define SIZE_PARAMS_FLOAT 23
 float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_GEAR_RATIO,
                                DEFAULT_WHEEL_DIA,
@@ -252,8 +250,7 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_SIGM_DIV,
                                DEFAULT_CURRENT_KP,
                                DEFAULT_CURRENT_KI,
-                               DEFAULT_CURRENT_OBSERVED_MULTIPLIER,
-                               DEFAULT_CURRENT_OBSERVED_BIAS
+                               DEFAULT_CURRENT_OBSERVED_MULTIPLIER
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -278,8 +275,7 @@ const char *names_float[] = { "GEAR_RATIO",
                               "SIGM_DIV",
                               "CURRENT_KP",
                               "CURRENT_KI",
-                              "CURRENT_MULTIPLIER",
-                              "CURRENT_BIAS" };
+                              "CURRENT_MULTIPLIER" };
 
 #define SIZE_PARAMS_BOOL 8
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
@@ -346,10 +342,9 @@ struct ParamMetadata {
 #define FP_PWM_FRQ 1
 #define FP_MAX_IDLE_SECONDS 2
 #define FP_UPPER_LIMIT 3
-#define FP_INTEGRAL_LIMIT 4
+#define FP_INNER_LIMIT 4
 #define FP_INA219_CAL 5
-#define FP_CURRENT_INTEGRAL_LIMIT 6
-#define FP_ADC_SPEED 7
+#define FP_ADC_SPEED 6
 
 #define FP_LEFT_FORWARD_DEADZONE 0
 #define FP_LEFT_REVERSE_DEADZONE 1
@@ -378,7 +373,6 @@ struct ParamMetadata {
 #define FP_CURRENT_KP 17
 #define FP_CURRENT_KI 18
 #define FP_CURRENT_OBSERVED_MULTIPLIER 19
-#define FP_CURRENT_OBSERVED_BIAS 20
 
 #define FP_AUTOSYNC 0
 #define FP_ADCSYNC 1
@@ -402,9 +396,8 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"PWM_FRQ",                 { CParamDataType::C_TYPE_UINT16, PARAM_PWM_FRQ, FP_PWM_FRQ}},
     {"MAX_IDLE_SECONDS",        { CParamDataType::C_TYPE_UINT16, PARAM_MAX_IDLE_SECONDS, FP_MAX_IDLE_SECONDS}},
     {"UPPER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_UPPER_LIMIT, FP_UPPER_LIMIT}},
-    {"INTEGRAL_LIMIT",          { CParamDataType::C_TYPE_UINT16, PARAM_INTEGRAL_LIMIT, FP_INTEGRAL_LIMIT}},
+    {"INNER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_INNER_LIMIT, FP_INNER_LIMIT}},
     {"INA219_CAL",              { CParamDataType::C_TYPE_UINT16, PARAM_INA219_CAL, FP_INA219_CAL}},
-    {"CURRENT_INTEGRAL_LIMIT",  { CParamDataType::C_TYPE_UINT16, PARAM_CURRENT_INTEGRAL_LIMIT, FP_CURRENT_INTEGRAL_LIMIT}},
     {"ADC_SPEED",               { CParamDataType::C_TYPE_UINT16, PARAM_ADC_SPEED, FP_ADC_SPEED}},
 
     {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_FORWARD_DEADZONE, FP_LEFT_FORWARD_DEADZONE}},
@@ -439,7 +432,6 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"CURRENT_KP",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KP, FP_CURRENT_KP}},
     {"CURRENT_KI",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KI, FP_CURRENT_KI}},
     {"CURRENT_MULTIPLIER",      { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_OBSERVED_MULTIPLIER, FP_CURRENT_OBSERVED_MULTIPLIER}},
-    {"CURRENT_BIAS",            { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_OBSERVED_BIAS, FP_CURRENT_OBSERVED_BIAS}},
 
     {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}},
     {"ADCSYNC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_ADCSYNC, FP_ADCSYNC}},
