@@ -45,7 +45,7 @@
     RIGHT_KD: 0.0
     CURRENT_KP: 1.0
     CURRENT_KI: 1.0
-    CURRENT_MULTIPLIER: 1.0
+    CURRENT_MULTIPLIER: 2.0
     GAIN: 1.0
     TRIM: 0.0
     MOTOR_CONSTANT: 1.0
@@ -54,7 +54,7 @@
     CASCADED: False
     BACKEMF: False
     CASCADE_FILTER: False
-    AUTO_BIAS: True
+    AUTO_BIAS: False
     ADC_MULTIPHASE: False
     ADC_BIPHASE: False
     INA219_CAL: 8192
