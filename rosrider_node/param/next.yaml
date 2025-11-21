@@ -81,7 +81,7 @@
     # boolean parameters
     AUTOSYNC: True
     ADCSYNC: True
-    CASCADED: False
+    CASCADED: True
     BACKEMF: False
     CASCADE_FILTER: False
     AUTO_BIAS: True
