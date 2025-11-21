@@ -45,8 +45,8 @@
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
     KB: 0.5
-    K_FF_VEL: 0.64
-    K_FF_ACCEL: 0.32
+    K_FF_VEL: 0.16
+    K_FF_ACCEL: 0.12
     # cascaded loop
     INNER_LIMIT: 240
     STATIC_KICK: 64
