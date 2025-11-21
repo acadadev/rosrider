@@ -54,7 +54,7 @@
 
 #define DEFAULT_STATIC_KICK 64
 #define DEFAULT_COULOMB_RUN 16
-#define DEFAULT_OMEGA_STICTION_THRESHOLD 8
+#define DEFAULT_STRIBECK_WIDTH 8
 
 #define PARAM_PWM_SCALE 0
 #define PARAM_PWM_FRQ 1
@@ -67,7 +67,7 @@
 
 #define PARAM_STATIC_KICK 8
 #define PARAM_COULOMB_RUN 9
-#define PARAM_OMEGA_STICTION_THRESHOLD 10
+#define PARAM_STRIBECK_WIDTH 10
 
 // uint32
 #define DEFAULT_RTC_TRIM 0x7FFF
@@ -212,7 +212,7 @@ uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_ADC_SPEED,
                                 DEFAULT_STATIC_KICK,
                                 DEFAULT_COULOMB_RUN,
-                                DEFAULT_OMEGA_STICTION_THRESHOLD
+                                DEFAULT_STRIBECK_WIDTH
                             };
 
 const char *names_uint16[] = { "PWM_SCALE",
@@ -225,7 +225,7 @@ const char *names_uint16[] = { "PWM_SCALE",
                                "ADC_SPEED",
                                "STATIC_KICK",
                                "COULOMB_RUN",
-                               "OMEGA_STICTION_THRESHOLD" };
+                               "STRIBECK_WIDTH" };
 
 // uint32 array
 #define SIZE_PARAMS_UINT32 1
@@ -389,7 +389,7 @@ struct ParamMetadata {
 #define FP_ADC_SPEED 6
 #define FP_STATIC_KICK 7
 #define FP_COULOMB_RUN 8
-#define FP_STICTION_THRESHOLD 9
+#define FP_STRIBECK_WIDTH 9
 
 #define FP_LEFT_FORWARD_DEADZONE 0
 #define FP_LEFT_REVERSE_DEADZONE 1
@@ -455,7 +455,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
 
     {"STATIC_KICK",             { CParamDataType::C_TYPE_UINT16, PARAM_STATIC_KICK, FP_STATIC_KICK}},
     {"COULOMB_RUN",             { CParamDataType::C_TYPE_UINT16, PARAM_COULOMB_RUN, FP_COULOMB_RUN}},
-    {"OMEGA_STICTION_THRESHOLD",{ CParamDataType::C_TYPE_UINT16, PARAM_OMEGA_STICTION_THRESHOLD, FP_STICTION_THRESHOLD}},
+    {"STRIBECK_WIDTH",          { CParamDataType::C_TYPE_UINT16, PARAM_STRIBECK_WIDTH, FP_STRIBECK_WIDTH}},
 
     {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_FORWARD_DEADZONE, FP_LEFT_FORWARD_DEADZONE}},
     {"LEFT_REVERSE_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_REVERSE_DEADZONE, FP_LEFT_REVERSE_DEADZONE}},
