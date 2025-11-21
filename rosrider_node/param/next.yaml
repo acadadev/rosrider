@@ -80,7 +80,7 @@
     MOTOR_CONSTANT: 1.0
     # boolean parameters
     AUTOSYNC: True
-    ADCSYNC: True
+    ADCSYNC: False
     CASCADED: False
     BACKEMF: False
     CASCADE_FILTER: False
