@@ -84,7 +84,7 @@
     CASCADED: False
     BACKEMF: False
     CASCADE_FILTER: False
-    AUTO_BIAS: False
+    AUTO_BIAS: True
     ADC_MULTIPHASE: False
     ADC_BIPHASE: False
     OUTER_FEEDFORWARD: False
