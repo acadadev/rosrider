@@ -80,12 +80,12 @@
     MOTOR_CONSTANT: 1.0
     # boolean parameters
     AUTOSYNC: True
-    ADCSYNC: True
-    CASCADED: True
+    ADCSYNC: False
+    CASCADED: False
     BACKEMF: False
     CASCADE_FILTER: False
-    AUTO_BIAS: True
-    ADC_MULTIPHASE: True
+    AUTO_BIAS: False
+    ADC_MULTIPHASE: False
     ADC_BIPHASE: False
     OUTER_FEEDFORWARD: False
     # topic paramters
