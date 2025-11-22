@@ -40,8 +40,6 @@
 #define PARAM_INNER_FILTER_TYPE 8
 #define PARAM_CS_WAVEFORM_DIVIDER 9
 
-// TODO: make embedded defaults equal
-
 // uint16
 #define DEFAULT_PWM_SCALE 256
 #define DEFAULT_PWM_FRQ 50
@@ -52,10 +50,6 @@
 #define DEFAULT_INA219_CAL 8192
 #define DEFAULT_ADC_SPEED 16000
 
-#define DEFAULT_STATIC_KICK 6
-#define DEFAULT_COULOMB_RUN 3
-#define DEFAULT_STRIBECK_WIDTH 12
-
 #define PARAM_PWM_SCALE 0
 #define PARAM_PWM_FRQ 1
 #define PARAM_MAX_IDLE_SECONDS 2
@@ -64,10 +58,6 @@
 #define PARAM_ENCODER_PPR 5
 #define PARAM_INA219_CAL 6
 #define PARAM_ADC_SPEED 7
-
-#define PARAM_STATIC_KICK 8
-#define PARAM_COULOMB_RUN 9
-#define PARAM_STRIBECK_WIDTH 10
 
 // uint32
 #define DEFAULT_RTC_TRIM 0x7FFF
@@ -121,6 +111,11 @@
 #define DEFAULT_K_FF_VEL (0.16F)
 #define DEFAULT_K_FF_ACCEL (0.12F)
 
+#define DEFAULT_STATIC_KICK (6.0F)
+#define DEFAULT_COULOMB_RUN (3.0F)
+#define DEFAULT_STRIBECK_WIDTH (64.0F)
+#define DEFAULT_VISCOUS_FRICTION (0.001F)
+
 #define PARAM_GEAR_RATIO 0
 #define PARAM_WHEEL_DIA 1
 #define PARAM_BASE_WIDTH 2
@@ -151,6 +146,11 @@
 #define PARAM_L_ARM 26
 #define PARAM_K_FF_VEL 27
 #define PARAM_K_FF_ACCEL 28
+
+#define PARAM_STATIC_KICK 29
+#define PARAM_COULOMB_RUN 30
+#define PARAM_STRIBECK_WIDTH 31
+#define PARAM_VISCOUS_FRICTION 32
 
 #define DEFAULT_AUTOSYNC true
 #define DEFAULT_ADCSYNC true
@@ -200,7 +200,7 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                             };
 
 // uint16 array
-#define SIZE_PARAMS_UINT16 11
+#define SIZE_PARAMS_UINT16 8
 uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_PWM_SCALE,
                                 DEFAULT_PWM_FRQ,
@@ -209,10 +209,7 @@ uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_INNER_LIMIT,
                                 DEFAULT_ENCODER_PPR,
                                 DEFAULT_INA219_CAL,
-                                DEFAULT_ADC_SPEED,
-                                DEFAULT_STATIC_KICK,
-                                DEFAULT_COULOMB_RUN,
-                                DEFAULT_STRIBECK_WIDTH
+                                DEFAULT_ADC_SPEED
                             };
 
 const char *names_uint16[] = { "PWM_SCALE",
@@ -222,10 +219,7 @@ const char *names_uint16[] = { "PWM_SCALE",
                                "INNER_LIMIT",
                                "ENCODER_PPR",
                                "INA219_CAL",
-                               "ADC_SPEED",
-                               "STATIC_KICK",
-                               "COULOMB_RUN",
-                               "STRIBECK_WIDTH" };
+                               "ADC_SPEED" };
 
 // uint32 array
 #define SIZE_PARAMS_UINT32 1
@@ -254,7 +248,7 @@ const char *names_int16[] = { "LEFT_FORWARD_DEADZONE",
                               "CS_RIGHT_OFFSET" };
 
 // float array
-#define SIZE_PARAMS_FLOAT 29
+#define SIZE_PARAMS_FLOAT 33
 float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_GEAR_RATIO,
                                DEFAULT_WHEEL_DIA,
@@ -284,7 +278,11 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_R_ARM,
                                DEFAULT_L_ARM,
                                DEFAULT_K_FF_VEL,
-                               DEFAULT_K_FF_ACCEL
+                               DEFAULT_K_FF_ACCEL,
+                               DEFAULT_STATIC_KICK,
+                               DEFAULT_COULOMB_RUN,
+                               DEFAULT_STRIBECK_WIDTH,
+                               DEFAULT_VISCOUS_FRICTION
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -315,7 +313,11 @@ const char *names_float[] = { "GEAR_RATIO",
                               "R_ARM",
                               "L_ARM",
                               "K_FF_VEL",
-                              "K_FF_ACCEL" };
+                              "K_FF_ACCEL",
+                              "STATIC_KICK",
+                              "COULOMB_RUN",
+                              "STRIBECK_WIDTH",
+                              "VISCOUS_FRICTION" };
 
 #define SIZE_PARAMS_BOOL 9
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
@@ -387,9 +389,6 @@ struct ParamMetadata {
 #define FP_INNER_LIMIT 4
 #define FP_INA219_CAL 5
 #define FP_ADC_SPEED 6
-#define FP_STATIC_KICK 7
-#define FP_COULOMB_RUN 8
-#define FP_STRIBECK_WIDTH 9
 
 #define FP_LEFT_FORWARD_DEADZONE 0
 #define FP_LEFT_REVERSE_DEADZONE 1
@@ -426,6 +425,11 @@ struct ParamMetadata {
 #define FP_FF_VEL 24
 #define FP_FF_ACCEL 25
 
+#define FP_STATIC_KICK 26
+#define FP_COULOMB_RUN 27
+#define FP_STRIBECK_WIDTH 28
+#define FP_VISCOUS_FRICTION 29
+
 #define FP_AUTOSYNC 0
 #define FP_ADCSYNC 1
 #define FP_CASCADED 2
@@ -452,10 +456,6 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"INNER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_INNER_LIMIT, FP_INNER_LIMIT}},
     {"INA219_CAL",              { CParamDataType::C_TYPE_UINT16, PARAM_INA219_CAL, FP_INA219_CAL}},
     {"ADC_SPEED",               { CParamDataType::C_TYPE_UINT16, PARAM_ADC_SPEED, FP_ADC_SPEED}},
-
-    {"STATIC_KICK",             { CParamDataType::C_TYPE_UINT16, PARAM_STATIC_KICK, FP_STATIC_KICK}},
-    {"COULOMB_RUN",             { CParamDataType::C_TYPE_UINT16, PARAM_COULOMB_RUN, FP_COULOMB_RUN}},
-    {"STRIBECK_WIDTH",          { CParamDataType::C_TYPE_UINT16, PARAM_STRIBECK_WIDTH, FP_STRIBECK_WIDTH}},
 
     {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_FORWARD_DEADZONE, FP_LEFT_FORWARD_DEADZONE}},
     {"LEFT_REVERSE_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_REVERSE_DEADZONE, FP_LEFT_REVERSE_DEADZONE}},
@@ -496,6 +496,11 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"L_ARM",                   { CParamDataType::C_TYPE_FLOAT,  PARAM_L_ARM, FP_L_ARM}},
     {"K_FF_VEL",                { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_VEL, FP_FF_VEL}},
     {"K_FF_ACCEL",              { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_ACCEL, FP_FF_ACCEL}},
+
+    {"STATIC_KICK",             { CParamDataType::C_TYPE_FLOAT, PARAM_STATIC_KICK, FP_STATIC_KICK}},
+    {"COULOMB_RUN",             { CParamDataType::C_TYPE_FLOAT, PARAM_COULOMB_RUN, FP_COULOMB_RUN}},
+    {"STRIBECK_WIDTH",          { CParamDataType::C_TYPE_FLOAT, PARAM_STRIBECK_WIDTH, FP_STRIBECK_WIDTH}},
+    {"VISCOUS_FRICTION",        { CParamDataType::C_TYPE_FLOAT, PARAM_VISCOUS_FRICTION, FP_VISCOUS_FRICTION}},
 
     {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}},
     {"ADCSYNC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_ADCSYNC, FP_ADCSYNC}},
