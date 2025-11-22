@@ -22,7 +22,7 @@
     # pwm configuration
     PWM_DIV: 16
     PWM_SCALE: 256
-    PWM_FRQ: 1000
+    PWM_FRQ: 500
     # motor configuration
     GEAR_RATIO: 65.0
     ENCODER_PPR: 48
@@ -45,8 +45,8 @@
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
     KB: 0.5
-    K_FF_VEL: 0.16
-    K_FF_ACCEL: 0.12
+    K_FF_VEL: 0.1
+    K_FF_ACCEL: 0.1
     # cascaded loop
     INNER_LIMIT: 192
     STATIC_KICK: 6
@@ -81,7 +81,7 @@
     # boolean parameters
     AUTOSYNC: True
     ADCSYNC: True
-    CASCADED: False
+    CASCADED: True
     BACKEMF: False
     CASCADE_FILTER: False
     AUTO_BIAS: True
