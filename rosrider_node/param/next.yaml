@@ -22,7 +22,7 @@
     # pwm configuration
     PWM_DIV: 16
     PWM_SCALE: 256
-    PWM_FRQ: 400
+    PWM_FRQ: 1000
     # motor configuration
     GEAR_RATIO: 65.0
     ENCODER_PPR: 48
