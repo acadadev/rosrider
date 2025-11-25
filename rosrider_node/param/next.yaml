@@ -29,6 +29,9 @@
     WHEEL_DIA: 0.0685
     BASE_WIDTH: 0.174
     MAX_RPM: 160.0
+    # outer friction model - if true, dead zones are ignored, and stribeck friction model will be used
+    OUTER_SCV: false
+    OMEGA_FILTER: false
     # dead zones
     LEFT_FORWARD_DEADZONE: 12
     LEFT_REVERSE_DEADZONE: 12
@@ -44,7 +47,7 @@
     RIGHT_KD: 0.0
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
-    KB: 0.5
+    K_FB_WINDUP: 0.5
     K_FF_VEL: 0.1
     K_FF_ACCEL: 0.1
     # cascaded loop

@@ -161,6 +161,8 @@
 #define DEFAULT_ADC_MULTIPHASE false
 #define DEFAULT_ADC_BIPHASE false
 #define DEFAULT_OUTER_FEEDFORWARD false
+#define DEFAULT_OUTER_SCV false
+#define DEFAULT_OMEGA_FILTER false
 
 #define PARAM_AUTOSYNC 0
 #define PARAM_ADCSYNC 1
@@ -171,6 +173,8 @@
 #define PARAM_ADC_MULTIPHASE 6
 #define PARAM_ADC_BIPHASE 7
 #define PARAM_OUTER_FEEDFORWARD 8
+#define PARAM_OUTER_SCV 9
+#define PARAM_OMEGA_FILTER 10
 
 // uint8 array
 #define SIZE_PARAMS_UINT8 10
@@ -319,7 +323,7 @@ const char *names_float[] = { "GEAR_RATIO",
                               "STRIBECK_WIDTH",
                               "VISCOUS_FRICTION" };
 
-#define SIZE_PARAMS_BOOL 9
+#define SIZE_PARAMS_BOOL 11
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
                                        DEFAULT_ADCSYNC,
                                        DEFAULT_CASCADED,
@@ -328,7 +332,9 @@ bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
                                        DEFAULT_AUTO_BIAS,
                                        DEFAULT_ADC_MULTIPHASE,
                                        DEFAULT_ADC_BIPHASE,
-                                       DEFAULT_OUTER_FEEDFORWARD };
+                                       DEFAULT_OUTER_FEEDFORWARD,
+                                       DEFAULT_OUTER_SCV,
+                                       DEFAULT_OMEGA_FILTER};
 
 const char *names_bool[] = { "AUTOSYNC",
                              "ADCSYNC",
@@ -338,7 +344,9 @@ const char *names_bool[] = { "AUTOSYNC",
                              "AUTO_BIAS",
                              "ADC_MULTIPHASE",
                              "ADC_BIPHASE",
-                             "OUTER_FEEDFORWARD"};
+                             "OUTER_FEEDFORWARD",
+                             "OUTER_SCV",
+                             "OMEGA_FILTER" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -439,6 +447,8 @@ struct ParamMetadata {
 #define FP_ADC_MULTIPHASE 6
 #define FP_ADC_BIPHASE 7
 #define FP_OUTER_FEEDFORWARD 8
+#define FP_OUTER_SCV 9
+#define FP_OMEGA_FILTER 10
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
@@ -490,7 +500,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"CURRENT_KI",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KI, FP_CURRENT_KI}},
     {"CURRENT_MULTIPLIER",      { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_OBSERVED_MULTIPLIER, FP_CURRENT_OBSERVED_MULTIPLIER}},
 
-    {"KB",                      { CParamDataType::C_TYPE_FLOAT,  PARAM_KB, FP_KB}},
+    {"K_FB_WINDUP",             { CParamDataType::C_TYPE_FLOAT,  PARAM_KB, FP_KB}},
     {"TORQUE_CONSTANT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_TORQUE_CONSTANT, FP_TORQUE_CONSTANT}},
     {"R_ARM",                   { CParamDataType::C_TYPE_FLOAT,  PARAM_R_ARM, FP_R_ARM}},
     {"L_ARM",                   { CParamDataType::C_TYPE_FLOAT,  PARAM_L_ARM, FP_L_ARM}},
@@ -511,7 +521,10 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"AUTO_BIAS",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BIAS, FP_AUTO_BIAS}},
     {"ADC_MULTIPHASE",          { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_MULTIPHASE, FP_ADC_MULTIPHASE}},
     {"ADC_BIPHASE",             { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_BIPHASE, FP_ADC_BIPHASE}},
-    {"OUTER_FEEDFORWARD",       { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_FEEDFORWARD, FP_OUTER_FEEDFORWARD}}
+    {"OUTER_FEEDFORWARD",       { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_FEEDFORWARD, FP_OUTER_FEEDFORWARD}},
+    {"OUTER_SCV",               { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_SCV, FP_OUTER_SCV}},
+    {"OMEGA_FILTER",               { CParamDataType::C_TYPE_BOOL,  PARAM_OMEGA_FILTER, FP_OMEGA_FILTER}}
+
 };
 
 const ParamMetadata* get_param_metadata(const std::string& param_name) {
