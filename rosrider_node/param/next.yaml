@@ -16,7 +16,7 @@
     MONITOR_RATE: 100
     MAX_IDLE_SECONDS: 1800
     # driver configuration
-    DRIVE_MODE: 1
+    DRIVE_MODE: 3
     CONFIG_FLAGS: 112
     UPDATE_RATE: 20
     # pwm configuration
