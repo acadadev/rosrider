@@ -57,7 +57,7 @@
     TORQUE_CONSTANT: 0.016
     R_ARM: 2.0
     L_ARM: 0.0015
-    VOLTAGE_FILTER: False
+    VOLTAGE_FILTER: True
     # stribeck friction
     STATIC_KICK: 6.0
     COULOMB_RUN: 3.0
@@ -88,11 +88,11 @@
     ADCSYNC: True
     CASCADED: True
     BACKEMF: False
-    CASCADE_FILTER: False
+    CASCADE_FILTER: True
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
-    OUTER_FEEDFORWARD: False
-    OMEGA_FILTER: False
+    OUTER_FEEDFORWARD: True
+    OMEGA_FILTER: True
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel_nav'
