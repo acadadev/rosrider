@@ -31,7 +31,7 @@
     MAX_RPM: 160.0
     # outer friction model - if true, dead zones are ignored, and stribeck friction model will be used
     OUTER_SCV: false
-    OMEGA_FILTER: false
+    OMEGA_FILTER: true
     # dead zones
     LEFT_FORWARD_DEADZONE: 12
     LEFT_REVERSE_DEADZONE: 12
@@ -88,10 +88,10 @@
     ADCSYNC: True
     CASCADED: True
     BACKEMF: False
-    CASCADE_FILTER: False
+    CASCADE_FILTER: True
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
-    OUTER_FEEDFORWARD: False
+    OUTER_FEEDFORWARD: True
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel_nav'
