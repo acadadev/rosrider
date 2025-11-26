@@ -89,12 +89,12 @@
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
-    OUTER_FEEDFORWARD: False
+    OUTER_FEEDFORWARD: True
     OMEGA_FILTER: True
     VOLTAGE_FILTER: True
     # outer friction model - if True, dead zones are ignored, and stribeck friction model will be used
     OUTER_SCV: False
     # inner friction model - if True, stribeck friction model will be used for inner loop
-    INNER_SCV: False
+    INNER_SCV: True
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel_nav'
