@@ -16,8 +16,8 @@
     MONITOR_RATE: 100
     MAX_IDLE_SECONDS: 1800
     # driver configuration
-    DRIVE_MODE: 3
-    CONFIG_FLAGS: 48
+    DRIVE_MODE: 1
+    CONFIG_FLAGS: 112
     UPDATE_RATE: 20
     # pwm configuration
     PWM_DIV: 16
@@ -57,7 +57,7 @@
     TORQUE_CONSTANT: 0.016
     R_ARM: 2.0
     L_ARM: 0.0015
-    VOLTAGE_FILTER: True
+    VOLTAGE_FILTER: False
     # stribeck friction
     STATIC_KICK: 6.0
     COULOMB_RUN: 3.0
@@ -86,13 +86,13 @@
     # boolean parameters
     AUTOSYNC: True
     ADCSYNC: True
-    CASCADED: True
+    CASCADED: False
     BACKEMF: False
-    CASCADE_FILTER: True
+    CASCADE_FILTER: False
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
     OUTER_FEEDFORWARD: True
-    OMEGA_FILTER: True
+    OMEGA_FILTER: False
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel_nav'
