@@ -48,8 +48,8 @@
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
     K_FB_WINDUP: 0.5
-    K_FF_VEL: 0.16
-    K_FF_ACCEL: 0.12
+    K_FF_VEL: 0.08
+    K_FF_ACCEL: 0.16
     # cascaded loop
     INNER_LIMIT: 240
     CURRENT_KP: 1.0
