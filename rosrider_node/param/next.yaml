@@ -57,6 +57,7 @@
     TORQUE_CONSTANT: 0.016
     R_ARM: 2.0
     L_ARM: 0.0015
+    VOLTAGE_FILTER: False
     # stribeck friction
     STATIC_KICK: 6.0
     COULOMB_RUN: 3.0
