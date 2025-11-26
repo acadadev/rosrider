@@ -18,11 +18,11 @@
     # driver configuration
     DRIVE_MODE: 3
     CONFIG_FLAGS: 112
-    UPDATE_RATE: 20
+    UPDATE_RATE: 50
     # pwm configuration
     PWM_DIV: 16
     PWM_SCALE: 256
-    PWM_FRQ: 1000
+    PWM_FRQ: 2000
     # motor configuration
     GEAR_RATIO: 65.0
     ENCODER_PPR: 48
@@ -57,7 +57,6 @@
     TORQUE_CONSTANT: 0.016
     R_ARM: 2.0
     L_ARM: 0.0015
-    VOLTAGE_FILTER: False
     # stribeck friction
     STATIC_KICK: 6.0
     COULOMB_RUN: 3.0
@@ -86,13 +85,14 @@
     # boolean parameters
     AUTOSYNC: True
     ADCSYNC: True
-    CASCADED: False
+    CASCADED: True
     BACKEMF: False
-    CASCADE_FILTER: False
+    CASCADE_FILTER: True
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
     OUTER_FEEDFORWARD: False
-    OMEGA_FILTER: False
+    OMEGA_FILTER: True
+    VOLTAGE_FILTER: True
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel_nav'
