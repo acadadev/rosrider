@@ -59,8 +59,8 @@
     R_ARM: 2.0
     L_ARM: 0.0015
     # stribeck friction
-    STATIC_KICK: 5.0
-    COULOMB_RUN: 2.5
+    STATIC_KICK: 6.0
+    COULOMB_RUN: 3.0
     STRIBECK_WIDTH: 64.0
     VISCOUS_FRICTION: 0.001
     # filter configuration
