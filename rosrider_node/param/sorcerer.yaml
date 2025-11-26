@@ -29,9 +29,8 @@
     WHEEL_DIA: 0.0685
     BASE_WIDTH: 0.1
     MAX_RPM: 90.0
-    # outer friction model - if true, dead zones are ignored, and stribeck friction model will be used
-    OUTER_SCV: false
-    OMEGA_FILTER: false
+    # outer friction model - if True, dead zones are ignored, and stribeck friction model will be used
+    OUTER_SCV: False
     # dead zones
     LEFT_FORWARD_DEADZONE: 8
     LEFT_REVERSE_DEADZONE: 8
@@ -93,5 +92,6 @@
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
     OUTER_FEEDFORWARD: True
+    OMEGA_FILTER: False
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel'
