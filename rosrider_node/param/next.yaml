@@ -92,7 +92,7 @@
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
-    OUTER_FEEDFORWARD: True
+    OUTER_FEEDFORWARD: False
     OMEGA_FILTER: False
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel_nav'
