@@ -18,7 +18,7 @@
     # driver configuration
     DRIVE_MODE: 3
     CONFIG_FLAGS: 48
-    UPDATE_RATE: 50
+    UPDATE_RATE: 20
     # pwm configuration
     PWM_DIV: 16
     PWM_SCALE: 256
@@ -45,8 +45,8 @@
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
     K_FB_WINDUP: 0.5
-    K_FF_VEL: 0.08
-    K_FF_ACCEL: 0.16
+    K_FF_VEL: 0.12
+    K_FF_ACCEL: 0.008
     # cascaded loop
     INNER_LIMIT: 192
     CURRENT_KP: 1.0
