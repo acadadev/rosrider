@@ -55,6 +55,7 @@
     TORQUE_CONSTANT: 0.016
     R_ARM: 2.0
     L_ARM: 0.0015
+    IR_COMP_GAIN: 2.0
     # stribeck friction
     STATIC_KICK: 6.0
     COULOMB_RUN: 3.0
@@ -81,8 +82,8 @@
     TRIM: 0.0
     MOTOR_CONSTANT: 1.0
     # boolean parameters
-    AUTOSYNC: True
-    ADCSYNC: True
+    AUTO_SYNC: True
+    ADC_SYNC: True
     CASCADED: False
     BACKEMF: False
     CASCADE_FILTER: False
@@ -92,6 +93,7 @@
     OUTER_FEEDFORWARD: True
     OMEGA_FILTER: False
     VOLTAGE_FILTER: False
+    AUTO_BRAKE: False
     # outer friction model - if True, dead zones are ignored, and stribeck friction model will be used
     OUTER_SCV: False
     # inner friction model - if True, stribeck friction model will be used for inner loop

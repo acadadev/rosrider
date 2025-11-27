@@ -103,18 +103,17 @@
 #define DEFAULT_CURRENT_KP (2.4F)
 #define DEFAULT_CURRENT_KI (1.2F)
 #define DEFAULT_CURRENT_OBSERVED_MULTIPLIER (1.0F)
-
 #define DEFAULT_KB (0.5F)
 #define DEFAULT_TORQUE_CONSTANT (0.01F)
 #define DEFAULT_R_ARM (2.0F)
 #define DEFAULT_L_ARM (0.001F)
 #define DEFAULT_K_FF_VEL (0.16F)
 #define DEFAULT_K_FF_ACCEL (0.12F)
-
 #define DEFAULT_STATIC_KICK (6.0F)
 #define DEFAULT_COULOMB_RUN (3.0F)
 #define DEFAULT_STRIBECK_WIDTH (64.0F)
 #define DEFAULT_VISCOUS_FRICTION (0.001F)
+#define DEFAULT_IR_COMP_GAIN (2.0F)
 
 #define PARAM_GEAR_RATIO 0
 #define PARAM_WHEEL_DIA 1
@@ -139,21 +138,21 @@
 #define PARAM_CURRENT_KP 20
 #define PARAM_CURRENT_KI 21
 #define PARAM_CURRENT_OBSERVED_MULTIPLIER 22
-
 #define PARAM_KB 23
 #define PARAM_TORQUE_CONSTANT 24
 #define PARAM_R_ARM 25
 #define PARAM_L_ARM 26
 #define PARAM_K_FF_VEL 27
 #define PARAM_K_FF_ACCEL 28
-
 #define PARAM_STATIC_KICK 29
 #define PARAM_COULOMB_RUN 30
 #define PARAM_STRIBECK_WIDTH 31
 #define PARAM_VISCOUS_FRICTION 32
 
-#define DEFAULT_AUTOSYNC true
-#define DEFAULT_ADCSYNC true
+#define PARAM_IR_COMP_GAIN 33
+
+#define DEFAULT_AUTO_SYNC true
+#define DEFAULT_ADC_SYNC true
 #define DEFAULT_CASCADED false
 #define DEFAULT_BACKEMF false
 #define DEFAULT_CASCADE_FILTER false
@@ -165,9 +164,10 @@
 #define DEFAULT_INNER_SCV true
 #define DEFAULT_OMEGA_FILTER false
 #define DEFAULT_VOLTAGE_FILTER false
+#define DEFAULT_AUTO_BRAKE false
 
-#define PARAM_AUTOSYNC 0
-#define PARAM_ADCSYNC 1
+#define PARAM_AUTO_SYNC 0
+#define PARAM_ADC_SYNC 1
 #define PARAM_CASCADED 2
 #define PARAM_BACKEMF 3
 #define PARAM_CASCADE_FILTER 4
@@ -179,6 +179,7 @@
 #define PARAM_INNER_SCV 10
 #define PARAM_OMEGA_FILTER 11
 #define PARAM_VOLTAGE_FILTER 12
+#define PARAM_AUTO_BRAKE 13
 
 // uint8 array
 #define SIZE_PARAMS_UINT8 10
@@ -256,7 +257,7 @@ const char *names_int16[] = { "LEFT_FORWARD_DEADZONE",
                               "CS_RIGHT_OFFSET" };
 
 // float array
-#define SIZE_PARAMS_FLOAT 33
+#define SIZE_PARAMS_FLOAT 34
 float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_GEAR_RATIO,
                                DEFAULT_WHEEL_DIA,
@@ -290,7 +291,8 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_STATIC_KICK,
                                DEFAULT_COULOMB_RUN,
                                DEFAULT_STRIBECK_WIDTH,
-                               DEFAULT_VISCOUS_FRICTION
+                               DEFAULT_VISCOUS_FRICTION,
+                               DEFAULT_IR_COMP_GAIN
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -325,11 +327,12 @@ const char *names_float[] = { "GEAR_RATIO",
                               "STATIC_KICK",
                               "COULOMB_RUN",
                               "STRIBECK_WIDTH",
-                              "VISCOUS_FRICTION" };
+                              "VISCOUS_FRICTION",
+                              "IR_COMP_GAIN" };
 
-#define SIZE_PARAMS_BOOL 13
-bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
-                                       DEFAULT_ADCSYNC,
+#define SIZE_PARAMS_BOOL 14
+bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
+                                       DEFAULT_ADC_SYNC,
                                        DEFAULT_CASCADED,
                                        DEFAULT_BACKEMF,
                                        DEFAULT_CASCADE_FILTER,
@@ -340,10 +343,11 @@ bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTOSYNC,
                                        DEFAULT_OUTER_SCV,
                                        DEFAULT_INNER_SCV,
                                        DEFAULT_OMEGA_FILTER,
-                                       DEFAULT_VOLTAGE_FILTER };
+                                       DEFAULT_VOLTAGE_FILTER,
+                                       DEFAULT_AUTO_BRAKE };
 
-const char *names_bool[] = { "AUTOSYNC",
-                             "ADCSYNC",
+const char *names_bool[] = { "AUTO_SYNC",
+                             "ADC_SYNC",
                              "CASCADED",
                              "BACKEMF",
                              "CASCADE_FILTER",
@@ -354,7 +358,8 @@ const char *names_bool[] = { "AUTOSYNC",
                              "OUTER_SCV",
                              "INNER_SCV",
                              "OMEGA_FILTER",
-                             "VOLTAGE_FILTER" };
+                             "VOLTAGE_FILTER",
+                             "AUTO_BRAKE"};
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -433,21 +438,21 @@ struct ParamMetadata {
 #define FP_CURRENT_KP 17
 #define FP_CURRENT_KI 18
 #define FP_CURRENT_OBSERVED_MULTIPLIER 19
-
 #define FP_KB 20
 #define FP_TORQUE_CONSTANT 21
 #define FP_R_ARM 22
 #define FP_L_ARM 23
 #define FP_FF_VEL 24
 #define FP_FF_ACCEL 25
-
 #define FP_STATIC_KICK 26
 #define FP_COULOMB_RUN 27
 #define FP_STRIBECK_WIDTH 28
 #define FP_VISCOUS_FRICTION 29
 
-#define FP_AUTOSYNC 0
-#define FP_ADCSYNC 1
+#define FP_IR_COMP_GAIN 30
+
+#define FP_AUTO_SYNC 0
+#define FP_ADC_SYNC 1
 #define FP_CASCADED 2
 #define FP_BACKEMF 3
 #define FP_CASCADE_FILTER 4
@@ -459,6 +464,7 @@ struct ParamMetadata {
 #define FP_INNER_SCV 10
 #define FP_OMEGA_FILTER 11
 #define FP_VOLTAGE_FILTER 12
+#define FP_AUTO_BRAKE 13
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
@@ -522,8 +528,10 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"STRIBECK_WIDTH",          { CParamDataType::C_TYPE_FLOAT, PARAM_STRIBECK_WIDTH, FP_STRIBECK_WIDTH}},
     {"VISCOUS_FRICTION",        { CParamDataType::C_TYPE_FLOAT, PARAM_VISCOUS_FRICTION, FP_VISCOUS_FRICTION}},
 
-    {"AUTOSYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTOSYNC, FP_AUTOSYNC}},
-    {"ADCSYNC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_ADCSYNC, FP_ADCSYNC}},
+    {"IR_COMP_GAIN",            { CParamDataType::C_TYPE_FLOAT, PARAM_IR_COMP_GAIN, FP_IR_COMP_GAIN}},
+
+    {"AUTO_SYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_SYNC, FP_AUTO_SYNC}},
+    {"ADC_SYNC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_SYNC, FP_ADC_SYNC}},
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}},
     {"BACKEMF",                 { CParamDataType::C_TYPE_BOOL,  PARAM_BACKEMF, FP_BACKEMF}},
     {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER, FP_CASCADE_FILTER}},
@@ -536,7 +544,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"INNER_SCV",               { CParamDataType::C_TYPE_BOOL,  PARAM_INNER_SCV, FP_INNER_SCV}},
     {"OMEGA_FILTER",            { CParamDataType::C_TYPE_BOOL,  PARAM_OMEGA_FILTER, FP_OMEGA_FILTER}},
     {"VOLTAGE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_VOLTAGE_FILTER, FP_VOLTAGE_FILTER}},
-
+    {"AUTO_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BRAKE, FP_AUTO_BRAKE}},
 };
 
 const ParamMetadata* get_param_metadata(const std::string& param_name) {
