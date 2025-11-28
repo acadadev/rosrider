@@ -85,7 +85,7 @@
     AUTO_SYNC: True
     ADC_SYNC: True
     CASCADED: True
-    BACKEMF: True
+    IR_COMP: True
     CASCADE_FILTER: True
     AUTO_BIAS: True
     ADC_MULTIPHASE: True

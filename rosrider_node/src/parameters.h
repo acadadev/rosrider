@@ -154,7 +154,7 @@
 #define DEFAULT_AUTO_SYNC true
 #define DEFAULT_ADC_SYNC true
 #define DEFAULT_CASCADED false
-#define DEFAULT_BACKEMF false
+#define DEFAULT_IR_COMP false
 #define DEFAULT_CASCADE_FILTER false
 #define DEFAULT_AUTO_BIAS true
 #define DEFAULT_ADC_MULTIPHASE false
@@ -169,7 +169,7 @@
 #define PARAM_AUTO_SYNC 0
 #define PARAM_ADC_SYNC 1
 #define PARAM_CASCADED 2
-#define PARAM_BACKEMF 3
+#define PARAM_IR_COMP 3
 #define PARAM_CASCADE_FILTER 4
 #define PARAM_AUTO_BIAS 5
 #define PARAM_ADC_MULTIPHASE 6
@@ -334,7 +334,7 @@ const char *names_float[] = { "GEAR_RATIO",
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_ADC_SYNC,
                                        DEFAULT_CASCADED,
-                                       DEFAULT_BACKEMF,
+                                       DEFAULT_IR_COMP,
                                        DEFAULT_CASCADE_FILTER,
                                        DEFAULT_AUTO_BIAS,
                                        DEFAULT_ADC_MULTIPHASE,
@@ -349,7 +349,7 @@ bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
 const char *names_bool[] = { "AUTO_SYNC",
                              "ADC_SYNC",
                              "CASCADED",
-                             "BACKEMF",
+                             "IR_COMP",
                              "CASCADE_FILTER",
                              "AUTO_BIAS",
                              "ADC_MULTIPHASE",
@@ -454,7 +454,7 @@ struct ParamMetadata {
 #define FP_AUTO_SYNC 0
 #define FP_ADC_SYNC 1
 #define FP_CASCADED 2
-#define FP_BACKEMF 3
+#define FP_IR_COMP 3
 #define FP_CASCADE_FILTER 4
 #define FP_AUTO_BIAS 5
 #define FP_ADC_MULTIPHASE 6
@@ -533,7 +533,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"AUTO_SYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_SYNC, FP_AUTO_SYNC}},
     {"ADC_SYNC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_SYNC, FP_ADC_SYNC}},
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}},
-    {"BACKEMF",                 { CParamDataType::C_TYPE_BOOL,  PARAM_BACKEMF, FP_BACKEMF}},
+    {"IR_COMP",                 { CParamDataType::C_TYPE_BOOL,  PARAM_IR_COMP, FP_IR_COMP}},
     {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER, FP_CASCADE_FILTER}},
 
     {"AUTO_BIAS",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BIAS, FP_AUTO_BIAS}},
