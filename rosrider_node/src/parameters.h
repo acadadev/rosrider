@@ -26,7 +26,6 @@
 #define DEFAULT_ALLOWED_SKIP 3
 #define DEFAULT_I2C_ADDRESS 0x3C
 #define DEFAULT_OUTPUT_FILTER_TYPE 0
-#define DEFAULT_INNER_FILTER_TYPE 0
 #define DEFAULT_CS_WAVEFORM_DIVIDER 16
 
 #define PARAM_CONFIG_FLAGS 0
@@ -37,8 +36,7 @@
 #define PARAM_ALLOWED_SKIP 5
 #define PARAM_I2C_ADDRESS 6
 #define PARAM_OUTPUT_FILTER_TYPE 7
-#define PARAM_INNER_FILTER_TYPE 8
-#define PARAM_CS_WAVEFORM_DIVIDER 9
+#define PARAM_CS_WAVEFORM_DIVIDER 8
 
 // uint16
 #define DEFAULT_PWM_SCALE 256
@@ -180,7 +178,7 @@
 #define PARAM_AUTO_BRAKE 12
 
 // uint8 array
-#define SIZE_PARAMS_UINT8 10
+#define SIZE_PARAMS_UINT8 9
 uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_CONFIG_FLAGS,
                                 DEFAULT_UPDATE_RATE,
@@ -190,7 +188,6 @@ uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_ALLOWED_SKIP,
                                 DEFAULT_I2C_ADDRESS,
                                 DEFAULT_OUTPUT_FILTER_TYPE,
-                                DEFAULT_INNER_FILTER_TYPE,
                                 DEFAULT_CS_WAVEFORM_DIVIDER
                             };
 
@@ -202,7 +199,6 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                               "ALLOWED_SKIP",
                               "I2C_ADDRESS",
                               "OUTPUT_FILTER_TYPE",
-                              "INNER_FILTER_TYPE",
                               "CS_WAVEFORM_DIVIDER"
                             };
 
@@ -396,8 +392,7 @@ struct ParamMetadata {
 #define FP_PWM_DIV 1
 #define FP_DRIVE_MODE 2
 #define FP_OUTPUT_FILTER_TYPE 3
-#define FP_INNER_FILTER_TYPE 4
-#define FP_CS_WAVEFORM_DIVIDER 5
+#define FP_CS_WAVEFORM_DIVIDER 4
 
 #define FP_PWM_SCALE 0
 #define FP_PWM_FRQ 1
@@ -467,7 +462,6 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"PWM_DIV",                 { CParamDataType::C_TYPE_UINT8,  PARAM_PWM_DIV, FP_PWM_DIV}},
     {"DRIVE_MODE",              { CParamDataType::C_TYPE_UINT8,  PARAM_DRIVE_MODE, FP_DRIVE_MODE}},
     {"OUTPUT_FILTER_TYPE",      { CParamDataType::C_TYPE_UINT8,  PARAM_OUTPUT_FILTER_TYPE, FP_OUTPUT_FILTER_TYPE}},
-    {"INNER_FILTER_TYPE",       { CParamDataType::C_TYPE_UINT8,  PARAM_INNER_FILTER_TYPE, FP_INNER_FILTER_TYPE}},
     {"CS_WAVEFORM_DIV",         { CParamDataType::C_TYPE_UINT8,  PARAM_CS_WAVEFORM_DIVIDER, FP_CS_WAVEFORM_DIVIDER}},
 
     {"PWM_SCALE",               { CParamDataType::C_TYPE_UINT16, PARAM_PWM_SCALE, FP_PWM_SCALE}},

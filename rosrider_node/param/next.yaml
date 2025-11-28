@@ -57,13 +57,12 @@
     L_ARM: 0.0015
     IR_COMP_GAIN: 2.0
     # stribeck friction
-    STATIC_KICK: 6.0
-    COULOMB_RUN: 3.0
-    STRIBECK_WIDTH: 64.0
+    STATIC_KICK: 3.0
+    COULOMB_RUN: 1.5
+    STRIBECK_WIDTH: 32.0
     VISCOUS_FRICTION: 0.001
     # filter configuration
     OUTPUT_FILTER_TYPE: 0
-    INNER_FILTER_TYPE: 0
     # electrical limits
     MAIN_AMP_LIMIT: 3.6
     BAT_VOLTS_HIGH: 15.0
@@ -85,16 +84,16 @@
     AUTO_SYNC: True
     ADC_SYNC: True
     CASCADED: True
-    IR_COMP: False
-    CASCADE_FILTER: False
+    IR_COMP: True
+    CASCADE_FILTER: True
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
     OUTER_FEEDFORWARD: False
-    OMEGA_FILTER: False
-    VOLTAGE_FILTER: False
-    AUTO_BRAKE: False
+    OMEGA_FILTER: True
+    VOLTAGE_FILTER: True
+    AUTO_BRAKE: True
     # outer friction model - if True, dead zones are ignored, and stribeck friction model will be used
-    OUTER_SCV: False
+    OUTER_SCV: True
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel_nav'

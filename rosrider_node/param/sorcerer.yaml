@@ -63,7 +63,6 @@
     VISCOUS_FRICTION: 0.001
     # filter configuration
     OUTPUT_FILTER_TYPE: 0
-    INNER_FILTER_TYPE: 0
     # electrical limits
     MAIN_AMP_LIMIT: 2.8
     BAT_VOLTS_HIGH: 15.0
