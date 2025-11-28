@@ -4,10 +4,14 @@
 #define PARAM_WRITE     0x01                        // write parameter to eeprom
 #define PARAM_OVERRIDE  0x02                        // override parameter and make it instantly apply
 
-#define I2C_WRITE_RESULT_SUCCESS 0x00               // param operation success
-#define I2C_WRITE_RESULT_UNCHANGED 0x01             // param not changed
-#define I2C_WRITE_RESULT_CHECKSUM 0x03              // param operation checksum fail
-#define I2C_WRITE_RESULT_OVERRIDE 0xFF              // param override operation success
+#define I2C_WRITE_RESULT_SUCCESS 0x00
+#define I2C_WRITE_RESULT_UNCHANGED 0x01
+#define I2C_WRITE_RESULT_WRITE_ERROR 0x02
+#define I2C_WRITE_RESULT_CHECKSUM 0x03
+
+#define I2C_WRITE_RESULT_OVERRIDE_DENIED 0xFD
+#define I2C_WRITE_RESULT_OVERRIDE_FP_ERROR 0xFE
+#define I2C_WRITE_RESULT_OVERRIDE 0xFF
 
 // parameter types, or addresses
 #define EEPROM_WRITE_UINT8 0x0A
