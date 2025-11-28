@@ -161,7 +161,6 @@
 #define DEFAULT_ADC_BIPHASE false
 #define DEFAULT_OUTER_FEEDFORWARD false
 #define DEFAULT_OUTER_SCV false
-#define DEFAULT_INNER_SCV true
 #define DEFAULT_OMEGA_FILTER false
 #define DEFAULT_VOLTAGE_FILTER false
 #define DEFAULT_AUTO_BRAKE false
@@ -176,10 +175,9 @@
 #define PARAM_ADC_BIPHASE 7
 #define PARAM_OUTER_FEEDFORWARD 8
 #define PARAM_OUTER_SCV 9
-#define PARAM_INNER_SCV 10
-#define PARAM_OMEGA_FILTER 11
-#define PARAM_VOLTAGE_FILTER 12
-#define PARAM_AUTO_BRAKE 13
+#define PARAM_OMEGA_FILTER 10
+#define PARAM_VOLTAGE_FILTER 11
+#define PARAM_AUTO_BRAKE 12
 
 // uint8 array
 #define SIZE_PARAMS_UINT8 10
@@ -330,7 +328,7 @@ const char *names_float[] = { "GEAR_RATIO",
                               "VISCOUS_FRICTION",
                               "IR_COMP_GAIN" };
 
-#define SIZE_PARAMS_BOOL 14
+#define SIZE_PARAMS_BOOL 13
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_ADC_SYNC,
                                        DEFAULT_CASCADED,
@@ -341,7 +339,6 @@ bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_ADC_BIPHASE,
                                        DEFAULT_OUTER_FEEDFORWARD,
                                        DEFAULT_OUTER_SCV,
-                                       DEFAULT_INNER_SCV,
                                        DEFAULT_OMEGA_FILTER,
                                        DEFAULT_VOLTAGE_FILTER,
                                        DEFAULT_AUTO_BRAKE };
@@ -356,7 +353,6 @@ const char *names_bool[] = { "AUTO_SYNC",
                              "ADC_BIPHASE",
                              "OUTER_FEEDFORWARD",
                              "OUTER_SCV",
-                             "INNER_SCV",
                              "OMEGA_FILTER",
                              "VOLTAGE_FILTER",
                              "AUTO_BRAKE"};
@@ -461,10 +457,9 @@ struct ParamMetadata {
 #define FP_ADC_BIPHASE 7
 #define FP_OUTER_FEEDFORWARD 8
 #define FP_OUTER_SCV 9
-#define FP_INNER_SCV 10
-#define FP_OMEGA_FILTER 11
-#define FP_VOLTAGE_FILTER 12
-#define FP_AUTO_BRAKE 13
+#define FP_OMEGA_FILTER 10
+#define FP_VOLTAGE_FILTER 11
+#define FP_AUTO_BRAKE 12
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
@@ -541,7 +536,6 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"ADC_BIPHASE",             { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_BIPHASE, FP_ADC_BIPHASE}},
     {"OUTER_FEEDFORWARD",       { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_FEEDFORWARD, FP_OUTER_FEEDFORWARD}},
     {"OUTER_SCV",               { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_SCV, FP_OUTER_SCV}},
-    {"INNER_SCV",               { CParamDataType::C_TYPE_BOOL,  PARAM_INNER_SCV, FP_INNER_SCV}},
     {"OMEGA_FILTER",            { CParamDataType::C_TYPE_BOOL,  PARAM_OMEGA_FILTER, FP_OMEGA_FILTER}},
     {"VOLTAGE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_VOLTAGE_FILTER, FP_VOLTAGE_FILTER}},
     {"AUTO_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BRAKE, FP_AUTO_BRAKE}},

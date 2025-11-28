@@ -96,7 +96,5 @@
     AUTO_BRAKE: False
     # outer friction model - if True, dead zones are ignored, and stribeck friction model will be used
     OUTER_SCV: False
-    # inner friction model - if True, stribeck friction model will be used for inner loop
-    INNER_SCV: False
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel'
