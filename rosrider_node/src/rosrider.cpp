@@ -236,29 +236,40 @@ class ROSRider : public rclcpp::Node {
                             uint8_t send_result = 0;
                             ParamMetadata p = *metadata_ptr;
                             switch (p.c_type) {
+
                                 case CParamDataType::C_TYPE_UINT8:
                                     send_result = send_uint8_param(p.param_index, parameter.as_int());
                                     break;
+
                                 case CParamDataType::C_TYPE_UINT16:
                                     send_result = send_uint16_param(p.param_index, parameter.as_int());
                                     break;
+
+                                case CParamDataType:C_TYPE_UINT32:
+                                    send_result = send_uint32_param(p.param_index, parameter.as_int());
+
                                 case CParamDataType::C_TYPE_INT16:
                                     send_result = send_int16_param(p.param_index, parameter.as_int());
                                     break;
+
                                 case CParamDataType::C_TYPE_FLOAT:
                                     send_result = send_float_param(p.param_index, parameter.as_double());
                                     break;
+
                                 case CParamDataType::C_TYPE_BOOL:
                                     send_result = send_bool_param(p.param_index, parameter.as_bool());
                                     break;
+
                                 default:
                                     break;
+
                             }
                             // TODO: focus testing around here
-                            // TODO: send result can be number of things. for example it could be update unmodified.
+                            // TODO: make the gui undo if not accepted
                             if( send_result == UPDATE_SUCCESS ) {
                                 result.successful &= true;
                             } else {
+                                // TODO: print the
                                 RCLCPP_ERROR(this->get_logger(),
                                              "Failed Parameter Change Callback: '%s', error code: %d. indices: param_index=%d",
                                              parameter.get_name().c_str(),
@@ -852,7 +863,7 @@ class ROSRider : public rclcpp::Node {
                 uint8_t parameter_result = send_uint32_param(param_index, temp_uint32);
                 process_parameter_result(cumulative_result, parameter_result, param_index, names_uint32, std::to_string(temp_uint32).c_str());
                 rclcpp::sleep_for(1ms);
-			}			
+			}
 
 			// send int16 parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_INT16; param_index++) {
@@ -860,7 +871,7 @@ class ROSRider : public rclcpp::Node {
                 uint8_t parameter_result = send_int16_param(param_index, temp_int16);
                 process_parameter_result(cumulative_result, parameter_result, param_index, names_int16, std::to_string(temp_int16).c_str());
                 rclcpp::sleep_for(1ms);
-			}		
+			}
 
 			// send boolean parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_BOOL; param_index++) {
