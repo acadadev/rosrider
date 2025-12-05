@@ -38,7 +38,7 @@ int16_t cs_right_scaled;
 // TODO: HEAD: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
 // TODO: HEAD: base_width default 0.1, equalize on firmware
 // TODO: HEAD: ros2pri config can be improved. right now we send hibernate, and hat-off command during shutdown and haton comment at startup.
-// TODO: ignore motor_status fault, or print once and ignore
+
 
 class ROSRider : public rclcpp::Node {
 
@@ -151,7 +151,7 @@ class ROSRider : public rclcpp::Node {
 
 				// send params to device
 			    ParameterResult send_parameter_result = send_parameters();
-			    // TODO: P1: audit here
+
 			    if(send_parameter_result.write_error_count > 0) {
 			    	RCLCPP_INFO(this->get_logger(), "Parameter Write Error Count: %d", send_parameter_result.write_error_count);
 			    	exit(0);
@@ -265,12 +265,10 @@ class ROSRider : public rclcpp::Node {
                                     break;
 
                             }
-                            // TODO: focus testing around here
-                            // TODO: make the gui undo if not accepted
+
                             if( send_result == UPDATE_SUCCESS ) {
                                 result.successful &= true;
                             } else {
-                                // TODO: print the
                                 RCLCPP_ERROR(this->get_logger(),
                                              "Failed Parameter Change Callback: '%s', error code: %d. indices: param_index=%d",
                                              parameter.get_name().c_str(),
@@ -418,7 +416,6 @@ class ROSRider : public rclcpp::Node {
 				// this value will be used for stamping
 				corrected_time = current_time - time_correction;
 
-                // TODO: AUDIT: document this better. also check for overflow conditions.
 				// if timeskip use most recent time
 				if(corrected_time < prev_corrected_time) {
 					RCLCPP_INFO(this->get_logger(), "Timeskip detected");
@@ -439,7 +436,6 @@ class ROSRider : public rclcpp::Node {
 
 	            if(SYS_STATUS != prev_SYS_STATUS) {
 	            	print_sys_status(this->get_logger(), SYS_STATUS);
-	            	// TODO: DOC
 	            	if(SYS_STATUS & 0x40) { 
 					    send_device_reset();
 					    rclcpp::sleep_for(1000ms);
