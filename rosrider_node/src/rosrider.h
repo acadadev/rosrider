@@ -39,7 +39,7 @@ uint8_t MTR_STATUS;
 typedef union {
     float f32;
     uint8_t ui8[4];
-} f32_to_ui8; // TODO: AUDIT: check if we use these
+} f32_to_ui8;
 
 typedef union {
     uint32_t u32;

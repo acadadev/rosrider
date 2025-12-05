@@ -1,17 +1,14 @@
 #ifndef __PARAMETERS_h
 #define __PARAMETERS_h
 
-#define PARAM_WRITE     0x01                        // write parameter to eeprom
-#define PARAM_OVERRIDE  0x02                        // override parameter and make it instantly apply
-
-#define I2C_WRITE_RESULT_SUCCESS 0x00
-#define I2C_WRITE_RESULT_UNCHANGED 0x01
-#define I2C_WRITE_RESULT_WRITE_ERROR 0x02
-#define I2C_WRITE_RESULT_CHECKSUM 0x03
-
-#define I2C_WRITE_RESULT_OVERRIDE_DENIED 0xFD
-#define I2C_WRITE_RESULT_OVERRIDE_FP_ERROR 0xFE
-#define I2C_WRITE_RESULT_OVERRIDE 0xFF
+#define   UPDATE_SUCCESS 0x00
+#define UPDATE_UNCHANGED 0x10
+#define  UPDATE_WR_ERROR 0x21
+#define  UPDATE_CHECKSUM 0x22
+#define    UPDATE_DENIED 0x30
+#define  UPDATE_FP_ERROR 0x40
+#define UPDATE_MOD_STATE 0x41
+#define    UPDATE_REBOOT 0x80                               // notice: this is returned in write result array
 
 // parameter types, or addresses
 #define EEPROM_WRITE_UINT8 0x0A
@@ -116,6 +113,8 @@
 #define DEFAULT_STRIBECK_WIDTH (64.0F)
 #define DEFAULT_VISCOUS_FRICTION (0.001F)
 #define DEFAULT_IR_COMP_GAIN (2.0F)
+#define DEFAULT_VISCOUS_FRICTION_LIMIT (1.2F)
+#define DEFAULT_EB_FF_LIMIT (12.0F)
 
 #define PARAM_GEAR_RATIO 0
 #define PARAM_WHEEL_DIA 1
@@ -150,8 +149,9 @@
 #define PARAM_COULOMB_RUN 30
 #define PARAM_STRIBECK_WIDTH 31
 #define PARAM_VISCOUS_FRICTION 32
-
 #define PARAM_IR_COMP_GAIN 33
+#define PARAM_VISCOUS_FRICTION_LIMIT 34
+#define PARAM_EB_FF_LIMIT 35
 
 #define DEFAULT_AUTO_SYNC true
 #define DEFAULT_ADC_SYNC true
@@ -166,6 +166,7 @@
 #define DEFAULT_OMEGA_FILTER false
 #define DEFAULT_VOLTAGE_FILTER false
 #define DEFAULT_AUTO_BRAKE false
+#define DEFAULT_INDUCTIVE_COMPENSATION false
 
 #define PARAM_AUTO_SYNC 0
 #define PARAM_ADC_SYNC 1
@@ -180,9 +181,16 @@
 #define PARAM_OMEGA_FILTER 10
 #define PARAM_VOLTAGE_FILTER 11
 #define PARAM_AUTO_BRAKE 12
+#define PARAM_INDUCTIVE_COMPENSATION 13
+
+#define SIZE_PARAMS_UINT8 9
+#define SIZE_PARAMS_UINT16 8
+#define SIZE_PARAMS_UINT32 1
+#define SIZE_PARAMS_INT16 6
+#define SIZE_PARAMS_FLOAT 36
+#define SIZE_PARAMS_BOOL 14
 
 // uint8 array
-#define SIZE_PARAMS_UINT8 9
 uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_CONFIG_FLAGS,
                                 DEFAULT_UPDATE_RATE,
@@ -207,7 +215,6 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                             };
 
 // uint16 array
-#define SIZE_PARAMS_UINT16 8
 uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_PWM_SCALE,
                                 DEFAULT_PWM_FRQ,
@@ -229,7 +236,6 @@ const char *names_uint16[] = { "PWM_SCALE",
                                "ADC_SPEED" };
 
 // uint32 array
-#define SIZE_PARAMS_UINT32 1
 uint32_t params_uint32[SIZE_PARAMS_UINT32] = {
                                DEFAULT_RTC_TRIM
                             };
@@ -237,7 +243,6 @@ uint32_t params_uint32[SIZE_PARAMS_UINT32] = {
 const char *names_uint32[] = { "RTC_TRIM" };
 
 // int16 array
-#define SIZE_PARAMS_INT16 6
 int16_t params_int16[SIZE_PARAMS_INT16] = {
                                 DEFAULT_LEFT_FORWARD_DEADZONE,
                                 DEFAULT_LEFT_REVERSE_DEADZONE,
@@ -255,7 +260,6 @@ const char *names_int16[] = { "LEFT_FORWARD_DEADZONE",
                               "CS_RIGHT_OFFSET" };
 
 // float array
-#define SIZE_PARAMS_FLOAT 34
 float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_GEAR_RATIO,
                                DEFAULT_WHEEL_DIA,
@@ -290,7 +294,9 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_COULOMB_RUN,
                                DEFAULT_STRIBECK_WIDTH,
                                DEFAULT_VISCOUS_FRICTION,
-                               DEFAULT_IR_COMP_GAIN
+                               DEFAULT_IR_COMP_GAIN,
+                               DEFAULT_VISCOUS_FRICTION_LIMIT,
+                               DEFAULT_EB_FF_LIMIT
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -326,9 +332,10 @@ const char *names_float[] = { "GEAR_RATIO",
                               "COULOMB_RUN",
                               "STRIBECK_WIDTH",
                               "VISCOUS_FRICTION",
-                              "IR_COMP_GAIN" };
+                              "IR_COMP_GAIN",
+                              "VISCOUS_FRICTION_LIMIT",
+                              "EB_FF_LIMIT" };
 
-#define SIZE_PARAMS_BOOL 13
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_ADC_SYNC,
                                        DEFAULT_CASCADED,
@@ -341,7 +348,8 @@ bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_OUTER_SCV,
                                        DEFAULT_OMEGA_FILTER,
                                        DEFAULT_VOLTAGE_FILTER,
-                                       DEFAULT_AUTO_BRAKE };
+                                       DEFAULT_AUTO_BRAKE,
+                                       DEFAULT_INDUCTIVE_COMPENSATION };
 
 const char *names_bool[] = { "AUTO_SYNC",
                              "ADC_SYNC",
@@ -355,7 +363,8 @@ const char *names_bool[] = { "AUTO_SYNC",
                              "OUTER_SCV",
                              "OMEGA_FILTER",
                              "VOLTAGE_FILTER",
-                             "AUTO_BRAKE"};
+                             "AUTO_BRAKE",
+                             "INDUCTIVE_COMP" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -382,6 +391,7 @@ enum class CParamDataType {
     C_TYPE_UINT8,
     C_TYPE_UINT16,
     C_TYPE_INT16,
+    C_TYPE_UINT32,
     C_TYPE_FLOAT,
     C_TYPE_BOOL
 };
@@ -389,154 +399,88 @@ enum class CParamDataType {
 struct ParamMetadata {
     CParamDataType c_type;          // The target C data type
     uint8_t param_index;            // Parameter Index
-    uint8_t fp_index;               // Function Pointer Index
 };
-
-#define FP_CONFIG_FLAGS 0
-#define FP_PWM_DIV 1
-#define FP_DRIVE_MODE 2
-#define FP_OUTPUT_FILTER_TYPE 3
-#define FP_CS_WAVEFORM_DIVIDER 4
-
-#define FP_PWM_SCALE 0
-#define FP_PWM_FRQ 1
-#define FP_MAX_IDLE_SECONDS 2
-#define FP_UPPER_LIMIT 3
-#define FP_INNER_LIMIT 4
-#define FP_INA219_CAL 5
-#define FP_ADC_SPEED 6
-
-#define FP_LEFT_FORWARD_DEADZONE 0
-#define FP_LEFT_REVERSE_DEADZONE 1
-#define FP_RIGHT_FORWARD_DEADZONE 2
-#define FP_RIGHT_REVERSE_DEADZONE 3
-#define FP_CS_LEFT_OFFSET 4
-#define FP_CS_RIGHT_OFFSET 5
-
-#define FP_MAX_RPM 0
-#define FP_LEFT_KP 1
-#define FP_RIGHT_KP 2
-#define FP_LEFT_KI 3
-#define FP_RIGHT_KI 4
-#define FP_LEFT_KD 5
-#define FP_RIGHT_KD 6
-#define FP_GAIN 7
-#define FP_TRIM 8
-#define FP_MOTOR_CONSTANT 9
-#define FP_BAT_VOLTS_LOW 10
-#define FP_BAT_VOLTS_HIGH 11
-#define FP_MAIN_AMP_LIMIT 12
-#define FP_LEFT_AMP_LIMIT 13
-#define FP_RIGHT_AMP_LIMIT 14
-#define FP_TANH_DIV 15
-#define FP_SIGM_DIV 16
-#define FP_CURRENT_KP 17
-#define FP_CURRENT_KI 18
-#define FP_CURRENT_OBSERVED_MULTIPLIER 19
-#define FP_KB 20
-#define FP_TORQUE_CONSTANT 21
-#define FP_R_ARM 22
-#define FP_L_ARM 23
-#define FP_FF_VEL 24
-#define FP_FF_ACCEL 25
-#define FP_STATIC_KICK 26
-#define FP_COULOMB_RUN 27
-#define FP_STRIBECK_WIDTH 28
-#define FP_VISCOUS_FRICTION 29
-
-#define FP_IR_COMP_GAIN 30
-
-#define FP_AUTO_SYNC 0
-#define FP_ADC_SYNC 1
-#define FP_CASCADED 2
-#define FP_IR_COMP 3
-#define FP_CASCADE_FILTER 4
-#define FP_AUTO_BIAS 5
-#define FP_ADC_MULTIPHASE 6
-#define FP_ADC_BIPHASE 7
-#define FP_OUTER_FEEDFORWARD 8
-#define FP_OUTER_SCV 9
-#define FP_OMEGA_FILTER 10
-#define FP_VOLTAGE_FILTER 11
-#define FP_AUTO_BRAKE 12
 
 const std::map<std::string, ParamMetadata> ParamMap = {
 
-    {"CONFIG_FLAGS",            { CParamDataType::C_TYPE_UINT8,  PARAM_CONFIG_FLAGS, FP_CONFIG_FLAGS}},
-    {"PWM_DIV",                 { CParamDataType::C_TYPE_UINT8,  PARAM_PWM_DIV, FP_PWM_DIV}},
-    {"DRIVE_MODE",              { CParamDataType::C_TYPE_UINT8,  PARAM_DRIVE_MODE, FP_DRIVE_MODE}},
-    {"OUTPUT_FILTER_TYPE",      { CParamDataType::C_TYPE_UINT8,  PARAM_OUTPUT_FILTER_TYPE, FP_OUTPUT_FILTER_TYPE}},
-    {"CS_WAVEFORM_DIV",         { CParamDataType::C_TYPE_UINT8,  PARAM_CS_WAVEFORM_DIVIDER, FP_CS_WAVEFORM_DIVIDER}},
+    {"CONFIG_FLAGS",            { CParamDataType::C_TYPE_UINT8,  PARAM_CONFIG_FLAGS } },
+    {"UPDATE_RATE",             { CParamDataType::C_TYPE_UINT8,  PARAM_UPDATE_RATE } },
+    {"PWM_DIV",                 { CParamDataType::C_TYPE_UINT8,  PARAM_PWM_DIV } },
+    {"DRIVE_MODE",              { CParamDataType::C_TYPE_UINT8,  PARAM_DRIVE_MODE } },
+    {"MONITOR_RATE",             { CParamDataType::C_TYPE_UINT8,  PARAM_MONITOR_RATE } },
+    {"ALLOWED_SKIP",             { CParamDataType::C_TYPE_UINT8,  PARAM_ALLOWED_SKIP } },
+    {"OUTPUT_FILTER_TYPE",      { CParamDataType::C_TYPE_UINT8,  PARAM_OUTPUT_FILTER_TYPE } },
+    {"CS_WAVEFORM_DIV",         { CParamDataType::C_TYPE_UINT8,  PARAM_CS_WAVEFORM_DIVIDER } },
 
-    {"PWM_SCALE",               { CParamDataType::C_TYPE_UINT16, PARAM_PWM_SCALE, FP_PWM_SCALE}},
-    {"PWM_FRQ",                 { CParamDataType::C_TYPE_UINT16, PARAM_PWM_FRQ, FP_PWM_FRQ}},
-    {"MAX_IDLE_SECONDS",        { CParamDataType::C_TYPE_UINT16, PARAM_MAX_IDLE_SECONDS, FP_MAX_IDLE_SECONDS}},
-    {"UPPER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_UPPER_LIMIT, FP_UPPER_LIMIT}},
-    {"INNER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_INNER_LIMIT, FP_INNER_LIMIT}},
-    {"INA219_CAL",              { CParamDataType::C_TYPE_UINT16, PARAM_INA219_CAL, FP_INA219_CAL}},
-    {"ADC_SPEED",               { CParamDataType::C_TYPE_UINT16, PARAM_ADC_SPEED, FP_ADC_SPEED}},
+    {"PWM_SCALE",               { CParamDataType::C_TYPE_UINT16, PARAM_PWM_SCALE } },
+    {"PWM_FRQ",                 { CParamDataType::C_TYPE_UINT16, PARAM_PWM_FRQ } },
+    {"MAX_IDLE_SECONDS",        { CParamDataType::C_TYPE_UINT16, PARAM_MAX_IDLE_SECONDS } },
+    {"UPPER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_UPPER_LIMIT } },
+    {"INNER_LIMIT",             { CParamDataType::C_TYPE_UINT16, PARAM_INNER_LIMIT } },
+    {"ENCODER_PPR",             { CParamDataType::C_TYPE_UINT16, PARAM_ENCODER_PPR } },
+    {"INA219_CAL",              { CParamDataType::C_TYPE_UINT16, PARAM_INA219_CAL } },
+    {"ADC_SPEED",               { CParamDataType::C_TYPE_UINT16, PARAM_ADC_SPEED } },
 
-    {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_FORWARD_DEADZONE, FP_LEFT_FORWARD_DEADZONE}},
-    {"LEFT_REVERSE_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_REVERSE_DEADZONE, FP_LEFT_REVERSE_DEADZONE}},
-    {"RIGHT_FORWARD_DEADZONE",  { CParamDataType::C_TYPE_INT16,  PARAM_RIGHT_FORWARD_DEADZONE, FP_RIGHT_FORWARD_DEADZONE}},
-    {"RIGHT_REVERSE_DEADZONE",  { CParamDataType::C_TYPE_INT16,  PARAM_RIGHT_REVERSE_DEADZONE, FP_RIGHT_REVERSE_DEADZONE}},
-    {"CS_LEFT_OFFSET",          { CParamDataType::C_TYPE_INT16,  PARAM_CS_LEFT_OFFSET, FP_CS_LEFT_OFFSET}},
-    {"CS_RIGHT_OFFSET",         { CParamDataType::C_TYPE_INT16,  PARAM_CS_RIGHT_OFFSET, FP_CS_RIGHT_OFFSET}},
+    {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_FORWARD_DEADZONE } },
+    {"LEFT_REVERSE_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_REVERSE_DEADZONE } },
+    {"RIGHT_FORWARD_DEADZONE",  { CParamDataType::C_TYPE_INT16,  PARAM_RIGHT_FORWARD_DEADZONE } },
+    {"RIGHT_REVERSE_DEADZONE",  { CParamDataType::C_TYPE_INT16,  PARAM_RIGHT_REVERSE_DEADZONE } },
+    {"CS_LEFT_OFFSET",          { CParamDataType::C_TYPE_INT16,  PARAM_CS_LEFT_OFFSET } },
+    {"CS_RIGHT_OFFSET",         { CParamDataType::C_TYPE_INT16,  PARAM_CS_RIGHT_OFFSET } },
 
-    {"MAX_RPM",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_MAX_RPM, FP_MAX_RPM}},
+    {"RTC_TRIM",                { CParamDataType::C_TYPE_UINT32,  PARAM_RTC_TRIM } },
 
-    {"LEFT_KP",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KP, FP_LEFT_KP}},
-    {"RIGHT_KP",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KP, FP_RIGHT_KP}},
-    {"LEFT_KI",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KI, FP_LEFT_KI}},
-    {"RIGHT_KI",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KI, FP_RIGHT_KI}},
-    {"LEFT_KD",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KD, FP_LEFT_KD}},
-    {"RIGHT_KD",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KD, FP_RIGHT_KD}},
+    {"GEAR_RATIO",              { CParamDataType::C_TYPE_FLOAT,  PARAM_GEAR_RATIO } },
+    {"WHEEL_DIA",               { CParamDataType::C_TYPE_FLOAT,  PARAM_WHEEL_DIA } },
+    {"BASE_WIDTH",              { CParamDataType::C_TYPE_FLOAT,  PARAM_BASE_WIDTH } },
+    {"MAIN_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_MAIN_AMP_LIMIT } },
+    {"BAT_VOLTS_HIGH",          { CParamDataType::C_TYPE_FLOAT,  PARAM_BAT_VOLTS_HIGH } },
+    {"BAT_VOLTS_LOW",           { CParamDataType::C_TYPE_FLOAT,  PARAM_BAT_VOLTS_LOW } },
+    {"MAX_RPM",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_MAX_RPM } },
+    {"LEFT_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_AMP_LIMIT } },
+    {"RIGHT_AMP_LIMIT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_AMP_LIMIT } },
+    {"LEFT_KP",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KP } },
+    {"RIGHT_KP",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KP } },
+    {"LEFT_KI",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KI } },
+    {"RIGHT_KI",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KI } },
+    {"LEFT_KD",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KD } },
+    {"RIGHT_KD",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KD } },
+    {"GAIN",                    { CParamDataType::C_TYPE_FLOAT,  PARAM_GAIN } },
+    {"TRIM",                    { CParamDataType::C_TYPE_FLOAT,  PARAM_TRIM } },
+    {"MOTOR_CONSTANT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_MOTOR_CONSTANT } },
+    {"TANH_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_TANH_DIV } },
+    {"SIGM_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_SIGM_DIV } },
+    {"CURRENT_KP",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KP } },
+    {"CURRENT_KI",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KI } },
+    {"CURRENT_MULTIPLIER",      { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_OBSERVED_MULTIPLIER } },
+    {"K_FB_WINDUP",             { CParamDataType::C_TYPE_FLOAT,  PARAM_KB } },
+    {"TORQUE_CONSTANT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_TORQUE_CONSTANT } },
+    {"R_ARM",                   { CParamDataType::C_TYPE_FLOAT,  PARAM_R_ARM } },
+    {"L_ARM",                   { CParamDataType::C_TYPE_FLOAT,  PARAM_L_ARM } },
+    {"K_FF_VEL",                { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_VEL } },
+    {"K_FF_ACCEL",              { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_ACCEL } },
+    {"STATIC_KICK",             { CParamDataType::C_TYPE_FLOAT, PARAM_STATIC_KICK } },
+    {"COULOMB_RUN",             { CParamDataType::C_TYPE_FLOAT, PARAM_COULOMB_RUN } },
+    {"STRIBECK_WIDTH",          { CParamDataType::C_TYPE_FLOAT, PARAM_STRIBECK_WIDTH } },
+    {"VISCOUS_FRICTION",        { CParamDataType::C_TYPE_FLOAT, PARAM_VISCOUS_FRICTION } },
+    {"IR_COMP_GAIN",            { CParamDataType::C_TYPE_FLOAT, PARAM_IR_COMP_GAIN } },
+    {"VISCOUS_FRICTION_LIMIT",  { CParamDataType::C_TYPE_FLOAT, PARAM_VISCOUS_FRICTION_LIMIT } },
+    {"EB_FF_LIMIT",             { CParamDataType::C_TYPE_FLOAT, PARAM_EB_FF_LIMIT } },
 
-    {"GAIN",                    { CParamDataType::C_TYPE_FLOAT,  PARAM_GAIN, FP_GAIN}},
-    {"TRIM",                    { CParamDataType::C_TYPE_FLOAT,  PARAM_TRIM, FP_TRIM}},
-    {"MOTOR_CONSTANT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_MOTOR_CONSTANT, FP_MOTOR_CONSTANT}},
-
-    {"BAT_VOLTS_LOW",           { CParamDataType::C_TYPE_FLOAT,  PARAM_BAT_VOLTS_LOW, FP_BAT_VOLTS_LOW}},
-    {"BAT_VOLTS_HIGH",          { CParamDataType::C_TYPE_FLOAT,  PARAM_BAT_VOLTS_HIGH, FP_BAT_VOLTS_HIGH}},
-    {"MAIN_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_MAIN_AMP_LIMIT, FP_MAIN_AMP_LIMIT}},
-    {"LEFT_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_AMP_LIMIT, FP_LEFT_AMP_LIMIT}},
-    {"RIGHT_AMP_LIMIT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_AMP_LIMIT, FP_RIGHT_AMP_LIMIT}},
-
-    {"TANH_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_TANH_DIV, FP_TANH_DIV}},
-    {"SIGM_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_SIGM_DIV, FP_SIGM_DIV}},
-
-    {"CURRENT_KP",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KP, FP_CURRENT_KP}},
-    {"CURRENT_KI",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KI, FP_CURRENT_KI}},
-    {"CURRENT_MULTIPLIER",      { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_OBSERVED_MULTIPLIER, FP_CURRENT_OBSERVED_MULTIPLIER}},
-
-    {"K_FB_WINDUP",             { CParamDataType::C_TYPE_FLOAT,  PARAM_KB, FP_KB}},
-    {"TORQUE_CONSTANT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_TORQUE_CONSTANT, FP_TORQUE_CONSTANT}},
-    {"R_ARM",                   { CParamDataType::C_TYPE_FLOAT,  PARAM_R_ARM, FP_R_ARM}},
-    {"L_ARM",                   { CParamDataType::C_TYPE_FLOAT,  PARAM_L_ARM, FP_L_ARM}},
-    {"K_FF_VEL",                { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_VEL, FP_FF_VEL}},
-    {"K_FF_ACCEL",              { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_ACCEL, FP_FF_ACCEL}},
-
-    {"STATIC_KICK",             { CParamDataType::C_TYPE_FLOAT, PARAM_STATIC_KICK, FP_STATIC_KICK}},
-    {"COULOMB_RUN",             { CParamDataType::C_TYPE_FLOAT, PARAM_COULOMB_RUN, FP_COULOMB_RUN}},
-    {"STRIBECK_WIDTH",          { CParamDataType::C_TYPE_FLOAT, PARAM_STRIBECK_WIDTH, FP_STRIBECK_WIDTH}},
-    {"VISCOUS_FRICTION",        { CParamDataType::C_TYPE_FLOAT, PARAM_VISCOUS_FRICTION, FP_VISCOUS_FRICTION}},
-
-    {"IR_COMP_GAIN",            { CParamDataType::C_TYPE_FLOAT, PARAM_IR_COMP_GAIN, FP_IR_COMP_GAIN}},
-
-    {"AUTO_SYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_SYNC, FP_AUTO_SYNC}},
-    {"ADC_SYNC",                 { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_SYNC, FP_ADC_SYNC}},
-    {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED, FP_CASCADED}},
-    {"IR_COMP",                 { CParamDataType::C_TYPE_BOOL,  PARAM_IR_COMP, FP_IR_COMP}},
-    {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER, FP_CASCADE_FILTER}},
-
-    {"AUTO_BIAS",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BIAS, FP_AUTO_BIAS}},
-    {"ADC_MULTIPHASE",          { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_MULTIPHASE, FP_ADC_MULTIPHASE}},
-    {"ADC_BIPHASE",             { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_BIPHASE, FP_ADC_BIPHASE}},
-    {"OUTER_FEEDFORWARD",       { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_FEEDFORWARD, FP_OUTER_FEEDFORWARD}},
-    {"OUTER_SCV",               { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_SCV, FP_OUTER_SCV}},
-    {"OMEGA_FILTER",            { CParamDataType::C_TYPE_BOOL,  PARAM_OMEGA_FILTER, FP_OMEGA_FILTER}},
-    {"VOLTAGE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_VOLTAGE_FILTER, FP_VOLTAGE_FILTER}},
-    {"AUTO_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BRAKE, FP_AUTO_BRAKE}},
+    {"AUTO_SYNC",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_SYNC } },
+    {"ADC_SYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_SYNC } },
+    {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED } },
+    {"IR_COMP",                 { CParamDataType::C_TYPE_BOOL,  PARAM_IR_COMP } },
+    {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER } },
+    {"AUTO_BIAS",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BIAS } },
+    {"ADC_MULTIPHASE",          { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_MULTIPHASE } },
+    {"ADC_BIPHASE",             { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_BIPHASE } },
+    {"OUTER_FEEDFORWARD",       { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_FEEDFORWARD } },
+    {"OUTER_SCV",               { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_SCV } },
+    {"OMEGA_FILTER",            { CParamDataType::C_TYPE_BOOL,  PARAM_OMEGA_FILTER } },
+    {"VOLTAGE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_VOLTAGE_FILTER } },
+    {"AUTO_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BRAKE } },
+    {"INDUCTIVE_COMP",          { CParamDataType::C_TYPE_BOOL,  PARAM_INDUCTIVE_COMPENSATION } },
 };
 
 const ParamMetadata* get_param_metadata(const std::string& param_name) {

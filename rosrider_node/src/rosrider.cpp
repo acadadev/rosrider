@@ -151,6 +151,7 @@ class ROSRider : public rclcpp::Node {
 
 				// send params to device
 			    ParameterResult send_parameter_result = send_parameters();
+			    // TODO: P1: audit here
 			    if(send_parameter_result.write_error_count > 0) {
 			    	RCLCPP_INFO(this->get_logger(), "Parameter Write Error Count: %d", send_parameter_result.write_error_count);
 			    	exit(0);
@@ -160,7 +161,7 @@ class ROSRider : public rclcpp::Node {
 			    	exit(0);
 			    }
 			    if(send_parameter_result.default_error_count > 0) {
-			    	RCLCPP_INFO(this->get_logger(), "Parameter Unknown Error Count: %d", send_parameter_result.checksum_error_count);
+			    	RCLCPP_INFO(this->get_logger(), "Parameter Unknown Error Count: %d", send_parameter_result.default_error_count);
 			    	exit(0);
 			    }
 
@@ -236,32 +237,33 @@ class ROSRider : public rclcpp::Node {
                             ParamMetadata p = *metadata_ptr;
                             switch (p.c_type) {
                                 case CParamDataType::C_TYPE_UINT8:
-                                    send_result = send_uint8_param(p.param_index, PARAM_OVERRIDE, p.fp_index, parameter.as_int());
+                                    send_result = send_uint8_param(p.param_index, parameter.as_int());
                                     break;
                                 case CParamDataType::C_TYPE_UINT16:
-                                    send_result = send_uint16_param(p.param_index, PARAM_OVERRIDE, p.fp_index, parameter.as_int());
+                                    send_result = send_uint16_param(p.param_index, parameter.as_int());
                                     break;
                                 case CParamDataType::C_TYPE_INT16:
-                                    send_result = send_int16_param(p.param_index, PARAM_OVERRIDE, p.fp_index, parameter.as_int());
+                                    send_result = send_int16_param(p.param_index, parameter.as_int());
                                     break;
                                 case CParamDataType::C_TYPE_FLOAT:
-                                    send_result = send_float_param(p.param_index, PARAM_OVERRIDE, p.fp_index, parameter.as_double());
+                                    send_result = send_float_param(p.param_index, parameter.as_double());
                                     break;
                                 case CParamDataType::C_TYPE_BOOL:
-                                    send_result = send_bool_param(p.param_index, PARAM_OVERRIDE, p.fp_index, parameter.as_bool());
+                                    send_result = send_bool_param(p.param_index, parameter.as_bool());
                                     break;
                                 default:
                                     break;
                             }
-                            if( send_result == I2C_WRITE_RESULT_SUCCESS ) {
+                            // TODO: focus testing around here
+                            // TODO: send result can be number of things. for example it could be update unmodified.
+                            if( send_result == UPDATE_SUCCESS ) {
                                 result.successful &= true;
                             } else {
                                 RCLCPP_ERROR(this->get_logger(),
-                                             "Failed Parameter Change Callback: '%s', error code: %d. indices: param_index=%d, fp_index=%d",
+                                             "Failed Parameter Change Callback: '%s', error code: %d. indices: param_index=%d",
                                              parameter.get_name().c_str(),
                                              send_result,
-                                             p.param_index,
-                                             p.fp_index);
+                                             p.param_index);
                                 result.successful = false;
                             }
                         } // metadata found
@@ -627,7 +629,6 @@ class ROSRider : public rclcpp::Node {
 			uint8_t rw = I2C_RW_Block(fd, address, I2C_SMBUS_WRITE, 8, override_buffer);
 			rclcpp::sleep_for(1ms);
 		    return rw;
-
 		}
 
 		uint8_t read_parameter_result(int fd) {
@@ -637,46 +638,56 @@ class ROSRider : public rclcpp::Node {
 		    return rd;
 		}
 
-		uint8_t send_uint8_param(uint8_t param_index, uint8_t operation_type, uint8_t fp_index, uint8_t p_uint8) {
+		// packet: [index, 0, 0, D1, D2, D3, D3, CHECKSUM]
+
+		uint8_t send_uint8_param(uint8_t param_index, uint8_t p_uint8) {
 
 		    memset(override_buffer, 0, sizeof(override_buffer));
 
 			override_buffer[0] = param_index;                                               // first byte is param_index
-			override_buffer[1] = operation_type;                                            // second byte is operation
-			override_buffer[2] = fp_index;                                                  // third byte is function pointer index
+			override_buffer[1] = 0;
+			override_buffer[2] = 0;
 
 			override_buffer[3] = p_uint8;                                                   // we put uint8 value in buffer[3]
 			override_buffer[7] = crc8ccitt(override_buffer, 7);			                    // calculate crc
 
 			uint8_t RW = update_parameter(fd, EEPROM_WRITE_UINT8);                          // update parameter
-			if( RW == 0 ) { return read_parameter_result(fd); } else { return RW; }         // read update result
+
+			if( RW == 0 ) {
+			    uint8_t RD = read_parameter_result(fd);
+			    if( RD == 0 ) { return param_result_buffer[3]; } else { return RD; }
+			} else { return RW; }
 
 		}
 
-		uint8_t send_uint16_param(uint8_t param_index, uint8_t operation_type, uint8_t fp_index, uint16_t p_uint16) {
+		uint8_t send_uint16_param(uint8_t param_index, uint16_t p_uint16) {
 
 		    memset(override_buffer, 0, sizeof(override_buffer));
 
 			override_buffer[0] = param_index;                                               // first byte is param_index
-			override_buffer[1] = operation_type;                                            // second byte is operation
-			override_buffer[2] = fp_index;                                                  // third byte is function pointer index
+			override_buffer[1] = 0;
+			override_buffer[2] = 0;
 
             override_buffer[3] = (uint8_t) (p_uint16 & 0xFF);                               // LSB
             override_buffer[4] = (uint8_t) ((p_uint16 >> 8) & 0xFF);                        // MSB
 			override_buffer[7] = crc8ccitt(override_buffer, 7);                             // calculate crc
 
 			uint8_t RW = update_parameter(fd, EEPROM_WRITE_UINT16);
-            if( RW == 0 ) { return read_parameter_result(fd); } else { return RW; }         // read update result
+
+			if( RW == 0 ) {
+			    uint8_t RD = read_parameter_result(fd);
+			    if( RD == 0 ) { return param_result_buffer[3]; } else { return RD; }
+			} else { return RW; }
 
 		}
 
-		uint8_t send_uint32_param(uint8_t param_index, uint8_t operation_type, uint8_t fp_index, uint32_t p_uint32) {
+		uint8_t send_uint32_param(uint8_t param_index, uint32_t p_uint32) {
 
 		    memset(override_buffer, 0, sizeof(override_buffer));
 
 			override_buffer[0] = param_index;                                               // first byte is param_index
-			override_buffer[1] = operation_type;                                            // second byte is operation
-			override_buffer[2] = fp_index;                                                  // third byte is function pointer index
+			override_buffer[1] = 0;
+			override_buffer[2] = 0;
 
             override_buffer[3] = (uint8_t) (p_uint32 & 0xFF);                               // LSB
             override_buffer[4] = (uint8_t) ((p_uint32 >> 8) & 0xFF);
@@ -685,34 +696,42 @@ class ROSRider : public rclcpp::Node {
 			override_buffer[7] = crc8ccitt(override_buffer, 7);                             // calculate crc
 
 			uint8_t RW = update_parameter(fd, EEPROM_WRITE_UINT32);
-			if( RW == 0 ) { return read_parameter_result(fd); } else { return RW; }         // read update result
+
+			if( RW == 0 ) {
+			    uint8_t RD = read_parameter_result(fd);
+			    if( RD == 0 ) { return param_result_buffer[3]; } else { return RD; }
+			} else { return RW; }
 
 		}
 
-		uint8_t send_int16_param(uint8_t param_index, uint8_t operation_type, uint8_t fp_index, int16_t p_int16) {
+		uint8_t send_int16_param(uint8_t param_index, int16_t p_int16) {
 
 		    memset(override_buffer, 0, sizeof(override_buffer));
 
 			override_buffer[0] = param_index;                                               // first byte is param_index
-			override_buffer[1] = operation_type;                                            // second byte is operation
-			override_buffer[2] = fp_index;                                                  // third byte is function pointer index
+			override_buffer[1] = 0;
+			override_buffer[2] = 0;
 
             override_buffer[3] = (uint8_t) (p_int16 & 0xFF);                                // LSB
             override_buffer[4] = (uint8_t) ((p_int16 >> 8) & 0xFF);                         // MSB
 			override_buffer[7] = crc8ccitt(override_buffer, 7);                             // calculate crc
 
 			uint8_t RW = update_parameter(fd, EEPROM_WRITE_INT16);
-			if( RW == 0 ) { return read_parameter_result(fd); } else { return RW; }         // read update result
+
+			if( RW == 0 ) {
+			    uint8_t RD = read_parameter_result(fd);
+			    if( RD == 0 ) { return param_result_buffer[3]; } else { return RD; }
+			} else { return RW; }
 
 		}
 
-		uint8_t send_float_param(uint8_t param_index, uint8_t operation_type, uint8_t fp_index, double p_float) {
+		uint8_t send_float_param(uint8_t param_index, double p_float) {
 
 		    memset(override_buffer, 0, sizeof(override_buffer));
 
 			override_buffer[0] = param_index;                                               // first byte is param_index
-			override_buffer[1] = operation_type;                                            // second byte is operation
-			override_buffer[2] = fp_index;                                                  // third byte is function pointer index
+			override_buffer[1] = 0;
+			override_buffer[2] = 0;
 
 			f.f32 = (float) p_float;                                                        // next four bytes are float
 			override_buffer[3] = f.ui8[0];
@@ -722,69 +741,88 @@ class ROSRider : public rclcpp::Node {
 			override_buffer[7] = crc8ccitt(override_buffer, 7);                             // calculate crc
 
 			uint8_t RW = update_parameter(fd, EEPROM_WRITE_FLOAT);
-			if( RW == 0 ) { return read_parameter_result(fd); } else { return RW; }         // read update result
+
+			if( RW == 0 ) {
+			    uint8_t RD = read_parameter_result(fd);
+			    if( RD == 0 ) { return param_result_buffer[3]; } else { return RD; }
+			} else { return RW; }
 
 		}
 
-		uint8_t send_bool_param(uint8_t param_index, uint8_t operation_type, uint8_t fp_index, bool p_bool) {
+		uint8_t send_bool_param(uint8_t param_index, bool p_bool) {
 
 		    memset(override_buffer, 0, sizeof(override_buffer));
 
 			override_buffer[0] = param_index;                                               // first byte is param_index
-			override_buffer[1] = operation_type;                                            // second byte is operation
-			override_buffer[2] = fp_index;                                                  // third byte is function pointer index
+			override_buffer[1] = 0;
+			override_buffer[2] = 0;
 
 			override_buffer[3] = (p_bool ? 1 : 0);                                          // bool value
 			override_buffer[7] = crc8ccitt(override_buffer, 7);                             // calculate crc
 
 			uint8_t RW = update_parameter(fd, EEPROM_WRITE_BOOL);
-			if( RW == 0 ) { return read_parameter_result(fd); } else { return RW; }         // read update result
+
+			if( RW == 0 ) {
+			    uint8_t RD = read_parameter_result(fd);
+			    if( RD == 0 ) { return param_result_buffer[3]; } else { return RD; }
+			} else { return RW; }
 
 		}
 
 	    void process_parameter_result(ParameterResult &cumulative_result,
-	                                  uint8_t operation_result,
+	                                  uint8_t send_result,
 	                                  uint8_t index,
 	                                  const char *names[],
 	                                  const char *value) {
 
-	        switch(operation_result) {
-                case I2C_WRITE_RESULT_SUCCESS:
-                    RCLCPP_INFO(this->get_logger(), "%s: %s, Success", names[index], value);
+	        switch(send_result) {
+
+                case UPDATE_SUCCESS:
+                    RCLCPP_INFO(this->get_logger(), "%s: %s, UPDATE_SUCCESS", names[index], value);
                     cumulative_result.success_count++;
                     break;
-                case I2C_WRITE_RESULT_UNCHANGED:
-                    RCLCPP_INFO(this->get_logger(), "%s: %s, Unmodified", names[index], value);
+
+                case UPDATE_UNCHANGED:
+                    RCLCPP_INFO(this->get_logger(), "%s: %s, UPDATE_UNCHANGED", names[index], value);
                     cumulative_result.unmodified_count++;
                     break;
-                case I2C_WRITE_RESULT_WRITE_ERROR:
-                    RCLCPP_INFO(this->get_logger(), "%s: %s, Write Error", names[index], value);
+
+                case UPDATE_WR_ERROR:
+                    RCLCPP_INFO(this->get_logger(), "%s: %s, UPDATE_WR_ERROR", names[index], value);
                     cumulative_result.write_error_count++;
                     break;
-                case I2C_WRITE_RESULT_CHECKSUM:
-                    RCLCPP_ERROR(this->get_logger(), "%s: %s, Parameter Checksum Error", names[index], value);
+
+                case UPDATE_CHECKSUM:
+                    RCLCPP_ERROR(this->get_logger(), "%s: %s, UPDATE_CHECKSUM", names[index], value);
                     cumulative_result.checksum_error_count++;
                     break;
-                case I2C_WRITE_RESULT_OVERRIDE_DENIED:
-                    RCLCPP_INFO(this->get_logger(), "%s: %s, Override Denied", names[index], value);
+
+                case UPDATE_DENIED:
+                    RCLCPP_INFO(this->get_logger(), "%s: %s, UPDATE_DENIED", names[index], value);
                     cumulative_result.override_denied++;
                     break;
-                case I2C_WRITE_RESULT_OVERRIDE_FP_ERROR:
-                    RCLCPP_INFO(this->get_logger(), "%s: %s, Override FP Error", names[index], value);
+
+                case UPDATE_FP_ERROR:
+                    RCLCPP_INFO(this->get_logger(), "%s: %s, UPDATE_FP_ERROR", names[index], value);
                     cumulative_result.override_fp_error++;
                     break;
-                case I2C_WRITE_RESULT_OVERRIDE:
-                    RCLCPP_INFO(this->get_logger(), "%s: %s, Override Success", names[index], value);
+
+                case UPDATE_MOD_STATE:
+                    RCLCPP_INFO(this->get_logger(), "%s: %s, UPDATE_MOD_STATE", names[index], value);
                     cumulative_result.override_count++;
                     break;
+
                 default:
-                    RCLCPP_ERROR(this->get_logger(), "%s: %s, Parameter i2c_write_result[3]: %d", names[index], value, operation_result);
+                    RCLCPP_ERROR(this->get_logger(), "%s: %s, Parameter i2c_write_result[3]: %d", names[index], value, send_result);
                     cumulative_result.default_error_count++;
                     break;
+
 	        }
 	    }
 
-        // { param_index, operation_type, fp_index, MSB1, MSB2, MSB3, MSB4, checksum }
+
+
+        // { param_index, 0, 0, MSB1, MSB2, MSB3, MSB4, checksum }
 		ParameterResult send_parameters() {
 
 		    ParameterResult cumulative_result;
@@ -795,42 +833,42 @@ class ROSRider : public rclcpp::Node {
 			        continue;
 			    }
 				uint8_t temp_uint8 = this->get_parameter(names_uint8[param_index]).as_int();
-			    uint8_t parameter_result = send_uint8_param(param_index, PARAM_WRITE, 0, temp_uint8);
+			    uint8_t parameter_result = send_uint8_param(param_index, temp_uint8);
 			    process_parameter_result(cumulative_result, parameter_result, param_index, names_uint8, std::to_string(temp_uint8).c_str());
 			}
 
 			// send uint16 parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_UINT16; param_index++) {
 				uint16_t temp_uint16 = this->get_parameter(names_uint16[param_index]).as_int();
-                uint8_t parameter_result = send_uint16_param(param_index, PARAM_WRITE, 0, temp_uint16);
+                uint8_t parameter_result = send_uint16_param(param_index, temp_uint16);
                 process_parameter_result(cumulative_result, parameter_result, param_index, names_uint16, std::to_string(temp_uint16).c_str());
 			}
 
 			// send uint32 parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_UINT32; param_index++) {
 				uint32_t temp_uint32 = this->get_parameter(names_uint32[param_index]).as_int();
-                uint8_t parameter_result = send_uint32_param(param_index, PARAM_WRITE, 0, temp_uint32);
+                uint8_t parameter_result = send_uint32_param(param_index, temp_uint32);
                 process_parameter_result(cumulative_result, parameter_result, param_index, names_uint32, std::to_string(temp_uint32).c_str());
 			}			
 
 			// send int16 parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_INT16; param_index++) {
 				int16_t temp_int16 = this->get_parameter(names_int16[param_index]).as_int();
-                uint8_t parameter_result = send_int16_param(param_index, PARAM_WRITE, 0, temp_int16);
+                uint8_t parameter_result = send_int16_param(param_index, temp_int16);
                 process_parameter_result(cumulative_result, parameter_result, param_index, names_int16, std::to_string(temp_int16).c_str());
 			}		
 
 			// send boolean parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_BOOL; param_index++) {
 				bool temp_bool = this->get_parameter(names_bool[param_index]).as_bool();
-			    uint8_t parameter_result = send_bool_param(param_index, PARAM_WRITE, 0, temp_bool);
+			    uint8_t parameter_result = send_bool_param(param_index, temp_bool);
 				process_parameter_result(cumulative_result, parameter_result, param_index, names_bool, std::to_string(temp_bool).c_str());
 			}	
 
 			// send float parameters
 			for(uint8_t param_index = 0; param_index < SIZE_PARAMS_FLOAT; param_index++) {
 				float temp_float = this->get_parameter(names_float[param_index]).as_double();
-                uint8_t parameter_result = send_float_param(param_index, PARAM_WRITE, 0, temp_float);
+                uint8_t parameter_result = send_float_param(param_index, temp_float);
                 process_parameter_result(cumulative_result, parameter_result, param_index, names_float, std::to_string(temp_float).c_str());
 			}
 			return cumulative_result;
