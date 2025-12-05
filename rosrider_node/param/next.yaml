@@ -45,8 +45,8 @@
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
     K_FB_WINDUP: 0.5
-    K_FF_VEL: 0.12
-    K_FF_ACCEL: 0.008
+    K_FF_VEL: 0.008
+    K_FF_ACCEL: 0.12
     # cascaded loop
     INNER_LIMIT: 192
     CURRENT_KP: 1.0
@@ -62,7 +62,7 @@
     STRIBECK_WIDTH: 32.0
     VISCOUS_FRICTION: 0.001
     VISCOUS_FRICTION_LIMIT: 1.2
-    EB_FF_LIMIT: 12.0
+    EB_FF_LIMIT: 10.0
     # filter configuration
     OUTPUT_FILTER_TYPE: 0
     # electrical limits
