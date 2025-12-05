@@ -61,6 +61,8 @@
     COULOMB_RUN: 1.5
     STRIBECK_WIDTH: 32.0
     VISCOUS_FRICTION: 0.001
+    VISCOUS_FRICTION_LIMIT: 1.2
+    EB_FF_LIMIT: 12.0
     # filter configuration
     OUTPUT_FILTER_TYPE: 0
     # electrical limits
@@ -93,6 +95,7 @@
     OMEGA_FILTER: True
     VOLTAGE_FILTER: True
     AUTO_BRAKE: True
+    INDUCTIVE_COMP: True
     # outer friction model - if True, dead zones are ignored, and stribeck friction model will be used
     OUTER_SCV: True
     # topic paramters

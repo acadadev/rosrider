@@ -783,7 +783,7 @@ class ROSRider : public rclcpp::Node {
                     break;
 
                 case UPDATE_UNCHANGED:
-                    RCLCPP_INFO(this->get_logger(), "%s: %s, UPDATE_UNCHANGED", names[index], value);
+                    // RCLCPP_INFO(this->get_logger(), "%s: %s, UPDATE_UNCHANGED", names[index], value);
                     cumulative_result.unmodified_count++;
                     break;
 
