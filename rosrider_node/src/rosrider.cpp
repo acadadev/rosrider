@@ -847,7 +847,7 @@ class ROSRider : public rclcpp::Node {
 				uint8_t temp_uint8 = this->get_parameter(names_uint8[param_index]).as_int();
 			    uint8_t parameter_result = send_uint8_param(param_index, temp_uint8);
 			    process_parameter_result(cumulative_result, parameter_result, param_index, names_uint8, std::to_string(temp_uint8).c_str());
-			    rclcpp::sleep_for(1ms);
+			    rclcpp::sleep_for(10ms);
 			}
 
 			// send uint16 parameters
@@ -855,7 +855,7 @@ class ROSRider : public rclcpp::Node {
 				uint16_t temp_uint16 = this->get_parameter(names_uint16[param_index]).as_int();
                 uint8_t parameter_result = send_uint16_param(param_index, temp_uint16);
                 process_parameter_result(cumulative_result, parameter_result, param_index, names_uint16, std::to_string(temp_uint16).c_str());
-                rclcpp::sleep_for(1ms);
+                rclcpp::sleep_for(10ms);
 			}
 
 			// send uint32 parameters
@@ -863,7 +863,7 @@ class ROSRider : public rclcpp::Node {
 				uint32_t temp_uint32 = this->get_parameter(names_uint32[param_index]).as_int();
                 uint8_t parameter_result = send_uint32_param(param_index, temp_uint32);
                 process_parameter_result(cumulative_result, parameter_result, param_index, names_uint32, std::to_string(temp_uint32).c_str());
-                rclcpp::sleep_for(1ms);
+                rclcpp::sleep_for(10ms);
 			}
 
 			// send int16 parameters
@@ -871,7 +871,7 @@ class ROSRider : public rclcpp::Node {
 				int16_t temp_int16 = this->get_parameter(names_int16[param_index]).as_int();
                 uint8_t parameter_result = send_int16_param(param_index, temp_int16);
                 process_parameter_result(cumulative_result, parameter_result, param_index, names_int16, std::to_string(temp_int16).c_str());
-                rclcpp::sleep_for(1ms);
+                rclcpp::sleep_for(10ms);
 			}
 
 			// send boolean parameters
@@ -879,7 +879,7 @@ class ROSRider : public rclcpp::Node {
 				bool temp_bool = this->get_parameter(names_bool[param_index]).as_bool();
 			    uint8_t parameter_result = send_bool_param(param_index, temp_bool);
 				process_parameter_result(cumulative_result, parameter_result, param_index, names_bool, std::to_string(temp_bool).c_str());
-				rclcpp::sleep_for(1ms);
+				rclcpp::sleep_for(10ms);
 			}	
 
 			// send float parameters
@@ -887,7 +887,7 @@ class ROSRider : public rclcpp::Node {
 				float temp_float = this->get_parameter(names_float[param_index]).as_double();
                 uint8_t parameter_result = send_float_param(param_index, temp_float);
                 process_parameter_result(cumulative_result, parameter_result, param_index, names_float, std::to_string(temp_float).c_str());
-                rclcpp::sleep_for(1ms);
+                rclcpp::sleep_for(10ms);
 			}
 			return cumulative_result;
 		}
