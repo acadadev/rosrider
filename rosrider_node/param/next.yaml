@@ -86,17 +86,16 @@
     AUTO_SYNC: True
     ADC_SYNC: True
     CASCADED: True
-    IR_COMP: True
     CASCADE_FILTER: True
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
     OUTER_FEEDFORWARD: False
+    OUTER_SCV: True                 # outer friction model - if True, dead zones are ignored, and stribeck friction model will be used
     OMEGA_FILTER: True
     VOLTAGE_FILTER: True
     AUTO_BRAKE: True
     INDUCTIVE_COMP: True
-    # outer friction model - if True, dead zones are ignored, and stribeck friction model will be used
-    OUTER_SCV: True
+    IR_COMP: True
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel_nav'

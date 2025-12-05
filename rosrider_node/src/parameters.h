@@ -164,7 +164,7 @@
 #define DEFAULT_OUTER_SCV false
 #define DEFAULT_OMEGA_FILTER false
 #define DEFAULT_VOLTAGE_FILTER false
-#define DEFAULT_AUTO_BRAKE false
+#define DEFAULT_AUTO_BRAKE true
 #define DEFAULT_INDUCTIVE_COMPENSATION false
 #define DEFAULT_IR_COMP false
 
