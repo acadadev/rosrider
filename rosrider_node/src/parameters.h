@@ -156,7 +156,6 @@
 #define DEFAULT_AUTO_SYNC true
 #define DEFAULT_ADC_SYNC true
 #define DEFAULT_CASCADED false
-#define DEFAULT_IR_COMP false
 #define DEFAULT_CASCADE_FILTER false
 #define DEFAULT_AUTO_BIAS true
 #define DEFAULT_ADC_MULTIPHASE false
@@ -167,21 +166,22 @@
 #define DEFAULT_VOLTAGE_FILTER false
 #define DEFAULT_AUTO_BRAKE false
 #define DEFAULT_INDUCTIVE_COMPENSATION false
+#define DEFAULT_IR_COMP false
 
 #define PARAM_AUTO_SYNC 0
 #define PARAM_ADC_SYNC 1
 #define PARAM_CASCADED 2
-#define PARAM_IR_COMP 3
-#define PARAM_CASCADE_FILTER 4
-#define PARAM_AUTO_BIAS 5
-#define PARAM_ADC_MULTIPHASE 6
-#define PARAM_ADC_BIPHASE 7
-#define PARAM_OUTER_FEEDFORWARD 8
-#define PARAM_OUTER_SCV 9
-#define PARAM_OMEGA_FILTER 10
-#define PARAM_VOLTAGE_FILTER 11
-#define PARAM_AUTO_BRAKE 12
-#define PARAM_INDUCTIVE_COMPENSATION 13
+#define PARAM_CASCADE_FILTER 3
+#define PARAM_AUTO_BIAS 4
+#define PARAM_ADC_MULTIPHASE 5
+#define PARAM_ADC_BIPHASE 6
+#define PARAM_OUTER_FEEDFORWARD 7
+#define PARAM_OUTER_SCV 8
+#define PARAM_OMEGA_FILTER 9
+#define PARAM_VOLTAGE_FILTER 10
+#define PARAM_AUTO_BRAKE 11
+#define PARAM_INDUCTIVE_COMPENSATION 12
+#define PARAM_IR_COMP 13
 
 #define SIZE_PARAMS_UINT8 9
 #define SIZE_PARAMS_UINT16 8
@@ -339,7 +339,6 @@ const char *names_float[] = { "GEAR_RATIO",
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_ADC_SYNC,
                                        DEFAULT_CASCADED,
-                                       DEFAULT_IR_COMP,
                                        DEFAULT_CASCADE_FILTER,
                                        DEFAULT_AUTO_BIAS,
                                        DEFAULT_ADC_MULTIPHASE,
@@ -349,12 +348,12 @@ bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_OMEGA_FILTER,
                                        DEFAULT_VOLTAGE_FILTER,
                                        DEFAULT_AUTO_BRAKE,
-                                       DEFAULT_INDUCTIVE_COMPENSATION };
+                                       DEFAULT_INDUCTIVE_COMPENSATION,
+                                       DEFAULT_IR_COMP };
 
 const char *names_bool[] = { "AUTO_SYNC",
                              "ADC_SYNC",
                              "CASCADED",
-                             "IR_COMP",
                              "CASCADE_FILTER",
                              "AUTO_BIAS",
                              "ADC_MULTIPHASE",
@@ -364,7 +363,8 @@ const char *names_bool[] = { "AUTO_SYNC",
                              "OMEGA_FILTER",
                              "VOLTAGE_FILTER",
                              "AUTO_BRAKE",
-                             "INDUCTIVE_COMP" };
+                             "INDUCTIVE_COMP",
+                             "IR_COMP" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -470,7 +470,6 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"AUTO_SYNC",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_SYNC } },
     {"ADC_SYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_SYNC } },
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED } },
-    {"IR_COMP",                 { CParamDataType::C_TYPE_BOOL,  PARAM_IR_COMP } },
     {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER } },
     {"AUTO_BIAS",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BIAS } },
     {"ADC_MULTIPHASE",          { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_MULTIPHASE } },
@@ -481,6 +480,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"VOLTAGE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_VOLTAGE_FILTER } },
     {"AUTO_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BRAKE } },
     {"INDUCTIVE_COMP",          { CParamDataType::C_TYPE_BOOL,  PARAM_INDUCTIVE_COMPENSATION } },
+    {"IR_COMP",                 { CParamDataType::C_TYPE_BOOL,  PARAM_IR_COMP } },
 };
 
 const ParamMetadata* get_param_metadata(const std::string& param_name) {
