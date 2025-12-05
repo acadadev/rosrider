@@ -85,18 +85,17 @@
     # boolean parameters
     AUTO_SYNC: True
     ADC_SYNC: True
-    CASCADED: False
-    IR_COMP: False
-    CASCADE_FILTER: False
+    CASCADED: True
+    CASCADE_FILTER: True
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
-    OUTER_FEEDFORWARD: True
-    OMEGA_FILTER: False
-    VOLTAGE_FILTER: False
-    AUTO_BRAKE: False
+    OUTER_FEEDFORWARD: False
+    OUTER_SCV: True                 # outer friction model - if True, dead zones are ignored, and stribeck friction model will be used
+    OMEGA_FILTER: True
+    VOLTAGE_FILTER: True
+    AUTO_BRAKE: True
     INDUCTIVE_COMP: True
-    # outer friction model - if True, dead zones are ignored, and stribeck friction model will be used
-    OUTER_SCV: False
+    IR_COMP: True
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel'
