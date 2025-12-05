@@ -245,8 +245,9 @@ class ROSRider : public rclcpp::Node {
                                     send_result = send_uint16_param(p.param_index, parameter.as_int());
                                     break;
 
-                                case CParamDataType:C_TYPE_UINT32:
+                                case CParamDataType::C_TYPE_UINT32:
                                     send_result = send_uint32_param(p.param_index, parameter.as_int());
+                                    break;
 
                                 case CParamDataType::C_TYPE_INT16:
                                     send_result = send_int16_param(p.param_index, parameter.as_int());
