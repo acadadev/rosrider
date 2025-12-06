@@ -28,6 +28,8 @@
 #define DEFAULT_I2C_ADDRESS 0x3C
 #define DEFAULT_OUTPUT_FILTER_TYPE 0
 #define DEFAULT_CS_WAVEFORM_DIVIDER 16
+#define DEFAULT_OMEGA_FILTER_TYPE 0
+#define DEFAULT_CURRENT_FILTER_TYPE 0
 
 #define PARAM_CONFIG_FLAGS 0
 #define PARAM_UPDATE_RATE 1
@@ -38,6 +40,8 @@
 #define PARAM_I2C_ADDRESS 6
 #define PARAM_OUTPUT_FILTER_TYPE 7
 #define PARAM_CS_WAVEFORM_DIVIDER 8
+#define PARAM_OMEGA_FILTER_TYPE 9
+#define PARAM_CURRENT_FILTER_TYPE 10
 
 // uint16
 #define DEFAULT_PWM_SCALE 256
@@ -105,14 +109,12 @@
 #define DEFAULT_KB (0.5F)
 #define DEFAULT_TORQUE_CONSTANT (0.01F)
 #define DEFAULT_R_ARM (2.0F)
-#define DEFAULT_L_ARM (0.001F)
 #define DEFAULT_K_FF_VEL (0.16F)
 #define DEFAULT_K_FF_ACCEL (0.12F)
 #define DEFAULT_STATIC_KICK (6.0F)
 #define DEFAULT_COULOMB_RUN (3.0F)
 #define DEFAULT_STRIBECK_WIDTH (64.0F)
 #define DEFAULT_VISCOUS_FRICTION (0.001F)
-#define DEFAULT_IR_COMP_GAIN (2.0F)
 #define DEFAULT_VISCOUS_FRICTION_LIMIT (1.2F)
 #define DEFAULT_EB_FF_LIMIT (12.0F)
 
@@ -142,53 +144,44 @@
 #define PARAM_KB 23
 #define PARAM_TORQUE_CONSTANT 24
 #define PARAM_R_ARM 25
-#define PARAM_L_ARM 26
-#define PARAM_K_FF_VEL 27
-#define PARAM_K_FF_ACCEL 28
-#define PARAM_STATIC_KICK 29
-#define PARAM_COULOMB_RUN 30
-#define PARAM_STRIBECK_WIDTH 31
-#define PARAM_VISCOUS_FRICTION 32
-#define PARAM_IR_COMP_GAIN 33
-#define PARAM_VISCOUS_FRICTION_LIMIT 34
-#define PARAM_EB_FF_LIMIT 35
+#define PARAM_K_FF_VEL 26
+#define PARAM_K_FF_ACCEL 27
+#define PARAM_STATIC_KICK 28
+#define PARAM_COULOMB_RUN 29
+#define PARAM_STRIBECK_WIDTH 30
+#define PARAM_VISCOUS_FRICTION 31
+#define PARAM_VISCOUS_FRICTION_LIMIT 32
+#define PARAM_EB_FF_LIMIT 33
 
+// boolean
 #define DEFAULT_AUTO_SYNC true
 #define DEFAULT_ADC_SYNC true
 #define DEFAULT_CASCADED false
-#define DEFAULT_CASCADE_FILTER false
 #define DEFAULT_AUTO_BIAS true
 #define DEFAULT_ADC_MULTIPHASE false
 #define DEFAULT_ADC_BIPHASE false
 #define DEFAULT_OUTER_FEEDFORWARD false
 #define DEFAULT_OUTER_SCV false
-#define DEFAULT_OMEGA_FILTER false
 #define DEFAULT_VOLTAGE_FILTER false
 #define DEFAULT_AUTO_BRAKE true
-#define DEFAULT_INDUCTIVE_COMPENSATION false
-#define DEFAULT_IR_COMP false
 
 #define PARAM_AUTO_SYNC 0
 #define PARAM_ADC_SYNC 1
 #define PARAM_CASCADED 2
-#define PARAM_CASCADE_FILTER 3
-#define PARAM_AUTO_BIAS 4
-#define PARAM_ADC_MULTIPHASE 5
-#define PARAM_ADC_BIPHASE 6
-#define PARAM_OUTER_FEEDFORWARD 7
-#define PARAM_OUTER_SCV 8
-#define PARAM_OMEGA_FILTER 9
-#define PARAM_VOLTAGE_FILTER 10
-#define PARAM_AUTO_BRAKE 11
-#define PARAM_INDUCTIVE_COMPENSATION 12
-#define PARAM_IR_COMP 13
+#define PARAM_AUTO_BIAS 3
+#define PARAM_ADC_MULTIPHASE 4
+#define PARAM_ADC_BIPHASE 5
+#define PARAM_OUTER_FEEDFORWARD 6
+#define PARAM_OUTER_SCV 7
+#define PARAM_VOLTAGE_FILTER 8
+#define PARAM_AUTO_BRAKE 9
 
-#define SIZE_PARAMS_UINT8 9
+#define SIZE_PARAMS_UINT8 11
 #define SIZE_PARAMS_UINT16 8
 #define SIZE_PARAMS_UINT32 1
 #define SIZE_PARAMS_INT16 6
-#define SIZE_PARAMS_FLOAT 36
-#define SIZE_PARAMS_BOOL 14
+#define SIZE_PARAMS_FLOAT 34
+#define SIZE_PARAMS_BOOL 10
 
 // uint8 array
 uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
@@ -200,7 +193,9 @@ uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_ALLOWED_SKIP,
                                 DEFAULT_I2C_ADDRESS,
                                 DEFAULT_OUTPUT_FILTER_TYPE,
-                                DEFAULT_CS_WAVEFORM_DIVIDER
+                                DEFAULT_CS_WAVEFORM_DIVIDER,
+                                DEFAULT_OMEGA_FILTER_TYPE,
+                                DEFAULT_CURRENT_FILTER_TYPE
                             };
 
 const char *names_uint8[] = { "CONFIG_FLAGS",
@@ -211,7 +206,9 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                               "ALLOWED_SKIP",
                               "I2C_ADDRESS",
                               "OUTPUT_FILTER_TYPE",
-                              "CS_WAVEFORM_DIVIDER"
+                              "CS_WAVEFORM_DIVIDER",
+                              "OMEGA_FILTER_TYPE",
+                              "CURRENT_FILTER_TYPE"
                             };
 
 // uint16 array
@@ -287,14 +284,12 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_KB,
                                DEFAULT_TORQUE_CONSTANT,
                                DEFAULT_R_ARM,
-                               DEFAULT_L_ARM,
                                DEFAULT_K_FF_VEL,
                                DEFAULT_K_FF_ACCEL,
                                DEFAULT_STATIC_KICK,
                                DEFAULT_COULOMB_RUN,
                                DEFAULT_STRIBECK_WIDTH,
                                DEFAULT_VISCOUS_FRICTION,
-                               DEFAULT_IR_COMP_GAIN,
                                DEFAULT_VISCOUS_FRICTION_LIMIT,
                                DEFAULT_EB_FF_LIMIT
                             };
@@ -325,46 +320,36 @@ const char *names_float[] = { "GEAR_RATIO",
                               "KB",
                               "TORQUE_CONSTANT",
                               "R_ARM",
-                              "L_ARM",
                               "K_FF_VEL",
                               "K_FF_ACCEL",
                               "STATIC_KICK",
                               "COULOMB_RUN",
                               "STRIBECK_WIDTH",
                               "VISCOUS_FRICTION",
-                              "IR_COMP_GAIN",
                               "VISCOUS_FRICTION_LIMIT",
                               "EB_FF_LIMIT" };
 
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_ADC_SYNC,
                                        DEFAULT_CASCADED,
-                                       DEFAULT_CASCADE_FILTER,
                                        DEFAULT_AUTO_BIAS,
                                        DEFAULT_ADC_MULTIPHASE,
                                        DEFAULT_ADC_BIPHASE,
                                        DEFAULT_OUTER_FEEDFORWARD,
                                        DEFAULT_OUTER_SCV,
-                                       DEFAULT_OMEGA_FILTER,
                                        DEFAULT_VOLTAGE_FILTER,
-                                       DEFAULT_AUTO_BRAKE,
-                                       DEFAULT_INDUCTIVE_COMPENSATION,
-                                       DEFAULT_IR_COMP };
+                                       DEFAULT_AUTO_BRAKE };
 
 const char *names_bool[] = { "AUTO_SYNC",
                              "ADC_SYNC",
                              "CASCADED",
-                             "CASCADE_FILTER",
                              "AUTO_BIAS",
                              "ADC_MULTIPHASE",
                              "ADC_BIPHASE",
                              "OUTER_FEEDFORWARD",
                              "OUTER_SCV",
-                             "OMEGA_FILTER",
                              "VOLTAGE_FILTER",
-                             "AUTO_BRAKE",
-                             "INDUCTIVE_COMP",
-                             "IR_COMP" };
+                             "AUTO_BRAKE" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -407,10 +392,12 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"UPDATE_RATE",             { CParamDataType::C_TYPE_UINT8,  PARAM_UPDATE_RATE } },
     {"PWM_DIV",                 { CParamDataType::C_TYPE_UINT8,  PARAM_PWM_DIV } },
     {"DRIVE_MODE",              { CParamDataType::C_TYPE_UINT8,  PARAM_DRIVE_MODE } },
-    {"MONITOR_RATE",             { CParamDataType::C_TYPE_UINT8,  PARAM_MONITOR_RATE } },
-    {"ALLOWED_SKIP",             { CParamDataType::C_TYPE_UINT8,  PARAM_ALLOWED_SKIP } },
+    {"MONITOR_RATE",            { CParamDataType::C_TYPE_UINT8,  PARAM_MONITOR_RATE } },
+    {"ALLOWED_SKIP",            { CParamDataType::C_TYPE_UINT8,  PARAM_ALLOWED_SKIP } },
     {"OUTPUT_FILTER_TYPE",      { CParamDataType::C_TYPE_UINT8,  PARAM_OUTPUT_FILTER_TYPE } },
     {"CS_WAVEFORM_DIV",         { CParamDataType::C_TYPE_UINT8,  PARAM_CS_WAVEFORM_DIVIDER } },
+    {"OMEGA_FILTER_TYPE",       { CParamDataType::C_TYPE_UINT8,  PARAM_OMEGA_FILTER_TYPE } },
+    {"CURRENT_FILTER_TYPE",     { CParamDataType::C_TYPE_UINT8,  PARAM_CURRENT_FILTER_TYPE } },
 
     {"PWM_SCALE",               { CParamDataType::C_TYPE_UINT16, PARAM_PWM_SCALE } },
     {"PWM_FRQ",                 { CParamDataType::C_TYPE_UINT16, PARAM_PWM_FRQ } },
@@ -456,31 +443,25 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"K_FB_WINDUP",             { CParamDataType::C_TYPE_FLOAT,  PARAM_KB } },
     {"TORQUE_CONSTANT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_TORQUE_CONSTANT } },
     {"R_ARM",                   { CParamDataType::C_TYPE_FLOAT,  PARAM_R_ARM } },
-    {"L_ARM",                   { CParamDataType::C_TYPE_FLOAT,  PARAM_L_ARM } },
     {"K_FF_VEL",                { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_VEL } },
     {"K_FF_ACCEL",              { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_ACCEL } },
     {"STATIC_KICK",             { CParamDataType::C_TYPE_FLOAT, PARAM_STATIC_KICK } },
     {"COULOMB_RUN",             { CParamDataType::C_TYPE_FLOAT, PARAM_COULOMB_RUN } },
     {"STRIBECK_WIDTH",          { CParamDataType::C_TYPE_FLOAT, PARAM_STRIBECK_WIDTH } },
     {"VISCOUS_FRICTION",        { CParamDataType::C_TYPE_FLOAT, PARAM_VISCOUS_FRICTION } },
-    {"IR_COMP_GAIN",            { CParamDataType::C_TYPE_FLOAT, PARAM_IR_COMP_GAIN } },
     {"VISCOUS_FRICTION_LIMIT",  { CParamDataType::C_TYPE_FLOAT, PARAM_VISCOUS_FRICTION_LIMIT } },
     {"EB_FF_LIMIT",             { CParamDataType::C_TYPE_FLOAT, PARAM_EB_FF_LIMIT } },
 
     {"AUTO_SYNC",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_SYNC } },
     {"ADC_SYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_SYNC } },
     {"CASCADED",                { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADED } },
-    {"CASCADE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_CASCADE_FILTER } },
     {"AUTO_BIAS",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BIAS } },
     {"ADC_MULTIPHASE",          { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_MULTIPHASE } },
     {"ADC_BIPHASE",             { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_BIPHASE } },
     {"OUTER_FEEDFORWARD",       { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_FEEDFORWARD } },
     {"OUTER_SCV",               { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_SCV } },
-    {"OMEGA_FILTER",            { CParamDataType::C_TYPE_BOOL,  PARAM_OMEGA_FILTER } },
     {"VOLTAGE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_VOLTAGE_FILTER } },
     {"AUTO_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BRAKE } },
-    {"INDUCTIVE_COMP",          { CParamDataType::C_TYPE_BOOL,  PARAM_INDUCTIVE_COMPENSATION } },
-    {"IR_COMP",                 { CParamDataType::C_TYPE_BOOL,  PARAM_IR_COMP } },
 };
 
 const ParamMetadata* get_param_metadata(const std::string& param_name) {

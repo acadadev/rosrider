@@ -36,7 +36,6 @@ int16_t cs_right_scaled;
 
 // TODO: HEAD: detect node if node already running and exit or make it lifecycle based
 // TODO: HEAD: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
-// TODO: HEAD: base_width default 0.1, equalize on firmware
 // TODO: HEAD: ros2pri config can be improved. right now we send hibernate, and hat-off command during shutdown and haton comment at startup.
 
 
