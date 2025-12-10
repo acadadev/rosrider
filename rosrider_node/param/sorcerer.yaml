@@ -51,13 +51,18 @@
     INNER_LIMIT: 240
     CURRENT_KP: 1.0
     CURRENT_KI: 1.0
-    CURRENT_MULTIPLIER: 4.8
-    TORQUE_CONSTANT: 0.016
+    CURRENT_MULTIPLIER_LEFT: 4.8
+    CURRENT_MULTIPLIER_RIGHT: 4.8
     R_ARM: 2.0
+    # torque constant
+    LEFT_KT: 0.012
+    LEFT_KT_W: -0.004
+    RIGHT_KT: 0.012
+    RIGHT_KT_W: -0.004
     # stribeck friction
-    STATIC_KICK: 6.0
-    COULOMB_RUN: 3.0
-    STRIBECK_WIDTH: 64.0
+    STATIC_KICK: 3.0
+    COULOMB_RUN: 1.5
+    STRIBECK_WIDTH: 32.0
     VISCOUS_FRICTION: 0.001
     VISCOUS_FRICTION_LIMIT: 1.2
     EB_FF_LIMIT: 12.0
@@ -93,5 +98,10 @@
     OMEGA_FILTER_TYPE: 0
     CURRENT_FILTER_TYPE: 0
     OUTPUT_FILTER_TYPE: 0
+    # experimental
+    CROSS_KP: 1.0
+    CROSS_KI: 1.0
+    CROSS_K_LEFT: 1.0
+    CROSS_K_RIGHT: 1.0
     # topic paramters
     CMD_VEL_TOPIC: 'cmd_vel'

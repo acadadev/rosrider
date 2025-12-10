@@ -105,9 +105,9 @@
 #define DEFAULT_SIGM_DIV (10.0F)
 #define DEFAULT_CURRENT_KP (2.4F)
 #define DEFAULT_CURRENT_KI (1.2F)
-#define DEFAULT_CURRENT_OBSERVED_MULTIPLIER (1.0F)
+#define DEFAULT_CURRENT_MULTIPLIER_LEFT (2.4F)
+#define DEFAULT_CURRENT_MULTIPLIER_RIGHT (2.4F)
 #define DEFAULT_KB (0.5F)
-#define DEFAULT_TORQUE_CONSTANT (0.01F)
 #define DEFAULT_R_ARM (2.0F)
 #define DEFAULT_K_FF_VEL (0.16F)
 #define DEFAULT_K_FF_ACCEL (0.12F)
@@ -117,6 +117,14 @@
 #define DEFAULT_VISCOUS_FRICTION (0.001F)
 #define DEFAULT_VISCOUS_FRICTION_LIMIT (1.2F)
 #define DEFAULT_EB_FF_LIMIT (12.0F)
+#define DEFAULT_LEFT_KT (0.012F)
+#define DEFAULT_LEFT_KT_W (-0.004F)
+#define DEFAULT_RIGHT_KT (0.012F)
+#define DEFAULT_RIGHT_KT_W (-0.004F)
+#define DEFAULT_CROSS_KP (1.0F)             // TODO: revisit defaults
+#define DEFAULT_CROSS_KI (1.0F)
+#define DEFAULT_CROSS_K_LEFT (1.0F)
+#define DEFAULT_CROSS_K_RIGHT (1.0F)
 
 #define PARAM_GEAR_RATIO 0
 #define PARAM_WHEEL_DIA 1
@@ -140,9 +148,9 @@
 #define PARAM_SIGM_DIV 19
 #define PARAM_CURRENT_KP 20
 #define PARAM_CURRENT_KI 21
-#define PARAM_CURRENT_OBSERVED_MULTIPLIER 22
-#define PARAM_KB 23
-#define PARAM_TORQUE_CONSTANT 24
+#define PARAM_CURRENT_MULTIPLIER_LEFT 22
+#define PARAM_CURRENT_MULTIPLIER_RIGHT 23
+#define PARAM_KB 24
 #define PARAM_R_ARM 25
 #define PARAM_K_FF_VEL 26
 #define PARAM_K_FF_ACCEL 27
@@ -152,6 +160,14 @@
 #define PARAM_VISCOUS_FRICTION 31
 #define PARAM_VISCOUS_FRICTION_LIMIT 32
 #define PARAM_EB_FF_LIMIT 33
+#define PARAM_LEFT_KT 34
+#define PARAM_LEFT_KT_W 35
+#define PARAM_RIGHT_KT 36
+#define PARAM_RIGHT_KT_W 37
+#define PARAM_CROSS_KP 38
+#define PARAM_CROSS_KI 39
+#define PARAM_CROSS_K_LEFT 40
+#define PARAM_CROSS_K_RIGHT 41
 
 // boolean
 #define DEFAULT_AUTO_SYNC true
@@ -180,7 +196,7 @@
 #define SIZE_PARAMS_UINT16 8
 #define SIZE_PARAMS_UINT32 1
 #define SIZE_PARAMS_INT16 6
-#define SIZE_PARAMS_FLOAT 34
+#define SIZE_PARAMS_FLOAT 42
 #define SIZE_PARAMS_BOOL 10
 
 // uint8 array
@@ -280,9 +296,9 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_SIGM_DIV,
                                DEFAULT_CURRENT_KP,
                                DEFAULT_CURRENT_KI,
-                               DEFAULT_CURRENT_OBSERVED_MULTIPLIER,
+                               DEFAULT_CURRENT_MULTIPLIER_LEFT,
+                               DEFAULT_CURRENT_MULTIPLIER_RIGHT,
                                DEFAULT_KB,
-                               DEFAULT_TORQUE_CONSTANT,
                                DEFAULT_R_ARM,
                                DEFAULT_K_FF_VEL,
                                DEFAULT_K_FF_ACCEL,
@@ -291,7 +307,15 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_STRIBECK_WIDTH,
                                DEFAULT_VISCOUS_FRICTION,
                                DEFAULT_VISCOUS_FRICTION_LIMIT,
-                               DEFAULT_EB_FF_LIMIT
+                               DEFAULT_EB_FF_LIMIT,
+                               DEFAULT_LEFT_KT,
+                               DEFAULT_LEFT_KT_W,
+                               DEFAULT_RIGHT_KT,
+                               DEFAULT_RIGHT_KT_W,
+                               DEFAULT_CROSS_KP,
+                               DEFAULT_CROSS_KI,
+                               DEFAULT_CROSS_K_LEFT,
+                               DEFAULT_CROSS_K_RIGHT
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -316,9 +340,9 @@ const char *names_float[] = { "GEAR_RATIO",
                               "SIGM_DIV",
                               "CURRENT_KP",
                               "CURRENT_KI",
-                              "CURRENT_MULTIPLIER",
+                              "CURRENT_MULTIPLIER_LEFT",
+                              "CURRENT_MULTIPLIER_RIGHT",
                               "KB",
-                              "TORQUE_CONSTANT",
                               "R_ARM",
                               "K_FF_VEL",
                               "K_FF_ACCEL",
@@ -327,7 +351,15 @@ const char *names_float[] = { "GEAR_RATIO",
                               "STRIBECK_WIDTH",
                               "VISCOUS_FRICTION",
                               "VISCOUS_FRICTION_LIMIT",
-                              "EB_FF_LIMIT" };
+                              "EB_FF_LIMIT",
+                              "LEFT_KT",
+                              "LEFT_KT_W",
+                              "RIGHT_KT",
+                              "RIGHT_KT_W",
+                              "CROSS_KP",
+                              "CROSS_KI",
+                              "CROSS_K_LEFT",
+                              "CROSS_K_RIGHT" };
 
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_ADC_SYNC,
@@ -427,10 +459,10 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"LEFT_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_AMP_LIMIT } },
     {"RIGHT_AMP_LIMIT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_AMP_LIMIT } },
     {"LEFT_KP",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KP } },
-    {"RIGHT_KP",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KP } },
     {"LEFT_KI",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KI } },
-    {"RIGHT_KI",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KI } },
     {"LEFT_KD",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KD } },
+    {"RIGHT_KP",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KP } },
+    {"RIGHT_KI",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KI } },
     {"RIGHT_KD",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KD } },
     {"GAIN",                    { CParamDataType::C_TYPE_FLOAT,  PARAM_GAIN } },
     {"TRIM",                    { CParamDataType::C_TYPE_FLOAT,  PARAM_TRIM } },
@@ -439,9 +471,9 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"SIGM_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_SIGM_DIV } },
     {"CURRENT_KP",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KP } },
     {"CURRENT_KI",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KI } },
-    {"CURRENT_MULTIPLIER",      { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_OBSERVED_MULTIPLIER } },
+    {"CURRENT_MULTIPLIER_LEFT", { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_MULTIPLIER_LEFT } },
+    {"CURRENT_MULTIPLIER_RIGHT",{ CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_MULTIPLIER_RIGHT } },
     {"K_FB_WINDUP",             { CParamDataType::C_TYPE_FLOAT,  PARAM_KB } },
-    {"TORQUE_CONSTANT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_TORQUE_CONSTANT } },
     {"R_ARM",                   { CParamDataType::C_TYPE_FLOAT,  PARAM_R_ARM } },
     {"K_FF_VEL",                { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_VEL } },
     {"K_FF_ACCEL",              { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_ACCEL } },
@@ -451,6 +483,14 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"VISCOUS_FRICTION",        { CParamDataType::C_TYPE_FLOAT, PARAM_VISCOUS_FRICTION } },
     {"VISCOUS_FRICTION_LIMIT",  { CParamDataType::C_TYPE_FLOAT, PARAM_VISCOUS_FRICTION_LIMIT } },
     {"EB_FF_LIMIT",             { CParamDataType::C_TYPE_FLOAT, PARAM_EB_FF_LIMIT } },
+    {"LEFT_KT",             { CParamDataType::C_TYPE_FLOAT, PARAM_LEFT_KT } },
+    {"LEFT_KT_W",             { CParamDataType::C_TYPE_FLOAT, PARAM_LEFT_KT_W } },
+    {"RIGHT_KT",             { CParamDataType::C_TYPE_FLOAT, PARAM_RIGHT_KT } },
+    {"RIGHT_KT_W",             { CParamDataType::C_TYPE_FLOAT, PARAM_RIGHT_KT_W } },
+    {"CROSS_KP",             { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_KP } },
+    {"CROSS_KI",             { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_KI } },
+    {"CROSS_K_LEFT",             { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_K_LEFT } },
+    {"CROSS_K_RIGHT",             { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_K_RIGHT } },
 
     {"AUTO_SYNC",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_SYNC } },
     {"ADC_SYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_SYNC } },
