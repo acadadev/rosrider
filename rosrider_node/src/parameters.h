@@ -180,6 +180,7 @@
 #define DEFAULT_OUTER_SCV false
 #define DEFAULT_VOLTAGE_FILTER false
 #define DEFAULT_AUTO_BRAKE true
+#define DEFAULT_BEMF_USE_OMEGA_FILTER false
 
 #define PARAM_AUTO_SYNC 0
 #define PARAM_ADC_SYNC 1
@@ -191,13 +192,14 @@
 #define PARAM_OUTER_SCV 7
 #define PARAM_VOLTAGE_FILTER 8
 #define PARAM_AUTO_BRAKE 9
+#define PARAM_BEMF_USE_OMEGA_FILTER 10
 
 #define SIZE_PARAMS_UINT8 11
 #define SIZE_PARAMS_UINT16 8
 #define SIZE_PARAMS_UINT32 1
 #define SIZE_PARAMS_INT16 6
 #define SIZE_PARAMS_FLOAT 42
-#define SIZE_PARAMS_BOOL 10
+#define SIZE_PARAMS_BOOL 11
 
 // uint8 array
 uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
@@ -342,7 +344,7 @@ const char *names_float[] = { "GEAR_RATIO",
                               "CURRENT_KI",
                               "CURRENT_MULTIPLIER_LEFT",
                               "CURRENT_MULTIPLIER_RIGHT",
-                              "KB",
+                              "K_FB_WINDUP",
                               "R_ARM",
                               "K_FF_VEL",
                               "K_FF_ACCEL",
@@ -370,7 +372,8 @@ bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_OUTER_FEEDFORWARD,
                                        DEFAULT_OUTER_SCV,
                                        DEFAULT_VOLTAGE_FILTER,
-                                       DEFAULT_AUTO_BRAKE };
+                                       DEFAULT_AUTO_BRAKE,
+                                       DEFAULT_BEMF_USE_OMEGA_FILTER };
 
 const char *names_bool[] = { "AUTO_SYNC",
                              "ADC_SYNC",
@@ -381,7 +384,8 @@ const char *names_bool[] = { "AUTO_SYNC",
                              "OUTER_FEEDFORWARD",
                              "OUTER_SCV",
                              "VOLTAGE_FILTER",
-                             "AUTO_BRAKE" };
+                             "AUTO_BRAKE",
+                             "BEMF_FILTERED_OMEGA" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -502,6 +506,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"OUTER_SCV",               { CParamDataType::C_TYPE_BOOL,  PARAM_OUTER_SCV } },
     {"VOLTAGE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_VOLTAGE_FILTER } },
     {"AUTO_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BRAKE } },
+    {"BEMF_FILTERED_OMEGA",     { CParamDataType::C_TYPE_BOOL,  PARAM_BEMF_USE_OMEGA_FILTER } },
 };
 
 const ParamMetadata* get_param_metadata(const std::string& param_name) {
@@ -510,6 +515,4 @@ const ParamMetadata* get_param_metadata(const std::string& param_name) {
     return nullptr;
 }
 
-#endif
-
-// main parameters
+#endif // __PARAMETERS_h

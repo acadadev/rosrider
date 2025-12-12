@@ -94,6 +94,7 @@
     OUTER_SCV: True
     VOLTAGE_FILTER: True
     AUTO_BRAKE: True
+    BEMF_FILTERED_OMEGA: False
     # filter configs
     OMEGA_FILTER_TYPE: 0
     CURRENT_FILTER_TYPE: 0
