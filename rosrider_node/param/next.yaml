@@ -46,7 +46,7 @@
     SIGM_DIV: 10.0
     K_FB_WINDUP: 0.5
     K_FF_VEL: 0.008
-    K_FF_ACCEL: 0.12
+    K_FF_ACCEL: 0.008
     # cascaded loop
     INNER_LIMIT: 240
     CURRENT_KP: 1.0
@@ -65,7 +65,7 @@
     STRIBECK_WIDTH: 32.0
     VISCOUS_FRICTION: 0.001
     VISCOUS_FRICTION_LIMIT: 1.2
-    EB_FF_LIMIT: 10.0
+    EB_FF_LIMIT: 12.0
     # electrical limits
     MAIN_AMP_LIMIT: 3.6
     BAT_VOLTS_HIGH: 15.0
@@ -90,8 +90,8 @@
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
-    OUTER_FEEDFORWARD: False
-    OUTER_SCV: False
+    OUTER_FEEDFORWARD: True
+    OUTER_SCV: True
     VOLTAGE_FILTER: True
     AUTO_BRAKE: False
     BEMF_FILTERED_OMEGA: True
