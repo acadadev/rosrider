@@ -86,7 +86,7 @@
     # boolean parameters
     AUTO_SYNC: True
     ADC_SYNC: True
-    CASCADED: False
+    CASCADED: True
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
@@ -96,8 +96,8 @@
     AUTO_BRAKE: False
     BEMF_FILTERED_OMEGA: True
     # filter configs
-    OMEGA_FILTER_TYPE: 2
-    CURRENT_FILTER_TYPE: 2
+    OMEGA_FILTER_TYPE: 4
+    CURRENT_FILTER_TYPE: 3
     OUTPUT_FILTER_TYPE: 0
     # experimental
     CROSS_KP: 1.0
