@@ -226,7 +226,7 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                               "ALLOWED_SKIP",
                               "I2C_ADDRESS",
                               "OUTPUT_FILTER_TYPE",
-                              "CS_WAVEFORM_DIVIDER",
+                              "CS_WAVEFORM_DIV",
                               "OMEGA_FILTER_TYPE",
                               "CURRENT_FILTER_TYPE"
                             };
