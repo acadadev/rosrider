@@ -98,9 +98,9 @@
 #define DEFAULT_RIGHT_KP (2.4F)
 #define DEFAULT_RIGHT_KI (1.8F)
 #define DEFAULT_RIGHT_KD (0.0F)
-#define DEFAULT_GAIN (1.0F)
-#define DEFAULT_TRIM (0.0F)
-#define DEFAULT_MOTOR_CONSTANT (1.0F)
+#define DEFAULT_TRIM_GAIN (1.0F)
+#define DEFAULT_TRIM_CONSTANT (0.0F)
+#define DEFAULT_TRIM_MOTOR_K (1.0F)
 #define DEFAULT_TANH_DIV (2.0F)
 #define DEFAULT_SIGM_DIV (10.0F)
 #define DEFAULT_CURRENT_KP (2.4F)
@@ -141,9 +141,9 @@
 #define PARAM_RIGHT_KP 12
 #define PARAM_RIGHT_KI 13
 #define PARAM_RIGHT_KD 14
-#define PARAM_GAIN 15
-#define PARAM_TRIM 16
-#define PARAM_MOTOR_CONSTANT 17
+#define PARAM_TRIM_GAIN 15
+#define PARAM_TRIM_CONSTANT 16
+#define PARAM_TRIM_MOTOR_K 17
 #define PARAM_TANH_DIV 18
 #define PARAM_SIGM_DIV 19
 #define PARAM_CURRENT_KP 20
@@ -181,6 +181,7 @@
 #define DEFAULT_VOLTAGE_FILTER false
 #define DEFAULT_AUTO_BRAKE true
 #define DEFAULT_BEMF_USE_OMEGA_FILTER false
+#define DEFAULT_CROSS_COUPLED_CONTROL false
 
 #define PARAM_AUTO_SYNC 0
 #define PARAM_ADC_SYNC 1
@@ -193,13 +194,14 @@
 #define PARAM_VOLTAGE_FILTER 8
 #define PARAM_AUTO_BRAKE 9
 #define PARAM_BEMF_USE_OMEGA_FILTER 10
+#define PARAM_CROSS_COUPLED_CONTROL 11
 
 #define SIZE_PARAMS_UINT8 11
 #define SIZE_PARAMS_UINT16 8
 #define SIZE_PARAMS_UINT32 1
 #define SIZE_PARAMS_INT16 6
 #define SIZE_PARAMS_FLOAT 42
-#define SIZE_PARAMS_BOOL 11
+#define SIZE_PARAMS_BOOL 12
 
 // uint8 array
 uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
@@ -291,9 +293,9 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_RIGHT_KP,
                                DEFAULT_RIGHT_KI,
                                DEFAULT_RIGHT_KD,
-                               DEFAULT_GAIN,
-                               DEFAULT_TRIM,
-                               DEFAULT_MOTOR_CONSTANT,
+                               DEFAULT_TRIM_GAIN,
+                               DEFAULT_TRIM_CONSTANT,
+                               DEFAULT_TRIM_MOTOR_K,
                                DEFAULT_TANH_DIV,
                                DEFAULT_SIGM_DIV,
                                DEFAULT_CURRENT_KP,
@@ -335,9 +337,9 @@ const char *names_float[] = { "GEAR_RATIO",
                               "RIGHT_KP",
                               "RIGHT_KI",
                               "RIGHT_KD",
-                              "GAIN",
-                              "TRIM",
-                              "MOTOR_CONSTANT",
+                              "TRIM_GAIN",
+                              "TRIM_CONSTANT",
+                              "TRIM_MOTOR_K",
                               "TANH_DIV",
                               "SIGM_DIV",
                               "CURRENT_KP",
@@ -373,7 +375,8 @@ bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_OUTER_SCV,
                                        DEFAULT_VOLTAGE_FILTER,
                                        DEFAULT_AUTO_BRAKE,
-                                       DEFAULT_BEMF_USE_OMEGA_FILTER };
+                                       DEFAULT_BEMF_USE_OMEGA_FILTER,
+                                       DEFAULT_CROSS_COUPLED_CONTROL };
 
 const char *names_bool[] = { "AUTO_SYNC",
                              "ADC_SYNC",
@@ -385,7 +388,8 @@ const char *names_bool[] = { "AUTO_SYNC",
                              "OUTER_SCV",
                              "VOLTAGE_FILTER",
                              "AUTO_BRAKE",
-                             "BEMF_FILTERED_OMEGA" };
+                             "BEMF_FILTERED_OMEGA",
+                             "CROSS_COUPLED_CONTROL" };
 
 // calculated parameters
 uint16_t PULSE_PER_REV;
@@ -468,9 +472,9 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"RIGHT_KP",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KP } },
     {"RIGHT_KI",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KI } },
     {"RIGHT_KD",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KD } },
-    {"GAIN",                    { CParamDataType::C_TYPE_FLOAT,  PARAM_GAIN } },
-    {"TRIM",                    { CParamDataType::C_TYPE_FLOAT,  PARAM_TRIM } },
-    {"MOTOR_CONSTANT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_MOTOR_CONSTANT } },
+    {"TRIM_GAIN",               { CParamDataType::C_TYPE_FLOAT,  PARAM_TRIM_GAIN } },
+    {"TRIM_CONSTANT",           { CParamDataType::C_TYPE_FLOAT,  PARAM_TRIM_CONSTANT } },
+    {"TRIM_MOTOR_K",            { CParamDataType::C_TYPE_FLOAT,  PARAM_TRIM_MOTOR_K } },
     {"TANH_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_TANH_DIV } },
     {"SIGM_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_SIGM_DIV } },
     {"CURRENT_KP",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KP } },

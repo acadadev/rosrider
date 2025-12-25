@@ -38,9 +38,7 @@ int16_t cs_right_scaled;
 // TODO: HEAD: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
 // TODO: HEAD: ros2pri config can be improved. right now we send hibernate, and hat-off command during shutdown and haton comment at startup.
 
-
 // TODO: make debug system on the firmware when updated, it prints. check one by one.
-// TODO: rename MOTOR_CONSTANT AND GAIN to TRIM_MOTOR_CONSTANT AND TRIM_MOTOR_GAIN
 
 class ROSRider : public rclcpp::Node {
 

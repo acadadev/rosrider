@@ -80,9 +80,9 @@
     ADC_SPEED: 16000
     CS_WAVEFORM_DIV: 16
     # trim
-    GAIN: 1.0
-    TRIM: 0.0
-    MOTOR_CONSTANT: 1.0
+    TRIM_GAIN: 1.0
+    TRIM_MOTOR_K: 1.0
+    TRIM_CONSTANT: 0.0
     # boolean parameters
     AUTO_SYNC: True
     ADC_SYNC: True
@@ -95,6 +95,7 @@
     VOLTAGE_FILTER: True
     AUTO_BRAKE: False
     BEMF_FILTERED_OMEGA: True
+    CROSS_COUPLED_CONTROL: False
     # filter configs
     OMEGA_FILTER_TYPE: 4
     CURRENT_FILTER_TYPE: 3
