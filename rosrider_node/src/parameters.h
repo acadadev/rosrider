@@ -392,13 +392,15 @@ const char *names_bool[] = { "AUTO_SYNC",
                              "CROSS_COUPLED_CONTROL" };
 
 // calculated parameters
+
 uint16_t PULSE_PER_REV;
-double COMMAND_TIMEOUT_SECS;
 float WHEEL_CIRCUMFERENCE;
 float TICKS_PER_METER;
-float ROUNDS_PER_MINUTE;
-float LINEAR_RPM;
-float ANGULAR_RPM;
+double COMMAND_TIMEOUT_SECS;
+float ROUNDS_PER_MINUTE;        // for converting encoder velocity to rpm
+
+float LINEAR_OMEGA;
+float ANGULAR_OMEGA;
 double UPDATE_PERIOD;
 double MONITOR_PERIOD;
 

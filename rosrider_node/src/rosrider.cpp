@@ -178,12 +178,15 @@ class ROSRider : public rclcpp::Node {
 			// calculated parameters, according to parameters from yaml
 			PULSE_PER_REV = params_float[PARAM_GEAR_RATIO] * params_uint16[PARAM_ENCODER_PPR];
 		    WHEEL_CIRCUMFERENCE = params_float[PARAM_WHEEL_DIA] * MATHPI;
+
 		    TICKS_PER_METER = PULSE_PER_REV * (1.0f / WHEEL_CIRCUMFERENCE);
+            ROUNDS_PER_MINUTE = (60.0f / (1.0f / params_uint8[PARAM_UPDATE_RATE])) / PULSE_PER_REV;
 
-		    ROUNDS_PER_MINUTE = (60.0f / (1.0f / params_uint8[PARAM_UPDATE_RATE])) / PULSE_PER_REV;
+            LINEAR_OMEGA = (1.0f / WHEEL_CIRCUMFERENCE) * 2.0f * M_PI;
+            ANGULAR_OMEGA = (params_float[PARAM_BASE_WIDTH] / (WHEEL_CIRCUMFERENCE * 2.0f)) * 2.0f * M_PI;
 
-		    LINEAR_RPM = (1.0f / WHEEL_CIRCUMFERENCE) * 60.0f;
-		    ANGULAR_RPM = (params_float[PARAM_BASE_WIDTH] / (WHEEL_CIRCUMFERENCE * 2.0f)) * 60.0f;
+		    //LINEAR_RPM = (1.0f / WHEEL_CIRCUMFERENCE) * 60.0f;
+            //ANGULAR_RPM = (params_float[PARAM_BASE_WIDTH] / (WHEEL_CIRCUMFERENCE * 2.0f)) * 60.0f;
 
 		    COMMAND_TIMEOUT_SECS = ((double) params_uint8[PARAM_ALLOWED_SKIP]) / params_uint8[PARAM_UPDATE_RATE];
 		    UPDATE_PERIOD = 1.0 / params_uint8[PARAM_UPDATE_RATE];
@@ -589,8 +592,15 @@ class ROSRider : public rclcpp::Node {
 	    void cmd_callback(const geometry_msgs::msg::Twist t) const {
 
 		    // calculate PID targets
-		    target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM));
-		    target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM));
+		    //target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM));
+		    //target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM));
+
+		    // Notice: Documentation
+		    // LINEAR_OMEGA = (1.0f / WHEEL_CIRCUMFERENCE) * 2.0f * M_PI;
+            // ANGULAR_OMEGA = (params_float[PARAM_BASE_WIDTH] / (WHEEL_CIRCUMFERENCE * 2.0f)) * 2.0f * M_PI;
+
+		    target_left = ((t.linear.x * LINEAR_OMEGA) - (t.angular.z * ANGULAR_OMEGA));
+		    target_right = ((t.linear.x * LINEAR_OMEGA) + (t.angular.z * ANGULAR_OMEGA));
 
 	   		unsigned char pid_target_buffer[8] = {0};
 
