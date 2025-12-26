@@ -86,12 +86,12 @@
     # boolean parameters
     AUTO_SYNC: True
     ADC_SYNC: True
-    CASCADED: True
+    CASCADED: False
     AUTO_BIAS: True
     ADC_MULTIPHASE: True
     ADC_BIPHASE: False
-    OUTER_FEEDFORWARD: True
-    OUTER_SCV: True
+    OUTER_FEEDFORWARD: False
+    OUTER_SCV: False
     VOLTAGE_FILTER: True
     AUTO_BRAKE: False
     BEMF_FILTERED_OMEGA: True
