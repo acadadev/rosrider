@@ -12,8 +12,8 @@ This message provides a comprehensive snapshot of the robot's low-level operatio
 |:--------------|:--------|--------------------------------------------------------------------|
 | pwm_left      | int16   | 	Current PWM value being applied to the left motor.                |
 | pwm_right     | int16   | 	Current PWM value being applied to the right motor.               |  
-| rpm_left      | float32 | 	Measured Revolutions Per Minute (RPM) of the left wheel.          |  
-| rpm_right     | float32 | 	Measured RPM of the right wheel.                                  | 
+| omega_left    | float32 | 	Measured Radians per Second (RPS) of the left wheel.              |  
+| omega_right   | float32 | 	Measured RPS of the right wheel.                                  | 
 | target_left   | float32 | 	Desired speed (RPM) for the left wheel (controller setpoint).     |
 | target_right  | float32 | 	Desired speed (RPM) for the right wheel (controller setpoint).    | 
 | cs_left       | float32 | 	Current sense metric for the left wheel.                          |

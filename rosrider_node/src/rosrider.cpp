@@ -180,7 +180,7 @@ class ROSRider : public rclcpp::Node {
 		    WHEEL_CIRCUMFERENCE = params_float[PARAM_WHEEL_DIA] * MATHPI;
 
 		    TICKS_PER_METER = PULSE_PER_REV * (1.0f / WHEEL_CIRCUMFERENCE);
-            ROUNDS_PER_MINUTE = (60.0f / (1.0f / params_uint8[PARAM_UPDATE_RATE])) / PULSE_PER_REV;
+            RADIANS_PER_SECOND = ( ( 2.0f * MATHPI ) / (1.0f / params_uint8[PARAM_UPDATE_RATE])) / PULSE_PER_REV;
 
             LINEAR_OMEGA = (1.0f / WHEEL_CIRCUMFERENCE) * 2.0f * M_PI;
             ANGULAR_OMEGA = (params_float[PARAM_BASE_WIDTH] / (WHEEL_CIRCUMFERENCE * 2.0f)) * 2.0f * M_PI;
@@ -549,16 +549,16 @@ class ROSRider : public rclcpp::Node {
 					diag_message.pwm_left = status_buffer[17] + (status_buffer[16] << 8);
 					diag_message.pwm_right = status_buffer[19] + (status_buffer[18] << 8);
 
-		            // current rpm raw values, multiply by ROUNDS_PER_MINUTE and apply sign by encoder_dir
+		            // current RPM RAW values, multiply by RADIANS_PER_SECOND and apply sign by encoder_dir
 		            if(enc_dir_left == -1) {
-		                diag_message.rpm_left = -((status_buffer[20] << 8 | status_buffer[21]) * ROUNDS_PER_MINUTE);
+		                diag_message.omega_left = -((status_buffer[20] << 8 | status_buffer[21]) * RADIANS_PER_SECOND);
 		            } else {
-		                diag_message.rpm_left = (status_buffer[20] << 8 | status_buffer[21]) * ROUNDS_PER_MINUTE;
+		                diag_message.omega_left = (status_buffer[20] << 8 | status_buffer[21]) * RADIANS_PER_SECOND;
 		            }
 		            if(enc_dir_right == -1) {
-		                diag_message.rpm_right = -((status_buffer[22] << 8 | status_buffer[23]) * ROUNDS_PER_MINUTE);
+		                diag_message.omega_right = -((status_buffer[22] << 8 | status_buffer[23]) * RADIANS_PER_SECOND);
 		            } else {
-		                diag_message.rpm_right = (status_buffer[22] << 8 | status_buffer[23]) * ROUNDS_PER_MINUTE;
+		                diag_message.omega_right = (status_buffer[22] << 8 | status_buffer[23]) * RADIANS_PER_SECOND;
 		            }
 
 		            diag_message.target_left = target_left;

@@ -397,7 +397,7 @@ uint16_t PULSE_PER_REV;
 float WHEEL_CIRCUMFERENCE;
 float TICKS_PER_METER;
 double COMMAND_TIMEOUT_SECS;
-float ROUNDS_PER_MINUTE;        // for converting encoder velocity to rpm
+float RADIANS_PER_SECOND;        // for converting encoder velocity to omega
 
 float LINEAR_OMEGA;
 float ANGULAR_OMEGA;
