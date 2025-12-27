@@ -360,7 +360,6 @@ const char *names_float[] = { "GEAR_RATIO",
                               "RIGHT_KT",
                               "RIGHT_KT_W",
                               "CROSS_KP",
-                              "CROSS_KI",
                               "CROSS_K_LEFT",
                               "CROSS_K_RIGHT" };
 
