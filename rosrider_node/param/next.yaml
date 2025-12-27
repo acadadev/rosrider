@@ -17,7 +17,7 @@
     MAX_IDLE_SECONDS: 1800
     # driver configuration
     DRIVE_MODE: 3
-    CONFIG_FLAGS: 48
+    CONFIG_FLAGS: 112
     UPDATE_RATE: 20
     # pwm configuration
     PWM_DIV: 16
@@ -88,7 +88,7 @@
     ADC_SYNC: True
     CASCADED: False
     AUTO_BIAS: True
-    ADC_MULTIPHASE: True
+    ADC_MULTIPHASE: False
     ADC_BIPHASE: False
     OUTER_FEEDFORWARD: False
     OUTER_SCV: False
@@ -97,7 +97,7 @@
     BEMF_FILTERED_OMEGA: True
     CROSS_COUPLED_CONTROL: False
     # filter configs
-    OMEGA_FILTER_TYPE: 4
+    OMEGA_FILTER_TYPE: 0
     CURRENT_FILTER_TYPE: 3
     OUTPUT_FILTER_TYPE: 0
     # experimental
