@@ -94,8 +94,8 @@
     OUTER_SCV: False
     VOLTAGE_FILTER: True
     AUTO_BRAKE: False
-    BEMF_FILTERED_OMEGA: True
-    PID_FILTERED_OMEGA: True
+    BEMF_FILTERED_OMEGA: False
+    PID_FILTERED_OMEGA: False
     CROSS_COUPLED_CONTROL: False
     # filter configs
     OMEGA_FILTER_TYPE: 0
