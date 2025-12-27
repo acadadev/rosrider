@@ -55,10 +55,10 @@
     CURRENT_MULTIPLIER_RIGHT: 4.8
     R_ARM: 2.0
     # torque constant
-    LEFT_KT: 0.012
-    LEFT_KT_W: -0.004
-    RIGHT_KT: 0.012
-    RIGHT_KT_W: -0.004
+    LEFT_KT: 0.016
+    LEFT_KT_W: -0.008
+    RIGHT_KT: 0.016
+    RIGHT_KT_W: -0.008
     # stribeck friction
     STATIC_KICK: 3.0
     COULOMB_RUN: 1.5
