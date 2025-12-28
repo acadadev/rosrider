@@ -23,8 +23,8 @@ extern "C"{
 }
 #endif
 
-#define MAX_I2C_READ_FAIL 16
-#define MAX_I2C_CHECKSUM_FAIL 16
+#define MAX_I2C_READ_FAIL 512
+#define MAX_I2C_CHECKSUM_FAIL 512
 
 using namespace std;
 using std::placeholders::_1;
