@@ -60,8 +60,8 @@
     RIGHT_KT: 0.016
     RIGHT_KT_W: -0.008
     # stribeck friction
-    STATIC_KICK: 3.0
-    COULOMB_RUN: 1.5
+    STATIC_KICK: 3.6
+    COULOMB_RUN: 1.8
     STRIBECK_WIDTH: 8.0
     VISCOUS_FRICTION: 0.096
     VISCOUS_FRICTION_LIMIT: 1.2
@@ -105,7 +105,7 @@
     CURRENT_FILTER_TYPE: 3
     OUTPUT_FILTER_TYPE: 0
     # experimental
-    CROSS_KP: 32.0
+    CROSS_KP: 16.0
     CROSS_K_LEFT: 1.0
     CROSS_K_RIGHT: 1.0
     # topic paramters
