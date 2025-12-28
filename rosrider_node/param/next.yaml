@@ -105,7 +105,7 @@
     CURRENT_FILTER_TYPE: 3
     OUTPUT_FILTER_TYPE: 0
     # experimental
-    CROSS_KP: 16.0
+    CROSS_KP: 20.0
     CROSS_K_LEFT: 1.0
     CROSS_K_RIGHT: 1.0
     # topic paramters
