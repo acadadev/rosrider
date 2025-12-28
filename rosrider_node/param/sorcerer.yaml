@@ -62,10 +62,11 @@
     # stribeck friction
     STATIC_KICK: 3.0
     COULOMB_RUN: 1.5
-    STRIBECK_WIDTH: 32.0
-    VISCOUS_FRICTION: 0.001
+    STRIBECK_WIDTH: 8.0
+    VISCOUS_FRICTION: 0.096
     VISCOUS_FRICTION_LIMIT: 1.2
     EB_FF_LIMIT: 12.0
+    SCV_OMEGA_THRESHOLD: 0.05
     # electrical limits
     MAIN_AMP_LIMIT: 2.8
     BAT_VOLTS_HIGH: 15.0
@@ -96,6 +97,7 @@
     AUTO_BRAKE: False
     BEMF_FILTERED_OMEGA: False
     PID_FILTERED_OMEGA: False
+    SCV_FILTERED_OMEGA: False
     CROSS_COUPLED_CONTROL: False
     # filter configs
     OMEGA_FILTER_TYPE: 0

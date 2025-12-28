@@ -121,9 +121,10 @@
 #define DEFAULT_LEFT_KT_W (-0.004F)
 #define DEFAULT_RIGHT_KT (0.012F)
 #define DEFAULT_RIGHT_KT_W (-0.004F)
-#define DEFAULT_CROSS_KP (1.0F)             // TODO: revisit defaults
+#define DEFAULT_CROSS_KP (8.0F)
 #define DEFAULT_CROSS_K_LEFT (1.0F)
 #define DEFAULT_CROSS_K_RIGHT (1.0F)
+#define DEFAULT_SCV_OMEGA_THRESHOLD (0.05F)
 
 #define PARAM_GEAR_RATIO 0
 #define PARAM_WHEEL_DIA 1
@@ -166,6 +167,7 @@
 #define PARAM_CROSS_KP 38
 #define PARAM_CROSS_K_LEFT 39
 #define PARAM_CROSS_K_RIGHT 40
+#define PARAM_SCV_OMEGA_THRESHOLD 41
 
 // boolean
 #define DEFAULT_AUTO_SYNC true
@@ -200,8 +202,8 @@
 #define SIZE_PARAMS_UINT16 8
 #define SIZE_PARAMS_UINT32 1
 #define SIZE_PARAMS_INT16 6
-#define SIZE_PARAMS_FLOAT 41
-#define SIZE_PARAMS_BOOL 13
+#define SIZE_PARAMS_FLOAT 42
+#define SIZE_PARAMS_BOOL 14
 
 // uint8 array
 uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
@@ -318,7 +320,8 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_RIGHT_KT_W,
                                DEFAULT_CROSS_KP,
                                DEFAULT_CROSS_K_LEFT,
-                               DEFAULT_CROSS_K_RIGHT
+                               DEFAULT_CROSS_K_RIGHT,
+                               DEFAULT_SCV_OMEGA_THRESHOLD
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -361,7 +364,8 @@ const char *names_float[] = { "GEAR_RATIO",
                               "RIGHT_KT_W",
                               "CROSS_KP",
                               "CROSS_K_LEFT",
-                              "CROSS_K_RIGHT" };
+                              "CROSS_K_RIGHT",
+                              "SCV_OMEGA_THRESHOLD" };
 
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_ADC_SYNC,
@@ -375,7 +379,8 @@ bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_AUTO_BRAKE,
                                        DEFAULT_BEMF_USE_OMEGA_FILTER,
                                        DEFAULT_CROSS_COUPLED_CONTROL,
-                                       DEFAULT_PID_USE_OMEGA_FILTER };
+                                       DEFAULT_PID_USE_OMEGA_FILTER,
+                                       DEFAULT_SCV_USE_OMEGA_FILTER };
 
 const char *names_bool[] = { "AUTO_SYNC",
                              "ADC_SYNC",
@@ -389,7 +394,8 @@ const char *names_bool[] = { "AUTO_SYNC",
                              "AUTO_BRAKE",
                              "BEMF_FILTERED_OMEGA",
                              "CROSS_COUPLED_CONTROL",
-                             "PID_FILTERED_OMEGA" };
+                             "PID_FILTERED_OMEGA",
+                             "SCV_FILTERED_OMEGA" };
 
 // calculated parameters
 
@@ -493,13 +499,14 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"VISCOUS_FRICTION",        { CParamDataType::C_TYPE_FLOAT, PARAM_VISCOUS_FRICTION } },
     {"VISCOUS_FRICTION_LIMIT",  { CParamDataType::C_TYPE_FLOAT, PARAM_VISCOUS_FRICTION_LIMIT } },
     {"EB_FF_LIMIT",             { CParamDataType::C_TYPE_FLOAT, PARAM_EB_FF_LIMIT } },
-    {"LEFT_KT",             { CParamDataType::C_TYPE_FLOAT, PARAM_LEFT_KT } },
-    {"LEFT_KT_W",             { CParamDataType::C_TYPE_FLOAT, PARAM_LEFT_KT_W } },
-    {"RIGHT_KT",             { CParamDataType::C_TYPE_FLOAT, PARAM_RIGHT_KT } },
-    {"RIGHT_KT_W",             { CParamDataType::C_TYPE_FLOAT, PARAM_RIGHT_KT_W } },
-    {"CROSS_KP",             { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_KP } },
-    {"CROSS_K_LEFT",             { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_K_LEFT } },
-    {"CROSS_K_RIGHT",             { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_K_RIGHT } },
+    {"LEFT_KT",                 { CParamDataType::C_TYPE_FLOAT, PARAM_LEFT_KT } },
+    {"LEFT_KT_W",               { CParamDataType::C_TYPE_FLOAT, PARAM_LEFT_KT_W } },
+    {"RIGHT_KT",                { CParamDataType::C_TYPE_FLOAT, PARAM_RIGHT_KT } },
+    {"RIGHT_KT_W",              { CParamDataType::C_TYPE_FLOAT, PARAM_RIGHT_KT_W } },
+    {"CROSS_KP",                { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_KP } },
+    {"CROSS_K_LEFT",            { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_K_LEFT } },
+    {"CROSS_K_RIGHT",           { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_K_RIGHT } },
+    {"SCV_OMEGA_THRESHOLD",     { CParamDataType::C_TYPE_FLOAT, PARAM_SCV_OMEGA_THRESHOLD } },
 
     {"AUTO_SYNC",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_SYNC } },
     {"ADC_SYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_SYNC } },
@@ -514,6 +521,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"BEMF_FILTERED_OMEGA",     { CParamDataType::C_TYPE_BOOL,  PARAM_BEMF_USE_OMEGA_FILTER } },
     {"CROSS_COUPLED_CONTROL",   { CParamDataType::C_TYPE_BOOL,  PARAM_BEMF_USE_OMEGA_FILTER } },
     {"PID_FILTERED_OMEGA",      { CParamDataType::C_TYPE_BOOL,  PARAM_PID_USE_OMEGA_FILTER } },
+    {"SCV_FILTERED_OMEGA",      { CParamDataType::C_TYPE_BOOL,  PARAM_SCV_USE_OMEGA_FILTER } },
 
 };
 
