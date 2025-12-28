@@ -521,7 +521,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"VOLTAGE_FILTER",          { CParamDataType::C_TYPE_BOOL,  PARAM_VOLTAGE_FILTER } },
     {"AUTO_BRAKE",              { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_BRAKE } },
     {"BEMF_FILTERED_OMEGA",     { CParamDataType::C_TYPE_BOOL,  PARAM_BEMF_USE_OMEGA_FILTER } },
-    {"CROSS_COUPLED_CONTROL",   { CParamDataType::C_TYPE_BOOL,  PARAM_BEMF_USE_OMEGA_FILTER } },
+    {"CROSS_COUPLED_CONTROL",   { CParamDataType::C_TYPE_BOOL,  PARAM_CROSS_COUPLED_CONTROL } },
     {"PID_FILTERED_OMEGA",      { CParamDataType::C_TYPE_BOOL,  PARAM_PID_USE_OMEGA_FILTER } },
     {"SCV_FILTERED_OMEGA",      { CParamDataType::C_TYPE_BOOL,  PARAM_SCV_USE_OMEGA_FILTER } },
 
