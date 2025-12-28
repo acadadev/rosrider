@@ -249,7 +249,6 @@ class ROSRider : public rclcpp::Node {
 
                                 case CParamDataType::C_TYPE_UINT8:
                                     send_result = send_uint8_param(p.param_index, parameter.as_int());
-                                    RCLCPP_ERROR(this->get_logger(), "send_result: %d", send_result);
                                     break;
 
                                 case CParamDataType::C_TYPE_UINT16:
@@ -290,8 +289,6 @@ class ROSRider : public rclcpp::Node {
                         } // metadata found
 		            } // param type set
 		        } // for loop end
-
-		        RCLCPP_ERROR(this->get_logger(), "result: %d", result.successful);
 
 		        return result;
 
@@ -682,11 +679,8 @@ class ROSRider : public rclcpp::Node {
 
 			uint8_t RW = update_parameter(fd, EEPROM_WRITE_UINT8);                          // update parameter
 
-			RCLCPP_INFO(this->get_logger(), "I2C RW %d", RW);
-
 			if( RW == 0 ) {
 			    uint8_t RD = read_parameter_result(fd);
-			    RCLCPP_INFO(this->get_logger(), "I2C RD %d", RD);
 			    if( RD == 0 ) { return param_result_buffer[3]; } else { return RD; }
 			} else { return RW; }
 
