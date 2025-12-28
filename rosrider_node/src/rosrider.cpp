@@ -291,7 +291,7 @@ class ROSRider : public rclcpp::Node {
 		            } // param type set
 		        } // for loop end
 
-		        RCLCPP_ERROR(this->get_logger(), "result: %d", result);
+		        RCLCPP_ERROR(this->get_logger(), "result: %u", result);
 
 		        return result;
 
