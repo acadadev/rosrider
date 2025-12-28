@@ -88,22 +88,21 @@
     ADC_SYNC: True
     CASCADED: False
     AUTO_BIAS: True
-    ADC_MULTIPHASE: True
+    ADC_MULTIPHASE: False
     ADC_BIPHASE: False
     OUTER_FEEDFORWARD: False
     OUTER_SCV: False
-    VOLTAGE_FILTER: True
+    VOLTAGE_FILTER: False
     AUTO_BRAKE: False
     BEMF_FILTERED_OMEGA: False
     PID_FILTERED_OMEGA: False
     CROSS_COUPLED_CONTROL: False
     # filter configs
-    OMEGA_FILTER_TYPE: 4
+    OMEGA_FILTER_TYPE: 0
     CURRENT_FILTER_TYPE: 3
     OUTPUT_FILTER_TYPE: 0
     # experimental
-    CROSS_KP: 1.0
-    CROSS_KI: 1.0
+    CROSS_KP: 16.0
     CROSS_K_LEFT: 1.0
     CROSS_K_RIGHT: 1.0
     # topic paramters
