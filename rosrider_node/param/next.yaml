@@ -36,11 +36,11 @@
     RIGHT_REVERSE_DEADZONE: 12
     # pid configuration
     UPPER_LIMIT: 240
-    LEFT_KP: 6.4
-    LEFT_KI: 3.2
+    LEFT_KP: 9.6
+    LEFT_KI: 6.4
     LEFT_KD: 0.0
-    RIGHT_KP: 6.4
-    RIGHT_KI: 3.2
+    RIGHT_KP: 9.6
+    RIGHT_KI: 6.4
     RIGHT_KD: 0.0
     TANH_DIV: 2.0
     SIGM_DIV: 10.0
@@ -49,10 +49,10 @@
     K_FF_ACCEL: 0.08
     # cascaded loop
     INNER_LIMIT: 240
-    CURRENT_KP: 6.4
-    CURRENT_KI: 3.2
-    CURRENT_MULTIPLIER_LEFT: 9.6
-    CURRENT_MULTIPLIER_RIGHT: 9.6
+    CURRENT_KP: 9.6
+    CURRENT_KI: 6.4
+    CURRENT_MULTIPLIER_LEFT: 6.4
+    CURRENT_MULTIPLIER_RIGHT: 6.4
     R_ARM: 2.0
     # torque constant
     LEFT_KT: 0.016
@@ -60,8 +60,8 @@
     RIGHT_KT: 0.016
     RIGHT_KT_W: -0.008
     # stribeck friction
-    STATIC_KICK: 3.6
-    COULOMB_RUN: 1.8
+    STATIC_KICK: 6.0
+    COULOMB_RUN: 3.0
     STRIBECK_WIDTH: 8.0
     VISCOUS_FRICTION: 0.096
     VISCOUS_FRICTION_LIMIT: 1.2
