@@ -125,6 +125,7 @@
 #define DEFAULT_CROSS_K_LEFT (1.0F)
 #define DEFAULT_CROSS_K_RIGHT (1.0F)
 #define DEFAULT_SCV_OMEGA_THRESHOLD (0.05F)
+#define DEFAULT_SCV_LATCH_THRESHOLD (2.0F)
 
 #define PARAM_GEAR_RATIO 0
 #define PARAM_WHEEL_DIA 1
@@ -168,6 +169,7 @@
 #define PARAM_CROSS_K_LEFT 39
 #define PARAM_CROSS_K_RIGHT 40
 #define PARAM_SCV_OMEGA_THRESHOLD 41
+#define PARAM_SCV_LATCH_THRESHOLD 42
 
 // boolean
 #define DEFAULT_AUTO_SYNC true
@@ -204,7 +206,7 @@
 #define SIZE_PARAMS_UINT16 8
 #define SIZE_PARAMS_UINT32 1
 #define SIZE_PARAMS_INT16 6
-#define SIZE_PARAMS_FLOAT 42
+#define SIZE_PARAMS_FLOAT 43
 #define SIZE_PARAMS_BOOL 14
 
 // uint8 array
@@ -323,7 +325,8 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_CROSS_KP,
                                DEFAULT_CROSS_K_LEFT,
                                DEFAULT_CROSS_K_RIGHT,
-                               DEFAULT_SCV_OMEGA_THRESHOLD
+                               DEFAULT_SCV_OMEGA_THRESHOLD,
+                               DEFAULT_SCV_LATCH_THRESHOLD
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -367,7 +370,8 @@ const char *names_float[] = { "GEAR_RATIO",
                               "CROSS_KP",
                               "CROSS_K_LEFT",
                               "CROSS_K_RIGHT",
-                              "SCV_OMEGA_THRESHOLD" };
+                              "SCV_OMEGA_THRESHOLD",
+                              "SCV_LATCH_THRESHOLD" };
 
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_ADC_SYNC,
@@ -509,6 +513,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"CROSS_K_LEFT",            { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_K_LEFT } },
     {"CROSS_K_RIGHT",           { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_K_RIGHT } },
     {"SCV_OMEGA_THRESHOLD",     { CParamDataType::C_TYPE_FLOAT, PARAM_SCV_OMEGA_THRESHOLD } },
+    {"SCV_LATCH_THRESHOLD",     { CParamDataType::C_TYPE_FLOAT, PARAM_SCV_LATCH_THRESHOLD } },
 
     {"AUTO_SYNC",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_SYNC } },
     {"ADC_SYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_SYNC } },
