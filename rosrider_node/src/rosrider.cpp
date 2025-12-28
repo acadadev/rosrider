@@ -671,8 +671,14 @@ class ROSRider : public rclcpp::Node {
 
 			uint8_t RW = update_parameter(fd, EEPROM_WRITE_UINT8);                          // update parameter
 
+			RCLCPP_INFO(this->get_logger(), "I2C RW %d", RW);
+
 			if( RW == 0 ) {
 			    uint8_t RD = read_parameter_result(fd);
+
+			    RCLCPP_INFO(this->get_logger(), "I2C RD %d", RD);
+
+
 			    if( RD == 0 ) { return param_result_buffer[3]; } else { return RD; }
 			} else { return RW; }
 
