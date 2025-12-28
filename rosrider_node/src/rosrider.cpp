@@ -249,7 +249,7 @@ class ROSRider : public rclcpp::Node {
 
                                 case CParamDataType::C_TYPE_UINT8:
                                     send_result = send_uint8_param(p.param_index, parameter.as_int());
-                                    RCLCPP_ERROR(this->get_logger(), "send_result: %d", send_result);
+                                    RCLCPP_ERROR(this->get_logger(), "send_result: %u", send_result);
                                     break;
 
                                 case CParamDataType::C_TYPE_UINT16:
