@@ -229,15 +229,22 @@ class ROSRider : public rclcpp::Node {
 
 		        auto result = rcl_interfaces::msg::SetParametersResult();
 		        result.successful = true;
+
 		        for(auto parameter : parameters) {
+
 		            rclcpp::ParameterType parameter_type = parameter.get_type();
+
 		            if(rclcpp::ParameterType::PARAMETER_NOT_SET == parameter_type) {
 		          	    result.successful = false;
 		            } else {
+
 		                const ParamMetadata* metadata_ptr = get_param_metadata(parameter.get_name());
+
                         if(metadata_ptr) {
+
                             uint8_t send_result = 0;
                             ParamMetadata p = *metadata_ptr;
+
                             switch (p.c_type) {
 
                                 case CParamDataType::C_TYPE_UINT8:
@@ -271,7 +278,7 @@ class ROSRider : public rclcpp::Node {
                             }
 
                             if( send_result == UPDATE_SUCCESS ) {
-                                result.successful &= true;
+                                result.successful = true;
                             } else {
                                 RCLCPP_ERROR(this->get_logger(),
                                              "Failed Parameter Change Callback: '%s', error code: %d. indices: param_index=%d",
@@ -283,6 +290,9 @@ class ROSRider : public rclcpp::Node {
                         } // metadata found
 		            } // param type set
 		        } // for loop end
+
+		        RCLCPP_ERROR(this->get_logger(), "result: %d", result);
+
 		        return result;
 
 		    };
