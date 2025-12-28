@@ -62,7 +62,7 @@
     # stribeck friction
     STATIC_KICK: 3.0
     COULOMB_RUN: 1.5
-    STRIBECK_WIDTH: 8.0
+    STRIBECK_WIDTH: 16.0
     VISCOUS_FRICTION: 0.096
     VISCOUS_FRICTION_LIMIT: 1.2
     EB_FF_LIMIT: 12.0
@@ -101,7 +101,7 @@
     SCV_FILTERED_OMEGA: True
     CROSS_COUPLED_CONTROL: False
     # filter configs
-    OMEGA_FILTER_TYPE: 1
+    OMEGA_FILTER_TYPE: 5
     CURRENT_FILTER_TYPE: 3
     OUTPUT_FILTER_TYPE: 0
     # experimental
