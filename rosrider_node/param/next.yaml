@@ -97,10 +97,10 @@
     AUTO_BRAKE: False
     BEMF_FILTERED_OMEGA: True
     PID_FILTERED_OMEGA: True
-    SCV_FILTERED_OMEGA: True
+    SCV_FILTERED_OMEGA: False
     CROSS_COUPLED_CONTROL: False
     # filter configs
-    OMEGA_FILTER_TYPE: 5
+    OMEGA_FILTER_TYPE: 1
     CURRENT_FILTER_TYPE: 3
     OUTPUT_FILTER_TYPE: 0
     # experimental
