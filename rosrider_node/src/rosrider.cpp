@@ -249,7 +249,7 @@ class ROSRider : public rclcpp::Node {
 
                                 case CParamDataType::C_TYPE_UINT8:
                                     send_result = send_uint8_param(p.param_index, parameter.as_int());
-                                    RCLCPP_ERROR(this->get_logger(), "send_result: %u", send_result);
+                                    RCLCPP_ERROR(this->get_logger(), "send_result: %d", send_result);
                                     break;
 
                                 case CParamDataType::C_TYPE_UINT16:
@@ -278,7 +278,7 @@ class ROSRider : public rclcpp::Node {
                             }
 
                             if( send_result == UPDATE_SUCCESS ) {
-                                result.successful = true;
+                                result.successful &= true;
                             } else {
                                 RCLCPP_ERROR(this->get_logger(),
                                              "Failed Parameter Change Callback: '%s', error code: %d. indices: param_index=%d",
@@ -291,7 +291,7 @@ class ROSRider : public rclcpp::Node {
 		            } // param type set
 		        } // for loop end
 
-		        RCLCPP_ERROR(this->get_logger(), "result: %u", result);
+		        RCLCPP_ERROR(this->get_logger(), "result: %d", result.successful);
 
 		        return result;
 
