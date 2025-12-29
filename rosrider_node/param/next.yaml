@@ -104,6 +104,10 @@
     OMEGA_FILTER_TYPE: 1
     CURRENT_FILTER_TYPE: 3
     OUTPUT_FILTER_TYPE: 0
+    # sync
+    SYNC_KP: 256
+    SYNC_KI: 4
+    SYNC_LIMIT: 1024
     # experimental
     CROSS_KP: 16.0
     CROSS_K_LEFT: 1.0

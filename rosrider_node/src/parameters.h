@@ -22,7 +22,7 @@
 #define DEFAULT_CONFIG_FLAGS 48
 #define DEFAULT_UPDATE_RATE 20
 #define DEFAULT_PWM_DIV 32
-#define DEFAULT_DRIVE_MODE 3
+#define DEFAULT_DRIVE_MODE MODE_PID
 #define DEFAULT_MONITOR_RATE 100
 #define DEFAULT_ALLOWED_SKIP 3
 #define DEFAULT_I2C_ADDRESS 0x3C
@@ -30,6 +30,7 @@
 #define DEFAULT_CS_WAVEFORM_DIVIDER 16
 #define DEFAULT_OMEGA_FILTER_TYPE 0
 #define DEFAULT_CURRENT_FILTER_TYPE 0
+#define DEFAULT_SYNC_INTERVAL 16
 
 #define PARAM_CONFIG_FLAGS 0
 #define PARAM_UPDATE_RATE 1
@@ -42,16 +43,20 @@
 #define PARAM_CS_WAVEFORM_DIVIDER 8
 #define PARAM_OMEGA_FILTER_TYPE 9
 #define PARAM_CURRENT_FILTER_TYPE 10
+#define PARAM_SYNC_INTERVAL 11
 
 // uint16
 #define DEFAULT_PWM_SCALE 256
-#define DEFAULT_PWM_FRQ 50
+#define DEFAULT_PWM_FRQ 100
 #define DEFAULT_MAX_IDLE_SECONDS 1800
 #define DEFAULT_UPPER_LIMIT 192
 #define DEFAULT_INNER_LIMIT 192
 #define DEFAULT_ENCODER_PPR 48
 #define DEFAULT_INA219_CAL 8192
 #define DEFAULT_ADC_SPEED 16000
+#define DEFAULT_SYNC_KP 256
+#define DEFAULT_SYNC_KI 4
+#define DEFAULT_SYNC_LIMIT 1024
 
 #define PARAM_PWM_SCALE 0
 #define PARAM_PWM_FRQ 1
@@ -61,6 +66,9 @@
 #define PARAM_ENCODER_PPR 5
 #define PARAM_INA219_CAL 6
 #define PARAM_ADC_SPEED 7
+#define PARAM_SYNC_KP 8
+#define PARAM_SYNC_KI 9
+#define PARAM_SYNC_LIMIT 10
 
 // uint32
 #define DEFAULT_RTC_TRIM 0x7FFF
@@ -204,8 +212,8 @@
 #define PARAM_PID_USE_OMEGA_FILTER 12
 #define PARAM_SCV_USE_OMEGA_FILTER 13
 
-#define SIZE_PARAMS_UINT8 11
-#define SIZE_PARAMS_UINT16 8
+#define SIZE_PARAMS_UINT8 12
+#define SIZE_PARAMS_UINT16 11
 #define SIZE_PARAMS_UINT32 1
 #define SIZE_PARAMS_INT16 6
 #define SIZE_PARAMS_FLOAT 43
@@ -223,7 +231,8 @@ uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
                                 DEFAULT_OUTPUT_FILTER_TYPE,
                                 DEFAULT_CS_WAVEFORM_DIVIDER,
                                 DEFAULT_OMEGA_FILTER_TYPE,
-                                DEFAULT_CURRENT_FILTER_TYPE
+                                DEFAULT_CURRENT_FILTER_TYPE,
+                                DEFAULT_SYNC_INTERVAL
                             };
 
 const char *names_uint8[] = { "CONFIG_FLAGS",
@@ -236,7 +245,8 @@ const char *names_uint8[] = { "CONFIG_FLAGS",
                               "OUTPUT_FILTER_TYPE",
                               "CS_WAVEFORM_DIV",
                               "OMEGA_FILTER_TYPE",
-                              "CURRENT_FILTER_TYPE"
+                              "CURRENT_FILTER_TYPE",
+                              "SYNC_INTERVAL"
                             };
 
 // uint16 array
@@ -248,7 +258,11 @@ uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_INNER_LIMIT,
                                 DEFAULT_ENCODER_PPR,
                                 DEFAULT_INA219_CAL,
-                                DEFAULT_ADC_SPEED
+                                DEFAULT_ADC_SPEED,
+                                DEFAULT_SYNC_KP,
+                                DEFAULT_SYNC_KI,
+                                DEFAULT_SYNC_LIMIT
+
                             };
 
 const char *names_uint16[] = { "PWM_SCALE",
@@ -258,7 +272,10 @@ const char *names_uint16[] = { "PWM_SCALE",
                                "INNER_LIMIT",
                                "ENCODER_PPR",
                                "INA219_CAL",
-                               "ADC_SPEED" };
+                               "ADC_SPEED",
+                               "SYNC_KP",
+                               "SYNC_KI",
+                               "SYNC_LIMIT" };
 
 // uint32 array
 uint32_t params_uint32[SIZE_PARAMS_UINT32] = {
@@ -454,6 +471,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"CS_WAVEFORM_DIV",         { CParamDataType::C_TYPE_UINT8,  PARAM_CS_WAVEFORM_DIVIDER } },
     {"OMEGA_FILTER_TYPE",       { CParamDataType::C_TYPE_UINT8,  PARAM_OMEGA_FILTER_TYPE } },
     {"CURRENT_FILTER_TYPE",     { CParamDataType::C_TYPE_UINT8,  PARAM_CURRENT_FILTER_TYPE } },
+    {"SYNC_INTERVAL",           { CParamDataType::C_TYPE_UINT8,  PARAM_SYNC_INTERVAL } },
 
     {"PWM_SCALE",               { CParamDataType::C_TYPE_UINT16, PARAM_PWM_SCALE } },
     {"PWM_FRQ",                 { CParamDataType::C_TYPE_UINT16, PARAM_PWM_FRQ } },
@@ -463,6 +481,9 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"ENCODER_PPR",             { CParamDataType::C_TYPE_UINT16, PARAM_ENCODER_PPR } },
     {"INA219_CAL",              { CParamDataType::C_TYPE_UINT16, PARAM_INA219_CAL } },
     {"ADC_SPEED",               { CParamDataType::C_TYPE_UINT16, PARAM_ADC_SPEED } },
+    {"SYNC_KP",                 { CParamDataType::C_TYPE_UINT8,  PARAM_SYNC_KP } },
+    {"SYNC_KI",                 { CParamDataType::C_TYPE_UINT8,  PARAM_SYNC_KI } },
+    {"SYNC_LIMIT",              { CParamDataType::C_TYPE_UINT8,  PARAM_SYNC_LIMIT } },
 
     {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_FORWARD_DEADZONE } },
     {"LEFT_REVERSE_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_REVERSE_DEADZONE } },
