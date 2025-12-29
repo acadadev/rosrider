@@ -487,9 +487,9 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"ENCODER_PPR",             { CParamDataType::C_TYPE_UINT16, PARAM_ENCODER_PPR } },
     {"INA219_CAL",              { CParamDataType::C_TYPE_UINT16, PARAM_INA219_CAL } },
     {"ADC_SPEED",               { CParamDataType::C_TYPE_UINT16, PARAM_ADC_SPEED } },
-    {"SYNC_KP",                 { CParamDataType::C_TYPE_UINT8,  PARAM_SYNC_KP } },
-    {"SYNC_KI",                 { CParamDataType::C_TYPE_UINT8,  PARAM_SYNC_KI } },
-    {"SYNC_LIMIT",              { CParamDataType::C_TYPE_UINT8,  PARAM_SYNC_LIMIT } },
+    {"SYNC_KP",                 { CParamDataType::C_TYPE_UINT16, PARAM_SYNC_KP } },
+    {"SYNC_KI",                 { CParamDataType::C_TYPE_UINT16, PARAM_SYNC_KI } },
+    {"SYNC_LIMIT",              { CParamDataType::C_TYPE_UINT16, PARAM_SYNC_LIMIT } },
 
     {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_FORWARD_DEADZONE } },
     {"LEFT_REVERSE_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_REVERSE_DEADZONE } },
