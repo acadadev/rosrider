@@ -63,6 +63,8 @@
 #define DEFAULT_SYNC_KP 256
 #define DEFAULT_SYNC_KI 4
 #define DEFAULT_SYNC_LIMIT 1024
+#define DEFAULT_DT_I2C 64
+#define DEFAULT_DT_THRESHOLD 8
 
 #define PARAM_PWM_SCALE 0
 #define PARAM_PWM_FRQ 1
@@ -75,6 +77,8 @@
 #define PARAM_SYNC_KP 8
 #define PARAM_SYNC_KI 9
 #define PARAM_SYNC_LIMIT 10
+#define PARAM_DT_I2C 11
+#define PARAM_DT_THRESHOLD 12
 
 // uint32
 #define DEFAULT_RTC_TRIM 0x7FFF
@@ -140,6 +144,8 @@
 #define DEFAULT_CROSS_K_RIGHT (1.0F)
 #define DEFAULT_SCV_OMEGA_THRESHOLD (0.05F)
 #define DEFAULT_SCV_LATCH_THRESHOLD (2.0F)
+#define DEFAULT_CURRENT_OMEGA_K_LEFT (0.0F)
+#define DEFAULT_CURRENT_OMEGA_K_RIGHT (0.0F)
 
 #define PARAM_GEAR_RATIO 0
 #define PARAM_WHEEL_DIA 1
@@ -184,6 +190,8 @@
 #define PARAM_CROSS_K_RIGHT 40
 #define PARAM_SCV_OMEGA_THRESHOLD 41
 #define PARAM_SCV_LATCH_THRESHOLD 42
+#define PARAM_CURRENT_OMEGA_K_LEFT 43
+#define PARAM_CURRENT_OMEGA_K_RIGHT 44
 
 // boolean
 #define DEFAULT_AUTO_SYNC true
@@ -219,10 +227,10 @@
 #define PARAM_SCV_USE_OMEGA_FILTER 13
 
 #define SIZE_PARAMS_UINT8 12
-#define SIZE_PARAMS_UINT16 11
+#define SIZE_PARAMS_UINT16 13
 #define SIZE_PARAMS_UINT32 1
 #define SIZE_PARAMS_INT16 6
-#define SIZE_PARAMS_FLOAT 43
+#define SIZE_PARAMS_FLOAT 45
 #define SIZE_PARAMS_BOOL 14
 
 // uint8 array
@@ -267,8 +275,9 @@ uint16_t params_uint16[SIZE_PARAMS_UINT16] = {
                                 DEFAULT_ADC_SPEED,
                                 DEFAULT_SYNC_KP,
                                 DEFAULT_SYNC_KI,
-                                DEFAULT_SYNC_LIMIT
-
+                                DEFAULT_SYNC_LIMIT,
+                                DEFAULT_DT_I2C,
+                                DEFAULT_DT_THRESHOLD
                             };
 
 const char *names_uint16[] = { "PWM_SCALE",
@@ -281,7 +290,9 @@ const char *names_uint16[] = { "PWM_SCALE",
                                "ADC_SPEED",
                                "SYNC_KP",
                                "SYNC_KI",
-                               "SYNC_LIMIT" };
+                               "SYNC_LIMIT",
+                               "DT_I2C",
+                               "DT_THRESHOLD" };
 
 // uint32 array
 uint32_t params_uint32[SIZE_PARAMS_UINT32] = {
@@ -351,7 +362,9 @@ float params_float[SIZE_PARAMS_FLOAT] = {
                                DEFAULT_CROSS_K_LEFT,
                                DEFAULT_CROSS_K_RIGHT,
                                DEFAULT_SCV_OMEGA_THRESHOLD,
-                               DEFAULT_SCV_LATCH_THRESHOLD
+                               DEFAULT_SCV_LATCH_THRESHOLD,
+                               DEFAULT_CURRENT_OMEGA_K_LEFT,
+                               DEFAULT_CURRENT_OMEGA_K_RIGHT
                             };
 
 const char *names_float[] = { "GEAR_RATIO",
@@ -396,7 +409,9 @@ const char *names_float[] = { "GEAR_RATIO",
                               "CROSS_K_LEFT",
                               "CROSS_K_RIGHT",
                               "SCV_OMEGA_THRESHOLD",
-                              "SCV_LATCH_THRESHOLD" };
+                              "SCV_LATCH_THRESHOLD",
+                              "CURRENT_OMEGA_K_LEFT",
+                              "CURRENT_OMEGA_K_RIGHT" };
 
 bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_ADC_SYNC,
@@ -490,6 +505,8 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"SYNC_KP",                 { CParamDataType::C_TYPE_UINT16, PARAM_SYNC_KP } },
     {"SYNC_KI",                 { CParamDataType::C_TYPE_UINT16, PARAM_SYNC_KI } },
     {"SYNC_LIMIT",              { CParamDataType::C_TYPE_UINT16, PARAM_SYNC_LIMIT } },
+    {"DT_I2C",                  { CParamDataType::C_TYPE_UINT16, PARAM_DT_I2C } },
+    {"DT_THRESHOLD",            { CParamDataType::C_TYPE_UINT16, PARAM_DT_THRESHOLD } },
 
     {"LEFT_FORWARD_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_FORWARD_DEADZONE } },
     {"LEFT_REVERSE_DEADZONE",   { CParamDataType::C_TYPE_INT16,  PARAM_LEFT_REVERSE_DEADZONE } },
@@ -500,34 +517,34 @@ const std::map<std::string, ParamMetadata> ParamMap = {
 
     {"RTC_TRIM",                { CParamDataType::C_TYPE_UINT32,  PARAM_RTC_TRIM } },
 
-    {"GEAR_RATIO",              { CParamDataType::C_TYPE_FLOAT,  PARAM_GEAR_RATIO } },
-    {"WHEEL_DIA",               { CParamDataType::C_TYPE_FLOAT,  PARAM_WHEEL_DIA } },
-    {"BASE_WIDTH",              { CParamDataType::C_TYPE_FLOAT,  PARAM_BASE_WIDTH } },
-    {"MAIN_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_MAIN_AMP_LIMIT } },
-    {"BAT_VOLTS_HIGH",          { CParamDataType::C_TYPE_FLOAT,  PARAM_BAT_VOLTS_HIGH } },
-    {"BAT_VOLTS_LOW",           { CParamDataType::C_TYPE_FLOAT,  PARAM_BAT_VOLTS_LOW } },
-    {"MAX_RPM",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_MAX_RPM } },
-    {"LEFT_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_AMP_LIMIT } },
-    {"RIGHT_AMP_LIMIT",         { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_AMP_LIMIT } },
-    {"LEFT_KP",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KP } },
-    {"LEFT_KI",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KI } },
-    {"LEFT_KD",                 { CParamDataType::C_TYPE_FLOAT,  PARAM_LEFT_KD } },
-    {"RIGHT_KP",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KP } },
-    {"RIGHT_KI",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KI } },
-    {"RIGHT_KD",                { CParamDataType::C_TYPE_FLOAT,  PARAM_RIGHT_KD } },
-    {"TRIM_GAIN",               { CParamDataType::C_TYPE_FLOAT,  PARAM_TRIM_GAIN } },
-    {"TRIM_CONSTANT",           { CParamDataType::C_TYPE_FLOAT,  PARAM_TRIM_CONSTANT } },
-    {"TRIM_MOTOR_K",            { CParamDataType::C_TYPE_FLOAT,  PARAM_TRIM_MOTOR_K } },
-    {"TANH_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_TANH_DIV } },
-    {"SIGM_DIV",                { CParamDataType::C_TYPE_FLOAT,  PARAM_SIGM_DIV } },
-    {"CURRENT_KP",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KP } },
-    {"CURRENT_KI",              { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_KI } },
-    {"CURRENT_MULTIPLIER_LEFT", { CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_MULTIPLIER_LEFT } },
-    {"CURRENT_MULTIPLIER_RIGHT",{ CParamDataType::C_TYPE_FLOAT,  PARAM_CURRENT_MULTIPLIER_RIGHT } },
-    {"K_FB_WINDUP",             { CParamDataType::C_TYPE_FLOAT,  PARAM_KB } },
-    {"R_ARM",                   { CParamDataType::C_TYPE_FLOAT,  PARAM_R_ARM } },
-    {"K_FF_VEL",                { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_VEL } },
-    {"K_FF_ACCEL",              { CParamDataType::C_TYPE_FLOAT,  PARAM_K_FF_ACCEL } },
+    {"GEAR_RATIO",              { CParamDataType::C_TYPE_FLOAT, PARAM_GEAR_RATIO } },
+    {"WHEEL_DIA",               { CParamDataType::C_TYPE_FLOAT, PARAM_WHEEL_DIA } },
+    {"BASE_WIDTH",              { CParamDataType::C_TYPE_FLOAT, PARAM_BASE_WIDTH } },
+    {"MAIN_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT, PARAM_MAIN_AMP_LIMIT } },
+    {"BAT_VOLTS_HIGH",          { CParamDataType::C_TYPE_FLOAT, PARAM_BAT_VOLTS_HIGH } },
+    {"BAT_VOLTS_LOW",           { CParamDataType::C_TYPE_FLOAT, PARAM_BAT_VOLTS_LOW } },
+    {"MAX_RPM",                 { CParamDataType::C_TYPE_FLOAT, PARAM_MAX_RPM } },
+    {"LEFT_AMP_LIMIT",          { CParamDataType::C_TYPE_FLOAT, PARAM_LEFT_AMP_LIMIT } },
+    {"RIGHT_AMP_LIMIT",         { CParamDataType::C_TYPE_FLOAT, PARAM_RIGHT_AMP_LIMIT } },
+    {"LEFT_KP",                 { CParamDataType::C_TYPE_FLOAT, PARAM_LEFT_KP } },
+    {"LEFT_KI",                 { CParamDataType::C_TYPE_FLOAT, PARAM_LEFT_KI } },
+    {"LEFT_KD",                 { CParamDataType::C_TYPE_FLOAT, PARAM_LEFT_KD } },
+    {"RIGHT_KP",                { CParamDataType::C_TYPE_FLOAT, PARAM_RIGHT_KP } },
+    {"RIGHT_KI",                { CParamDataType::C_TYPE_FLOAT, PARAM_RIGHT_KI } },
+    {"RIGHT_KD",                { CParamDataType::C_TYPE_FLOAT, PARAM_RIGHT_KD } },
+    {"TRIM_GAIN",               { CParamDataType::C_TYPE_FLOAT, PARAM_TRIM_GAIN } },
+    {"TRIM_CONSTANT",           { CParamDataType::C_TYPE_FLOAT, PARAM_TRIM_CONSTANT } },
+    {"TRIM_MOTOR_K",            { CParamDataType::C_TYPE_FLOAT, PARAM_TRIM_MOTOR_K } },
+    {"TANH_DIV",                { CParamDataType::C_TYPE_FLOAT, PARAM_TANH_DIV } },
+    {"SIGM_DIV",                { CParamDataType::C_TYPE_FLOAT, PARAM_SIGM_DIV } },
+    {"CURRENT_KP",              { CParamDataType::C_TYPE_FLOAT, PARAM_CURRENT_KP } },
+    {"CURRENT_KI",              { CParamDataType::C_TYPE_FLOAT, PARAM_CURRENT_KI } },
+    {"CURRENT_MULTIPLIER_LEFT", { CParamDataType::C_TYPE_FLOAT, PARAM_CURRENT_MULTIPLIER_LEFT } },
+    {"CURRENT_MULTIPLIER_RIGHT",{ CParamDataType::C_TYPE_FLOAT, PARAM_CURRENT_MULTIPLIER_RIGHT } },
+    {"K_FB_WINDUP",             { CParamDataType::C_TYPE_FLOAT, PARAM_KB } },
+    {"R_ARM",                   { CParamDataType::C_TYPE_FLOAT, PARAM_R_ARM } },
+    {"K_FF_VEL",                { CParamDataType::C_TYPE_FLOAT, PARAM_K_FF_VEL } },
+    {"K_FF_ACCEL",              { CParamDataType::C_TYPE_FLOAT, PARAM_K_FF_ACCEL } },
     {"STATIC_KICK",             { CParamDataType::C_TYPE_FLOAT, PARAM_STATIC_KICK } },
     {"COULOMB_RUN",             { CParamDataType::C_TYPE_FLOAT, PARAM_COULOMB_RUN } },
     {"STRIBECK_WIDTH",          { CParamDataType::C_TYPE_FLOAT, PARAM_STRIBECK_WIDTH } },
@@ -543,6 +560,9 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"CROSS_K_RIGHT",           { CParamDataType::C_TYPE_FLOAT, PARAM_CROSS_K_RIGHT } },
     {"SCV_OMEGA_THRESHOLD",     { CParamDataType::C_TYPE_FLOAT, PARAM_SCV_OMEGA_THRESHOLD } },
     {"SCV_LATCH_THRESHOLD",     { CParamDataType::C_TYPE_FLOAT, PARAM_SCV_LATCH_THRESHOLD } },
+
+    {"CURRENT_OMEGA_K_LEFT",    { CParamDataType::C_TYPE_FLOAT, PARAM_CURRENT_OMEGA_K_LEFT } },
+    {"CURRENT_OMEGA_K_RIGHT",   { CParamDataType::C_TYPE_FLOAT, PARAM_CURRENT_OMEGA_K_RIGHT } },
 
     {"AUTO_SYNC",               { CParamDataType::C_TYPE_BOOL,  PARAM_AUTO_SYNC } },
     {"ADC_SYNC",                { CParamDataType::C_TYPE_BOOL,  PARAM_ADC_SYNC } },

@@ -54,6 +54,8 @@
     CURRENT_MULTIPLIER_LEFT: 3.6
     CURRENT_MULTIPLIER_RIGHT: 3.6
     R_ARM: 2.0
+    CURRENT_OMEGA_K_LEFT: 0.0
+    CURRENT_OMEGA_K_RIGHT: 0.0
     # torque constant
     LEFT_KT: 0.016
     LEFT_KT_W: -0.008
@@ -108,6 +110,8 @@
     SYNC_KP: 256
     SYNC_KI: 4
     SYNC_LIMIT: 1024
+    DT_I2C: 64
+    DT_THRESHOLD: 8
     # experimental
     CROSS_KP: 16.0
     CROSS_K_LEFT: 1.0
