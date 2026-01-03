@@ -109,7 +109,8 @@
     # sync
     SYNC_KP: 256
     SYNC_KI: 4
-    SYNC_LIMIT: 1024
+    SYNC_LIMIT: 2048
+    SYNC_INTERVAL: 8
     DT_I2C: 64
     DT_THRESHOLD: 8
     # experimental
