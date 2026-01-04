@@ -368,7 +368,7 @@ class ROSRider : public rclcpp::Node {
 			}
 
 			packet_seq = status_buffer[28];								                // seq: included in checksum
-			packet_age = (int16_t) ( ( status_buffer[29] << 8 ) | status_buffer[30] );	// age: not included in checksum
+			packet_age = ( status_buffer[29] << 8 ) | status_buffer[30];	            // age: not included in checksum
 			packet_checksum = status_buffer[31];						                // checksum itself
 			
 			if(crc8ccitt(status_buffer, 29) == packet_checksum) {
@@ -416,13 +416,13 @@ class ROSRider : public rclcpp::Node {
 				update_right_wheel(encoder_right);
 
 				// notice: this is derived from own measurements of this loop
-				double delta_seconds = ((double) (current_time.nanoseconds() - prev_time.nanoseconds())) / NS_CONVERSION_CONSTANT;
+				double delta_seconds = ( (double) ( current_time.nanoseconds() - prev_time.nanoseconds() ) ) / NS_CONVERSION_CONSTANT;
 
 				update_pose(delta_seconds);
 	            quaternion_from_euler(0, 0, pose_theta);      
 
 	            // this is derived over packet age
-				rclcpp::Duration time_correction = rclcpp::Duration(0, ((packet_age / 32768.0) * NS_CONVERSION_CONSTANT));
+				rclcpp::Duration time_correction = rclcpp::Duration(0, ( ( packet_age / 32768.0 ) * NS_CONVERSION_CONSTANT ) );
 
 				// this value will be used for stamping
 				corrected_time = current_time - time_correction;
