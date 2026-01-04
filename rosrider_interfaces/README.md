@@ -23,7 +23,7 @@ This message provides a comprehensive snapshot of the robot's low-level operatio
 | power_status  | uint8   | 	Status flags for the power system (e.g. low battery).             | 
 | motor_status  | uint8   | 	Status flags for the motors (e.g., error, overheating).           | 
 | system_status | uint8   | 	Overall system status or operational mode flags.                  | 
-| packet_age    | int16   | 	Time elapsed since this data was sampled on the micro-controller. |
+| phase_error   | int16   | 	Time elapsed since this data was sampled on the micro-controller. |
 
 **POWER STATUS**
 

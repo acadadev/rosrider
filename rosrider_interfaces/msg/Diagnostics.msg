@@ -11,4 +11,4 @@ float32 bus_current
 uint8 power_status
 uint8 motor_status
 uint8 system_status
-int16 packet_age
+int16 phase_error

@@ -328,7 +328,7 @@ class ROSRider : public rclcpp::Node {
 	     int8_t enc_dir_left;
 	     int8_t enc_dir_right;
 
-	    int16_t packet_age;
+	    int16_t phase_error;
 	    uint8_t packet_seq;
 	    uint8_t prev_packet_seq;
 	    uint8_t packet_checksum;
@@ -372,13 +372,13 @@ class ROSRider : public rclcpp::Node {
 
             // TODO: rename packet_seq to phase error
 			packet_seq = status_buffer[28];								                // seq: included in checksum
-			packet_age = ( status_buffer[29] << 8 ) | status_buffer[30];	            // age: not included in checksum
+			phase_error = ( status_buffer[29] << 8 ) | status_buffer[30];	            // age: not included in checksum
 			packet_checksum = status_buffer[31];						                // checksum itself
 
-			if( packet_age > UPDATE_PERIOD_RTC_TICKS_HALF ) {                           // b. calculate phase error
-                packet_age -= UPDATE_PERIOD_RTC_TICKS;
-            } else if ( packet_age < -UPDATE_PERIOD_RTC_TICKS_HALF ) {
-                packet_age += UPDATE_PERIOD_RTC_TICKS;
+			if( phase_error > UPDATE_PERIOD_RTC_TICKS_HALF ) {                           // b. calculate phase error
+                phase_error -= UPDATE_PERIOD_RTC_TICKS;
+            } else if ( phase_error < -UPDATE_PERIOD_RTC_TICKS_HALF ) {
+                phase_error += UPDATE_PERIOD_RTC_TICKS;
             }
 			
 			if(crc8ccitt(status_buffer, 29) == packet_checksum) {
@@ -432,7 +432,7 @@ class ROSRider : public rclcpp::Node {
 	            quaternion_from_euler(0, 0, pose_theta);      
 
 	            // this is derived over packet age
-				rclcpp::Duration time_correction = rclcpp::Duration(0, ( ( packet_age / 32768.0 ) * NS_CONVERSION_CONSTANT ) );
+				rclcpp::Duration time_correction = rclcpp::Duration(0, ( ( phase_error / 32768.0 ) * NS_CONVERSION_CONSTANT ) );
 
 				// this value will be used for stamping
 				corrected_time = current_time - time_correction;
@@ -553,7 +553,7 @@ class ROSRider : public rclcpp::Node {
 
 					auto diag_message = rosrider_interfaces::msg::Diagnostics();
 
-					diag_message.packet_age = packet_age;
+					diag_message.phase_error = phase_error;
 
 					diag_message.bus_current = (status_buffer[9] + (status_buffer[8] << 8)) / 10000.0;     // amps
 		            diag_message.bus_voltage = (status_buffer[11] + (status_buffer[10] << 8)) / 1000.0;
