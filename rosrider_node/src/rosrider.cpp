@@ -375,10 +375,10 @@ class ROSRider : public rclcpp::Node {
 			packet_age = ( status_buffer[29] << 8 ) | status_buffer[30];	            // age: not included in checksum
 			packet_checksum = status_buffer[31];						                // checksum itself
 
-			if( packet_age > a_UPDATE_PERIOD_RTC_TICKS_HALF ) {                        // b. calculate phase error
-                packet_age -= a_UPDATE_PERIOD_RTC_TICKS;
-            } else if ( s_raw_error < -a_UPDATE_PERIOD_RTC_TICKS_HALF ) {
-                packet_age += a_UPDATE_PERIOD_RTC_TICKS;
+			if( packet_age > UPDATE_PERIOD_RTC_TICKS_HALF ) {                           // b. calculate phase error
+                packet_age -= UPDATE_PERIOD_RTC_TICKS;
+            } else if ( s_raw_error < -UPDATE_PERIOD_RTC_TICKS_HALF ) {
+                packet_age += UPDATE_PERIOD_RTC_TICKS;
             }
 			
 			if(crc8ccitt(status_buffer, 29) == packet_checksum) {
