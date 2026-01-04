@@ -192,6 +192,9 @@ class ROSRider : public rclcpp::Node {
 		    UPDATE_PERIOD = 1.0 / params_uint8[PARAM_UPDATE_RATE];
 		    MONITOR_PERIOD = 1.0 / params_uint8[PARAM_MONITOR_RATE];
 
+		    UPDATE_PERIOD_RTC_TICKS = 32768 / params_uint8[PARAM_UPDATE_RATE];
+            UPDATE_PERIOD_RTC_TICKS_HALF = a_UPDATE_PERIOD_RTC_TICKS / 2;
+
 		    // calculate boolean parameters for display
     		if(params_uint8[PARAM_CONFIG_FLAGS] & 0b00000001) { LEFT_REVERSE = true; } else { LEFT_REVERSE = false; }
     		if(params_uint8[PARAM_CONFIG_FLAGS] & 0b00000010) { RIGHT_REVERSE = true; } else { RIGHT_REVERSE = false; }
@@ -367,9 +370,16 @@ class ROSRider : public rclcpp::Node {
 				i2c_read_status_error_count = 0; 
 			}
 
+            // TODO: rename packet_seq to phase error
 			packet_seq = status_buffer[28];								                // seq: included in checksum
 			packet_age = ( status_buffer[29] << 8 ) | status_buffer[30];	            // age: not included in checksum
 			packet_checksum = status_buffer[31];						                // checksum itself
+
+			if( packet_age > a_UPDATE_PERIOD_RTC_TICKS_HALF ) {                        // b. calculate phase error
+                packet_age -= a_UPDATE_PERIOD_RTC_TICKS;
+            } else if ( s_raw_error < -a_UPDATE_PERIOD_RTC_TICKS_HALF ) {
+                packet_age += a_UPDATE_PERIOD_RTC_TICKS;
+            }
 			
 			if(crc8ccitt(status_buffer, 29) == packet_checksum) {
 

@@ -32,6 +32,9 @@
 volatile float target_left;
 volatile float target_right;
 
+int32_t UPDATE_PERIOD_RTC_TICKS;
+int32_t UPDATE_PERIOD_RTC_TICKS_HALF;
+
 uint8_t SYS_STATUS;
 uint8_t PWR_STATUS;
 uint8_t MTR_STATUS;
