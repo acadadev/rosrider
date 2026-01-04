@@ -325,7 +325,7 @@ class ROSRider : public rclcpp::Node {
 	     int8_t enc_dir_left;
 	     int8_t enc_dir_right;
 
-	   uint16_t packet_age;
+	    int16_t packet_age;
 	    uint8_t packet_seq;
 	    uint8_t prev_packet_seq;
 	    uint8_t packet_checksum;
@@ -367,9 +367,9 @@ class ROSRider : public rclcpp::Node {
 				i2c_read_status_error_count = 0; 
 			}
 
-			packet_seq = status_buffer[28];								// seq: included in checksum
-			packet_age = (status_buffer[29] << 8) | status_buffer[30];	// age: not included in checksum
-			packet_checksum = status_buffer[31];						// checksum itself
+			packet_seq = status_buffer[28];								                // seq: included in checksum
+			packet_age = (int16_t) ( ( status_buffer[29] << 8 ) | status_buffer[30] );	// age: not included in checksum
+			packet_checksum = status_buffer[31];						                // checksum itself
 			
 			if(crc8ccitt(status_buffer, 29) == packet_checksum) {
 
@@ -384,7 +384,7 @@ class ROSRider : public rclcpp::Node {
                         if(packet_seq == prev_packet_seq) {
 
                         	// skip if same packet
-                        	RCLCPP_INFO(this->get_logger(), "Repeat SEQ: %d, skipping", packet_seq);
+                        	RCLCPP_INFO(this->get_logger(), "Repeat SEQ: %d, SKIP", packet_seq);
 
 							prev_time = current_time;
 							read_state = STATUS_SEQ_REPEAT;
@@ -427,9 +427,10 @@ class ROSRider : public rclcpp::Node {
 				// this value will be used for stamping
 				corrected_time = current_time - time_correction;
 
+                // TODO: audit if < will work
 				// if timeskip use most recent time
 				if(corrected_time < prev_corrected_time) {
-					RCLCPP_INFO(this->get_logger(), "Timeskip detected");
+					RCLCPP_INFO(this->get_logger(), "TIMESKIP detected");
 					read_state = STATUS_TIMESKIP;
 					corrected_time = current_time;
 				}
