@@ -102,6 +102,7 @@
     PID_FILTERED_OMEGA: False
     SCV_FILTERED_OMEGA: False
     CROSS_COUPLED_CONTROL: False
+    CURRENT_OMEGA_FILTER: False
     # filter configs
     OMEGA_FILTER_TYPE: 0
     CURRENT_FILTER_TYPE: 3
@@ -114,7 +115,7 @@
     DT_I2C: 32
     DT_THRESHOLD: 2
     # experimental
-    CROSS_KP: 16.0
+    CROSS_KP: 8.0
     CROSS_K_LEFT: 1.0
     CROSS_K_RIGHT: 1.0
     # topic paramters

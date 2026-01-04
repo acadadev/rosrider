@@ -210,6 +210,7 @@
 #define DEFAULT_CROSS_COUPLED_CONTROL false
 #define DEFAULT_PID_USE_OMEGA_FILTER false
 #define DEFAULT_SCV_USE_OMEGA_FILTER false
+#define DEFAULT_CURRENT_OMEGA_FILTER false
 
 #define PARAM_AUTO_SYNC 0
 #define PARAM_ADC_SYNC 1
@@ -225,13 +226,14 @@
 #define PARAM_CROSS_COUPLED_CONTROL 11
 #define PARAM_PID_USE_OMEGA_FILTER 12
 #define PARAM_SCV_USE_OMEGA_FILTER 13
+#define PARAM_CURRENT_OMEGA_FILTER 14
 
 #define SIZE_PARAMS_UINT8 12
 #define SIZE_PARAMS_UINT16 13
 #define SIZE_PARAMS_UINT32 1
 #define SIZE_PARAMS_INT16 6
 #define SIZE_PARAMS_FLOAT 45
-#define SIZE_PARAMS_BOOL 14
+#define SIZE_PARAMS_BOOL 15
 
 // uint8 array
 uint8_t params_uint8[SIZE_PARAMS_UINT8] = {
@@ -426,7 +428,8 @@ bool params_bool[SIZE_PARAMS_BOOL] = { DEFAULT_AUTO_SYNC,
                                        DEFAULT_BEMF_USE_OMEGA_FILTER,
                                        DEFAULT_CROSS_COUPLED_CONTROL,
                                        DEFAULT_PID_USE_OMEGA_FILTER,
-                                       DEFAULT_SCV_USE_OMEGA_FILTER };
+                                       DEFAULT_SCV_USE_OMEGA_FILTER,
+                                       DEFAULT_CURRENT_OMEGA_FILTER };
 
 const char *names_bool[] = { "AUTO_SYNC",
                              "ADC_SYNC",
@@ -441,7 +444,8 @@ const char *names_bool[] = { "AUTO_SYNC",
                              "BEMF_FILTERED_OMEGA",
                              "CROSS_COUPLED_CONTROL",
                              "PID_FILTERED_OMEGA",
-                             "SCV_FILTERED_OMEGA" };
+                             "SCV_FILTERED_OMEGA",
+                             "CURRENT_OMEGA_FILTER" };
 
 // calculated parameters
 
@@ -578,7 +582,7 @@ const std::map<std::string, ParamMetadata> ParamMap = {
     {"CROSS_COUPLED_CONTROL",   { CParamDataType::C_TYPE_BOOL,  PARAM_CROSS_COUPLED_CONTROL } },
     {"PID_FILTERED_OMEGA",      { CParamDataType::C_TYPE_BOOL,  PARAM_PID_USE_OMEGA_FILTER } },
     {"SCV_FILTERED_OMEGA",      { CParamDataType::C_TYPE_BOOL,  PARAM_SCV_USE_OMEGA_FILTER } },
-
+    {"CURRENT_OMEGA_FILTER",    { CParamDataType::C_TYPE_BOOL,  PARAM_CURRENT_OMEGA_FILTER } },
 };
 
 const ParamMetadata* get_param_metadata(const std::string& param_name) {
