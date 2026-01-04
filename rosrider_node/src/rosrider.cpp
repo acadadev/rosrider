@@ -193,7 +193,7 @@ class ROSRider : public rclcpp::Node {
 		    MONITOR_PERIOD = 1.0 / params_uint8[PARAM_MONITOR_RATE];
 
 		    UPDATE_PERIOD_RTC_TICKS = 32768 / params_uint8[PARAM_UPDATE_RATE];
-            UPDATE_PERIOD_RTC_TICKS_HALF = a_UPDATE_PERIOD_RTC_TICKS / 2;
+            UPDATE_PERIOD_RTC_TICKS_HALF = UPDATE_PERIOD_RTC_TICKS / 2;
 
 		    // calculate boolean parameters for display
     		if(params_uint8[PARAM_CONFIG_FLAGS] & 0b00000001) { LEFT_REVERSE = true; } else { LEFT_REVERSE = false; }
