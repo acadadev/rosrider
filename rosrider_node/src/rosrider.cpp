@@ -377,7 +377,7 @@ class ROSRider : public rclcpp::Node {
 
 			if( packet_age > UPDATE_PERIOD_RTC_TICKS_HALF ) {                           // b. calculate phase error
                 packet_age -= UPDATE_PERIOD_RTC_TICKS;
-            } else if ( s_raw_error < -UPDATE_PERIOD_RTC_TICKS_HALF ) {
+            } else if ( packet_age < -UPDATE_PERIOD_RTC_TICKS_HALF ) {
                 packet_age += UPDATE_PERIOD_RTC_TICKS;
             }
 			
