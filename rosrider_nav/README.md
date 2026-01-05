@@ -89,7 +89,7 @@ To run navigation tasks in the Gazebo simulation environment, you must first lau
 ros2 launch rosrider_gz_bringup world_willow.launch.py launch_rviz:=False
 ```
 
-![Gazebo Simulation Willow World](https://docs.acada.dev/rosrider_doc/images/rosrider/gazebo_willow_world.png)
+![Gazebo Simulation Willow World](https://docs.acada.dev/rosrider_doc/images/rosrider/gazebo_caretta.png)
 
 *Fig 2. Gazebo Simulation with Willow Garage Environment.*
 
