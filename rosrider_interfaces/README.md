@@ -79,7 +79,7 @@ an EEPROM write failure `b0=1`, or the necessity of a system restart `b6=1`.
 |-----|----------------------------|-----------------------------------------------|
 | b7  | 	EPROM_INIT_OK = 0         | If 1, EEPROM has failed during initialization |
 | b6  | 	RESTART_REQUIRED = 1      | System Restart required                       |
-| b1  |    INITIAL_UPDATE_ERROR = 1  | Inital update error. Reset to factory values  |
+| b1  | INITIAL_UPDATE_ERROR = 1   | Inital update error. Reset to factory values  |
 | b0  | 	EEPROM_WRITE_WRITE_OK = 0 | If 1, EEPROM write operation failed           |
 
 ### 🔨 System Control Commands
@@ -112,7 +112,7 @@ mode of the robot's embedded system.
 | SYSCTL_CODE_FACTORY_DEFAULTS | 0x99 | Factory Defaults. Requires reset   |
 | SYSCTL_CODE_PRINT_RTC        | 0xAA | Print RTC time on serial out       |
 | SYSCTL_CODE_ADC_START        | 0xE0 | Start ADC                          |
-| SYSCTL_CODE-ADC_STOP         | 0xE1 | Stop ADC                           |
+| SYSCTL_CODE_ADC_STOP         | 0xE1 | Stop ADC                           |
 
 These system control commands provide the capability to **override critical settings** at the hardware level.
 While they can be used to issue commands to **recover the robot** from a difficult or unresponsive state, **users must exercise extreme caution**.
