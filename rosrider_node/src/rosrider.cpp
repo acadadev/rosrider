@@ -133,7 +133,9 @@ class ROSRider : public rclcpp::Node {
                 // turn on hat with: PSEL_3V3_A, PSEL_3V3_B, PSEL_LIDAR, LIDAR_TX_ON
                 if(ros2rpi_config > 0) {
                     send_hat_command(fd, ros2rpi_config);
+                    rclcpp::sleep_for(100ms);
                     send_posix_time(fd);
+                    // TODO: maybe move out
                 }
 
                 // allow board to power up
