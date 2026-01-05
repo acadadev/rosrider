@@ -133,6 +133,7 @@ class ROSRider : public rclcpp::Node {
                 // turn on hat with: PSEL_3V3_A, PSEL_3V3_B, PSEL_LIDAR, LIDAR_TX_ON
                 if(ros2rpi_config > 0) {
                     send_hat_command(fd, ros2rpi_config);
+                    send_posix_time(fd);
                 }
 
                 // allow board to power up
@@ -933,6 +934,49 @@ class ROSRider : public rclcpp::Node {
 
             return rw_hat;
 	    }
+
+	    uint8_t send_posix_time(int fd) {
+
+            int rv_sync = ioctl(fd, I2C_SLAVE, 0x3c);
+            if(rv_sync < 0) { return rv_sync; }
+
+            struct timeval tv;
+            uint32_t posix_time;
+
+            // precision Loop: wait for top of the second
+            while(1) {
+                gettimeofday(&tv, NULL);
+                if (tv.tv_usec < 5) { // < 5 microseconds (0.5 is hard to hit in C userspace)
+                    break;
+                }
+            }
+
+            posix_time = (uint32_t) tv.tv_sec;
+
+            // pack data (4 bytes time + 1 byte checksum)
+            unsigned char send_array[5];
+
+            // copy integer memory to byte array
+            memcpy(send_array, &posix_time, 4);
+
+            // calculate checksum on the first 4 bytes
+            uint8_t checksum = crc8ccitt(send_array, 4);
+
+            // append checksum to the end
+            send_array[4] = checksum;
+
+            // 5. Send Block
+            // Register: 0x06 (setRTC)
+            // Mode: WRITE
+            // Length: 5 bytes
+            int rw_rtc = I2C_RW_Block(fd, 0x06, I2C_SMBUS_WRITE, 5, send_array);
+            if (rw_rtc >= 0) {
+                printf("%ld.%06ld\n", tv.tv_sec, tv.tv_usec);
+            }
+
+            return rw_rtc;
+
+        }
 
 	    uint8_t send_device_reset(void) {
 	    	RCLCPP_INFO(this->get_logger(), "Sending device reset");
