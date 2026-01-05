@@ -8,22 +8,22 @@ This package defines the custom messages `msg` and services `srv` used for inter
 
 This message provides a comprehensive snapshot of the robot's low-level operational status, including motor control values and system health metrics. It is typically published periodically by the low-level controller node.
 
-| Field         | Type    | Description                                                        |
-|:--------------|:--------|--------------------------------------------------------------------|
-| pwm_left      | int16   | 	Current PWM value being applied to the left motor.                |
-| pwm_right     | int16   | 	Current PWM value being applied to the right motor.               |  
-| omega_left    | float32 | 	Measured Radians per Second (RPS) of the left wheel.              |  
-| omega_right   | float32 | 	Measured RPS of the right wheel.                                  | 
-| target_left   | float32 | 	Desired speed (RPM) for the left wheel (controller setpoint).     |
-| target_right  | float32 | 	Desired speed (RPM) for the right wheel (controller setpoint).    | 
-| cs_left       | float32 | 	Current sense metric for the left wheel.                          |
-| cs_right      | float32 | 	Current sense  metric for the right wheel.                        | 
-| bus_voltage   | float32 | 	Measured voltage of the motor power bus (Volts).                  |
-| bus_current   | float32 | 	Measured current draw of the motor power bus (Amperes).           | 
-| power_status  | uint8   | 	Status flags for the power system (e.g. low battery).             | 
-| motor_status  | uint8   | 	Status flags for the motors (e.g., error, overheating).           | 
-| system_status | uint8   | 	Overall system status or operational mode flags.                  | 
-| phase_error   | int16   | 	Time elapsed since this data was sampled on the micro-controller. |
+| Field         | Type    | Description                                                     |
+|:--------------|:--------|-----------------------------------------------------------------|
+| pwm_left      | int16   | 	Current PWM value being applied to the left motor.             |
+| pwm_right     | int16   | 	Current PWM value being applied to the right motor.            |  
+| omega_left    | float32 | 	Measured Radians per Second (RPS) of the left wheel.           |  
+| omega_right   | float32 | 	Measured RPS of the right wheel.                               | 
+| target_left   | float32 | 	Desired speed (RPM) for the left wheel (controller setpoint).  |
+| target_right  | float32 | 	Desired speed (RPM) for the right wheel (controller setpoint). | 
+| cs_left       | float32 | 	Current sense metric for the left wheel.                       |
+| cs_right      | float32 | 	Current sense  metric for the right wheel.                     | 
+| bus_voltage   | float32 | 	Measured voltage of the motor power bus (Volts).               |
+| bus_current   | float32 | 	Measured current draw of the motor power bus (Amperes).        | 
+| power_status  | uint8   | 	Status flags for the power system (e.g. low battery).          | 
+| motor_status  | uint8   | 	Status flags for the motors (e.g., error, overheating).        | 
+| system_status | uint8   | 	Overall system status or operational mode flags.               | 
+| phase_error   | int16   | 	Data sampling phase error.                                     |
 
 **POWER STATUS**
 
@@ -59,13 +59,6 @@ the activation of two different driver modes `(b3, b2)`, and the current drive m
 | b2  | MODE_1                   | Mode 1 Enabled        |
 | b1  | DRIVE_MODE_MSB           | Drive mode MSB        |
 | b0  | DRIVE_MODE_LSB           | Drive mode LSB        |
-
-| Brake Mode | Bit Values |
-|------------|------------|
-| MODE_BRAKE | 00         |  
-| MODE_PWM   | 01         | 
-| MODE_VEL   | 10         | 
-| MODE_PID   | 11         | 
 
 **Please Note:** The driver's fault flags will always be on if the motor bus voltage is below 12V.
 
