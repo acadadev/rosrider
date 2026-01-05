@@ -36,9 +36,6 @@ int16_t cs_right_scaled;
 
 // TODO: HEAD: detect node if node already running and exit or make it lifecycle based
 // TODO: HEAD: exit(0) does not trigger on_shutdown, if exiting due to threshold need to trigger shutdown
-// TODO: HEAD: ros2pri config can be improved. right now we send hibernate, and hat-off command during shutdown and haton comment at startup.
-
-// TODO: make debug system on the firmware when updated, it prints. check one by one.
 
 class ROSRider : public rclcpp::Node {
 
@@ -373,7 +370,6 @@ class ROSRider : public rclcpp::Node {
 				i2c_read_status_error_count = 0; 
 			}
 
-            // TODO: rename packet_seq to phase error
 			packet_seq = status_buffer[28];								                // seq: included in checksum
 			phase_error = ( status_buffer[29] << 8 ) | status_buffer[30];	            // age: not included in checksum
 			packet_checksum = status_buffer[31];						                // checksum itself
@@ -440,7 +436,6 @@ class ROSRider : public rclcpp::Node {
 				// this value will be used for stamping
 				corrected_time = current_time - time_correction;
 
-                // TODO: audit if < will work
 				// if timeskip use most recent time
 				if(corrected_time < prev_corrected_time) {
 					RCLCPP_INFO(this->get_logger(), "TIMESKIP detected");
