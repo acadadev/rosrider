@@ -62,9 +62,9 @@
 #define DEFAULT_ADC_SPEED 16000
 #define DEFAULT_SYNC_KP 256
 #define DEFAULT_SYNC_KI 4
-#define DEFAULT_SYNC_LIMIT 1024
-#define DEFAULT_DT_I2C 64
-#define DEFAULT_DT_THRESHOLD 8
+#define DEFAULT_SYNC_LIMIT 4096
+#define DEFAULT_DT_I2C 32
+#define DEFAULT_DT_THRESHOLD 2
 
 #define PARAM_PWM_SCALE 0
 #define PARAM_PWM_FRQ 1
@@ -109,7 +109,7 @@
 #define DEFAULT_BAT_VOLTS_LOW (6.0F)
 #define DEFAULT_MAX_RPM (90.0F)
 #define DEFAULT_LEFT_AMP_LIMIT (1.6F)
-#define DEFAULT_RIGHT_AMP_LIMIT (1.6F) // notice: do not add or remove before this point
+#define DEFAULT_RIGHT_AMP_LIMIT (1.6F)      // notice: do not add or remove before this point
 #define DEFAULT_LEFT_KP (2.4F)
 #define DEFAULT_LEFT_KI (1.8F)
 #define DEFAULT_LEFT_KD (0.0F)
@@ -143,7 +143,7 @@
 #define DEFAULT_CROSS_K_LEFT (1.0F)
 #define DEFAULT_CROSS_K_RIGHT (1.0F)
 #define DEFAULT_SCV_OMEGA_THRESHOLD (0.05F)
-#define DEFAULT_SCV_LATCH_THRESHOLD (2.0F)
+#define DEFAULT_SCV_LATCH_THRESHOLD (1.0F)
 #define DEFAULT_CURRENT_OMEGA_K_LEFT (0.0F)
 #define DEFAULT_CURRENT_OMEGA_K_RIGHT (0.0F)
 
@@ -198,14 +198,12 @@
 #define DEFAULT_ADC_SYNC true
 #define DEFAULT_CASCADED false
 #define DEFAULT_AUTO_BIAS true
-
 #define DEFAULT_ADC_MULTIPHASE false
 #define DEFAULT_ADC_BIPHASE false
 #define DEFAULT_OUTER_FEEDFORWARD false
 #define DEFAULT_OUTER_SCV false
 #define DEFAULT_VOLTAGE_FILTER false
-
-#define DEFAULT_AUTO_BRAKE true
+#define DEFAULT_AUTO_BRAKE false
 #define DEFAULT_BEMF_USE_OMEGA_FILTER false
 #define DEFAULT_CROSS_COUPLED_CONTROL false
 #define DEFAULT_PID_USE_OMEGA_FILTER false
