@@ -8,7 +8,7 @@
     PUB_ODOMETRY: True
     PUB_JOINTS: True
     PUB_DIAGNOSTICS: True
-    ROS2RPI_CONFIG: 0x33 # 0x00 # 0x0F # 0x33
+    ROS2RPI_CONFIG: 0x00 # 0x00 # 0x0F # 0x33
     I2C_ADDRESS: 0x3c
     DEBUG: False
     RTC_TRIM: 0x7FFF
