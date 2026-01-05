@@ -131,9 +131,9 @@ class ROSRider : public rclcpp::Node {
                 if(ros2rpi_config > 0) {
                     send_hat_command(fd, ros2rpi_config);
                     rclcpp::sleep_for(100ms);
-                    send_posix_time(fd);
-                    // TODO: maybe move out
                 }
+
+                send_posix_time(fd);
 
                 // allow board to power up
 		        rclcpp::sleep_for(1000ms);
@@ -947,6 +947,8 @@ class ROSRider : public rclcpp::Node {
                     break;
                 }
             }
+
+            // TODO: audit
 
             posix_time = (uint32_t) tv.tv_sec;
 
