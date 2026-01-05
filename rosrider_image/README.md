@@ -1,4 +1,4 @@
-# 📷 ROSRider Image
+# 👁️ ROSRider Image
 
 ### Documentation
 
