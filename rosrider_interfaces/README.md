@@ -30,7 +30,7 @@ This message provides a comprehensive snapshot of the robot's low-level operatio
 The `power_status` field serves as an **8-bit register** that summarizes all critical software and electrical fault states monitored on the board.
 This register reports various protection triggers, including the **main current fuse** `(b3)` and motor specific **software fuse trips** `(b5, b4)`,
 along with common power supply issues such as bus **over-voltage** `(b2)` or **under-voltage** `(b1)`. Additionally,
-it tracks non-physical faults like a **command timeout** `(b7)` and the status of the auxiliary power output `(b0)`.
+it tracks non-physical faults like a **command timeout** `(b7)` and the status of the auxiliary power output `(b0)`
 
 | Bit | Name          | Description                            |
 |-----|---------------|----------------------------------------|
@@ -47,7 +47,7 @@ it tracks non-physical faults like a **command timeout** `(b7)` and the status o
 
 The `motor_status` field is an **8-bit register** that provides a comprehensive summary of the motor system's operational state,
 detailing the **fault status** for both the left and right motors `(b7, b6)`, their current direction of rotation `(b5, b4)`,
-the activation of two different driver modes `(b3, b2)`, and the current drive mode `(b1, b0)`.
+the activation of two different driver modes `(b3, b2)`, and the current drive mode `(b1, b0)`
 
 | Bit | Name                     | Description           |
 |-----|--------------------------|-----------------------|
@@ -66,7 +66,7 @@ the activation of two different driver modes `(b3, b2)`, and the current drive m
 
 The `system_status` field is an **8-bit status register** used to report the state of the embedded system,
 with key bits indicating critical conditions such as a successful **EEPROM initialization** `b7=0`,
-an EEPROM write failure `b0=1`, or the necessity of a system restart `b6=1`.
+an EEPROM write failure `b0=1`, or the necessity of a system restart `b6=1`
 
 | Bit | Name                       | Description                                   |
 |-----|----------------------------|-----------------------------------------------|
