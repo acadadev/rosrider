@@ -19,7 +19,7 @@ the passive caster wheel, which features a **two-joint structure** for rolling a
 This detailed description is crucial as it allows robot_state_publisher to accurately calculate the location
 and orientation of all links for visualization in RViz and for physics simulation in Gazebo.
 
-### 📖 Documentation
+### Documentation
 
 For complete and comprehensive guides on all aspects of the ROSRider project, please refer to the dedicated documentation site: [https://docs.acada.dev/rosrider_doc](https://docs.acada.dev/rosrider_doc)
 

@@ -9,7 +9,7 @@ for the ROSRider platform in both simulated (Gazebo) and real-world robot enviro
 The primary goal is to abstract the environment-specific setup differences,
 allowing the user to switch between simulation and real hardware with simple launch arguments.
 
-### 💡 What is Cartographer?
+### What is Cartographer?
 **Cartographer** is an open-source library for Simultaneous Localization and Mapping (SLAM), originally developed by Google.
 It is highly regarded for its ability to generate high-resolution, globally consistent 2D and 3D maps in real-time across various
 sensor configurations (LIDAR, IMU, odometry). Cartographer achieves this accuracy by using sophisticated techniques like
@@ -18,7 +18,7 @@ errors over long trajectories.
 
 For the `rosrider_cartographer` package, we specifically leverage its reliable 2D SLAM capabilities for mobile robot navigation.
 
-### 🛠️ Prerequisites
+### Prerequisites
 
 Cartographer ROS: You must have the `cartographer_ros package` installed.
 
@@ -26,7 +26,7 @@ Cartographer ROS: You must have the `cartographer_ros package` installed.
 sudo apt-get install ros-jazzy-cartographer-ros
 ```
 
-### 🚀 Usage
+### Usage
 
 This package uses a single Python launch file `cartographer.launch.py` to handle both real-robot and simulated scenarios by adjusting parameters.
 The `launch_rviz:=True` argument RVIZ tool, initialized with the appropriate settings for the Cartographer output.
@@ -51,7 +51,7 @@ You can find all the simulation assets and launch files inside the [rosrider_gz]
 ros2 launch rosrider_cartographer cartographer.launch.py use_sim_time:=True
 ```
 
-### 📖 Documentation
+### Documentation
 
 For complete and comprehensive guides on all aspects of the ROSRider project, please refer to the dedicated documentation site: [https://docs.acada.dev/rosrider_doc](https://docs.acada.dev/rosrider_doc)
 

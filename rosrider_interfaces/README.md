@@ -2,7 +2,7 @@
 
 This package defines the custom messages `msg` and services `srv` used for internode communication across the robot's control and diagnostics systems.  
 
-### 📨 Messages
+### Messages
 
 `rosrider_interfaces/msg/Diagnostics.msg`
 
@@ -75,7 +75,7 @@ an EEPROM write failure `b0=1`, or the necessity of a system restart `b6=1`.
 | b1  | INITIAL_UPDATE_ERROR = 1   | Inital update error. Reset to factory values  |
 | b0  | 	EEPROM_WRITE_WRITE_OK = 0 | If 1, EEPROM write operation failed           |
 
-### 📖 Documentation
+### Documentation
 
 For complete and comprehensive guides on all aspects of the ROSRider project, please refer to the dedicated documentation site: [https://docs.acada.dev/rosrider_doc](https://docs.acada.dev/rosrider_doc)
 

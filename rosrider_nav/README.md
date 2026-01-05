@@ -6,7 +6,7 @@ This guide outlines the common ROS 2 launch commands for essential navigation ta
 
 *Fig 1. RVIZ visualization program displaying navigation within known map*
 
-### 🎯 Simultaneous Localization and Mapping (SLAM)
+### Simultaneous Localization and Mapping (SLAM)
 
 SLAM is used to **create a map** of an environment while simultaneously tracking the robot's position within that map. Use this when the environment is unknown.
 
@@ -15,7 +15,7 @@ SLAM is used to **create a map** of an environment while simultaneously tracking
 | SLAM       | Real Robot  | ```ros2 launch rosrider_nav bringup_slam2.launch.py use_sim_time:=False``` |
 | Navigation | Real Robot  | ```ros2 launch rosrider_nav bringup_nav2.launch.py use_sim_time:=False```  |
 
-### 🗺️ Saving Maps
+### Saving Maps
 
 After navigating the robot, use the following command to save the map and generate the required ```map_name.yaml``` and ```map_name.pgm``` files.
 
@@ -26,14 +26,14 @@ ros2 run nav2_map_server map_saver_cli -f map_name
 Move the files to the `rosrider_nav/map` folder.
 This allows you to use the `map:=map_file_path` argument when running localization with your own maps. 
 
-### 📍 Localization
+### Localization
 
 | Task         | Environment | Command                                                                           |
 |:-------------|:------------|-----------------------------------------------------------------------------------|
 | Localization | Real Robot  | ```ros2 launch rosrider_nav bringup_localization.launch.py use_sim_time:=False``` |
 | Navigation   | Real Robot  | ```ros2 launch rosrider_nav bringup_nav2.launch.py use_sim_time:=False```         |
 
-### 🚫 Keepout Filters
+### Keepout Filters
 
 Keepout filters define areas on the map that the robot must avoid (e.g., stairs, sensitive equipment). **Localization** must be active before you can use the keepout filters.
 
@@ -71,7 +71,7 @@ global_costmap:
 
 ```
 
-### 👁️ Visualization
+### Visualization
 
 Use RViz to visualize the robot, sensor data, map, and navigation planning outputs.
 
@@ -117,7 +117,7 @@ Append ```use_sim_time:=True``` to the relevant command from sections on SLAM an
 |:---------------|:------------|-----------------------------------------------------------------------------|
 | Keepout Filter | Simulation  | ```ros2 launch rosrider_nav bringup_keepout.launch.py use_sim_time:=True``` |
 
-### 💡 Supplementary Visualization and Context
+### Supplementary Visualization and Context
 
 The **global costmap** provides a high-level, static view of the entire environment to plan long-distance paths, while the **local costmap** is smaller, dynamic, 
 and continuously updated with new sensor data for immediate obstacle avoidance and finer path adjustments.
@@ -136,7 +136,7 @@ in real-time, ensuring the robot avoids both known static features and newly det
 
 *Fig 4. RVIZ interface showing the whole localization map*
 
-### 📖 Documentation
+### Documentation
 
 For complete and comprehensive guides on all aspects of the ROSRider project, please refer to the dedicated documentation site: [https://docs.acada.dev/rosrider_doc](https://docs.acada.dev/rosrider_doc)
 
