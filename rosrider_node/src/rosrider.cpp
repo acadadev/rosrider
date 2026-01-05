@@ -968,7 +968,8 @@ class ROSRider : public rclcpp::Node {
             // Length: 5 bytes
             int rw_rtc = I2C_RW_Block(fd, 0x06, I2C_SMBUS_WRITE, 5, send_array);
             if (rw_rtc >= 0) {
-                RCLCPP_INFO_STREAM(this->get_logger(), "RTC POSIX " << tv.tv_sec << "." << tv.tv_usec);
+                printf("%ld.%06ld\n", tv.tv_sec, tv.tv_usec);
+                //RCLCPP_INFO_STREAM(this->get_logger(), "RTC POSIX " << tv.tv_sec << "." << tv.tv_usec);
             }
             return rw_rtc;
 
