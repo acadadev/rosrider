@@ -36,8 +36,8 @@
     RIGHT_REVERSE_DEADZONE: 12
     # pid configuration
     UPPER_LIMIT: 240
-    LEFT_KP: 9.6
-    LEFT_KI: 6.4
+    LEFT_KP: 9.0
+    LEFT_KI: 6.0
     LEFT_KD: 0.0
     RIGHT_KP: 9.6
     RIGHT_KI: 6.4
@@ -115,7 +115,7 @@
     DT_I2C: 32
     DT_THRESHOLD: 2
     # experimental
-    CROSS_KP: 8.0
+    CROSS_KP: 4.0
     CROSS_K_LEFT: 1.0
     CROSS_K_RIGHT: 1.0
     # topic paramters
