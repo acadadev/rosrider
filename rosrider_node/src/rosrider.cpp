@@ -611,8 +611,8 @@ class ROSRider : public rclcpp::Node {
 	    void cmd_callback(const geometry_msgs::msg::Twist t) const {
 
 		    // calculate PID targets
-		    //target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM));
-		    //target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM));
+		    // target_left = ((t.linear.x * LINEAR_RPM) - (t.angular.z * ANGULAR_RPM));
+		    // target_right = ((t.linear.x * LINEAR_RPM) + (t.angular.z * ANGULAR_RPM));
 
 		    // Notice: Documentation
 		    // LINEAR_OMEGA = (1.0f / WHEEL_CIRCUMFERENCE) * 2.0f * M_PI;
