@@ -77,31 +77,12 @@ an EEPROM write failure `b0=1`, or the necessity of a system restart `b6=1`.
 
 | Bit | Name                       | Description                                   |
 |-----|----------------------------|-----------------------------------------------|
-| b7  | 	EPROM_INIT_OK = 0         | If 1, EEPROM has failed during initialization |        
+| b7  | 	EPROM_INIT_OK = 0         | If 1, EEPROM has failed during initialization |
 | b6  | 	RESTART_REQUIRED = 1      | System Restart required                       |
+| b1  |    INITIAL_UPDATE_ERROR = 1  | Inital update error. Reset to factory values  |
 | b0  | 	EEPROM_WRITE_WRITE_OK = 0 | If 1, EEPROM write operation failed           |
 
-### 🔨 Services
-
-`rosrider_interfaces/srv/PidCtl.srv`
-
-This service is used to **dynamically adjust the Proportional-Integral-Derivative (PID) controller gains**
-for one of the robot's motor control loops at runtime.
-
-| Field | Type    | Description                                                                |
-|:------|:--------|----------------------------------------------------------------------------|
-| kp    | float32 | The new **Proportional (P)** gain value to set.                            |
-| ki    | float32 | The new **Integral (I)** gain value to set.                                |
-| kd    | float32 | The new **Derivative (D)** gain value to set.                              |
-| i     | uint8   | ID of the PID loop to be configured (0 for Left Wheel, 1 for Right Wheel). |
-| result| uint8   | Response code                                                              |
-
-`rosrider_interfaces/srv/SysCtl.srv`
-
-| Field | Type    | Description                                               |
-|:------|:--------|-----------------------------------------------------------|
-| cmd	| uint8	  | The system command ID specifying the desired system action.|
-| result| uint8   | Response code                                             |
+### 🔨 System Control Commands
 
 This service is used to send high-level, single-byte system commands to control the overall state or
 mode of the robot's embedded system.
@@ -130,8 +111,10 @@ mode of the robot's embedded system.
 | SYSCTL_CODE_AUX_OFF          | 0x51 | 5V Aux power supply off            |
 | SYSCTL_CODE_FACTORY_DEFAULTS | 0x99 | Factory Defaults. Requires reset   |
 | SYSCTL_CODE_PRINT_RTC        | 0xAA | Print RTC time on serial out       |
+| SYSCTL_CODE_ADC_START        | 0xE0 | Start ADC                          |
+| SYSCTL_CODE-ADC_STOP         | 0xE1 | Stop ADC                           |
 
-These system control services provide the capability to **override critical settings** at the hardware level.
+These system control commands provide the capability to **override critical settings** at the hardware level.
 While they can be used to issue commands to **recover the robot** from a difficult or unresponsive state, **users must exercise extreme caution**.
 Certain commands will result in the immediate **loss of connection** with the driver,
 potentially requiring a **system restart and/or direct physical intervention (e.g., pressing a reset button)** on the robot.
