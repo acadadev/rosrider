@@ -970,7 +970,7 @@ class ROSRider : public rclcpp::Node {
             if (rw_rtc >= 0) {
                 char rtc_buffer[64];
                 snprintf(rtc_buffer, sizeof(rtc_buffer), "%ld.%06ld", tv.tv_sec, tv.tv_usec);
-                RCLCPP_INFO(this->get_logger(), "RTC POSIX %s", time_buffer);
+                RCLCPP_INFO(this->get_logger(), "RTC POSIX: %s", rtc_buffer);
             }
             return rw_rtc;
         }
