@@ -36,7 +36,7 @@
     RIGHT_REVERSE_DEADZONE: 12
     # pid configuration
     UPPER_LIMIT: 240
-    LEFT_KP: 9.0
+    LEFT_KP: 8.0
     LEFT_KI: 6.0
     LEFT_KD: 0.0
     RIGHT_KP: 9.6
