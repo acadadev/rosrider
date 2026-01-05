@@ -968,14 +968,14 @@ class ROSRider : public rclcpp::Node {
             // Length: 5 bytes
             int rw_rtc = I2C_RW_Block(fd, 0x06, I2C_SMBUS_WRITE, 5, send_array);
             if (rw_rtc >= 0) {
-                RCLCPP_INFO(this->get_logger(), "RTC POSIX %d.%d", tv.tv_sec, tv.tv_usec);
+                RCLCPP_INFO(this->get_logger(), "RTC POSIX %l.%l", tv.tv_sec, tv.tv_usec);
             }
             return rw_rtc;
 
         }
 
 	    uint8_t send_device_reset(void) {
-	    	RCLCPP_INFO(this->get_logger(), "Sending device reset");
+	    	RCLCPP_INFO(this->get_logger(), "Sending RESET");
 	    	return send_sysctl(fd, 0x01);
 	    }
 
