@@ -948,8 +948,6 @@ class ROSRider : public rclcpp::Node {
                 }
             }
 
-            // TODO: audit
-
             posix_time = (uint32_t) tv.tv_sec;
 
             // pack data (4 bytes time + 1 byte checksum)
@@ -970,9 +968,8 @@ class ROSRider : public rclcpp::Node {
             // Length: 5 bytes
             int rw_rtc = I2C_RW_Block(fd, 0x06, I2C_SMBUS_WRITE, 5, send_array);
             if (rw_rtc >= 0) {
-                printf("%ld.%06ld\n", tv.tv_sec, tv.tv_usec);
+                RCLCPP_INFO(this->get_logger(), "RTC POSIX %ld.%06ld", tv.tv_sec, tv.tv_usec);
             }
-
             return rw_rtc;
 
         }
