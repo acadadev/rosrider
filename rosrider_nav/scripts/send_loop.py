@@ -17,9 +17,10 @@ def main():
     # Define your points
     goals_data = [
         { 'x': 0.0, 'y': 0.0, 'yaw': 0 },
-        #{ 'x': 1.8, 'y': 0.0, 'yaw': 0 },
-        {'x': 5.5, 'y': 1.84, 'yaw': 0},
+        { 'x': 3.03, 'y': 1.04, 'yaw': 0 },
+        { 'x': 3.08, 'y': 1.87, 'yaw': 0 },
     ]
+
 
     print("Starting looping mission. Press Ctrl+C to stop.")
 
