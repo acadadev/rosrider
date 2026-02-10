@@ -14,4 +14,3 @@ teleop_twist_joy_node:
       yaw: 3.14
     enable_button: 4
     enable_turbo_button: 5
-    # TODO: autorepeat_rate but on joy_node

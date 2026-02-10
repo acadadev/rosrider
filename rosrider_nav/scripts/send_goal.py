@@ -5,7 +5,6 @@ from geometry_msgs.msg import PoseStamped
 from nav2_simple_commander.robot_navigator import BasicNavigator
 from tf_transformations import quaternion_from_euler
 
-
 def main():
     rclpy.init()
 
@@ -33,8 +32,8 @@ def main():
 
     # Define goals
     goals = [
-        {'x': 0.0, 'y': 0.0, 'yaw': -1.57},
-        {'x': -4.0, 'y': -1.0, 'yaw': 1.57},
+        { 'x': 0.0, 'y': 0.0, 'yaw': -1.57 },
+        { 'x': 1.8, 'y': 0.0, 'yaw': 1.57 },
     ]
 
     for i, goal in enumerate(goals):
