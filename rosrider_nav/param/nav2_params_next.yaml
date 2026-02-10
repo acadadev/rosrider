@@ -341,10 +341,10 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.25, 0.0, 2.0]   # default value: [0.5, 0.0, 2.0]
-    min_velocity: [-0.25, 0.0, -2.0] # default value: [-0.5, 0.0, -2.0] # TODO: CONFIG: put these in ekf filter
-    max_accel: [1.0, 0.0, 3.2] # TODO was 2.5
-    max_decel: [-2.5, 0.0, -3.2]
+    max_velocity: [0.25, 0.0, 1.0]   # default value: [0.5, 0.0, 2.0]
+    min_velocity: [-0.25, 0.0, -1.0] # default value: [-0.5, 0.0, -2.0] # TODO: CONFIG: put these in ekf filter
+    max_accel: [1.0, 0.0, 2.4] # TODO was 2.5
+    max_decel: [-1.0, 0.0, -2.4]
     odom_topic: "odom"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
