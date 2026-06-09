@@ -3,7 +3,7 @@
     # DRIVER config
     DRIVE_MODE: 3
     CONFIG_FLAGS: 112
-    UPDATE_RATE: 20
+    UPDATE_RATE: 10
     # PWM config
     PWM_DIV: 16
     PWM_SCALE: 256
