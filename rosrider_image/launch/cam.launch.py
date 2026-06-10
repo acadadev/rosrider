@@ -8,10 +8,13 @@ config = os.path.join(get_package_share_directory('rosrider_image'), 'param', 'c
 # add flag for rect
 # TODO: insructions for calibration
 # TODO: how to place the calibration file
-# TODO: lower fps
 
 def generate_launch_description():
     return LaunchDescription([
+        ExecuteProcess(
+            cmd=['v4l2-ctl', '-d', '/dev/video0', '-p', '10'],
+            shell=False
+        ),
         Node(
             package='v4l2_camera',
             namespace='camera',

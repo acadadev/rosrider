@@ -6,7 +6,6 @@ camera:
       output_encoding: rgb8
       image_size: [640, 480]
       time_per_frame: [1, 10]
-      frame_rate: 10
       camera_frame_id: camera_optical_frame
       disable_pub_plugins:
         - image_transport/compressedDepth
