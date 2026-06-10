@@ -18,18 +18,7 @@ def generate_launch_description():
             executable='v4l2_camera_node',
             name='v4l2_camera_node',
             parameters=[config]
-        ),
-        '''
-        Node(
-            package='image_proc',
-            executable='rectify_node',
-            name='rectify_node',
-            remappings=[
-                ('image', '/camera/image_raw'),
-                ('camera_info', '/camera/camera_info'),
-            ]
         )
-        '''
     ])
 
 
