@@ -125,4 +125,26 @@
     </visual>
   </link>
 
+  <joint name="camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+    <origin xyz="0.05615 0.0 0.04928" rpy="0 0 0"/>
+  </joint>
+  <link name="camera_link">
+    <visual>
+      <origin xyz="0.0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://rosrider_description/meshes/cam_stand.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_frame"/>
+    <origin xyz="0.0032 0.0 0.02762" rpy="0 0.3071 0"/>
+  </joint>
+  <link name="camera_optical_frame">
+  </link>
+
 </robot>

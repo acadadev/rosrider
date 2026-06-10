@@ -8,6 +8,8 @@ import pathlib
 import launch.actions
 from launch.actions import DeclareLaunchArgument
 
+# TODO: refactor sorcerer to duckiebot - and next to caretta
+
 def generate_launch_description():
 
     ROBOT_MODEL = os.environ['ROBOT_MODEL']

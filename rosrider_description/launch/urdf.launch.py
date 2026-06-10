@@ -14,10 +14,11 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
+    ROBOT_MODEL = os.environ['ROBOT_MODEL']
     pkg_project_description = get_package_share_directory('rosrider_description')
+    urdf = os.path.join(pkg_project_description, 'urdf', ROBOT_MODEL + '.urdf')
 
-    urdf_file = os.path.join(pkg_project_description, 'urdf', 'next.urdf')
-    with open(urdf_file, 'r') as infp:
+    with open(urdf, 'r') as infp:
         robot_description = infp.read()
 
     robot_state_publisher = Node(
