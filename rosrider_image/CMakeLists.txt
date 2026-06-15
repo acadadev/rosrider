@@ -12,4 +12,9 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
+install(PROGRAMS
+  scripts/apriltag_overlay.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

@@ -15,7 +15,7 @@ from launch.conditions import IfCondition, UnlessCondition
     autostart = true
     use_lifecycle_manager = false
     use_sim_time = true
-    slam_params_file = mapper_params_next.yaml
+    slam_params_file = mapper_params_caretta.yaml
 
 '''
 
