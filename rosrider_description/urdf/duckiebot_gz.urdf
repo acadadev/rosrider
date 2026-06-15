@@ -69,7 +69,7 @@
     </visual>
   </link>
 
-  <joint name="wheel_steering_joint" type="fixed">
+  <joint name="wheel_steering_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_steering_link"/>
     <axis xyz="0 0 1"/>
@@ -78,7 +78,7 @@
   <link name="wheel_steering_link">
   </link>
 
-  <joint name="wheel_castor_joint" type="fixed">
+  <joint name="wheel_castor_joint" type="continuous">
     <parent link="wheel_steering_link"/>
     <child link="wheel_castor_link"/>
     <axis xyz="0 1 0"/>
