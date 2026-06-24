@@ -23,7 +23,8 @@ def generate_launch_description():
                 {
                     'width': 640,
                     'height': 400,
-                    'format': 'YUYV'
+                    'format': 'YUYV',
+                    'FrameDurationLimits': [100000, 100000]
                 }
             ],
             remappings=[

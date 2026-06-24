@@ -17,22 +17,12 @@ def generate_launch_description():
 
     os.environ["IMAGE_TRANSPORT_TO_EXCLUDE"] = "compressedDepth,theora,zstd"
 
-    fix_p_matrix_rect_node = Node(
-        package='rosrider_image',
-        executable='fix_p_matrix_rect.py',
-        name='fix_p_matrix_rect',
-        output='screen',
-        parameters=[
-            {'use_sim_time': False },
-        ]
-    )
-
     apriltag_node = Node(
         package='apriltag_ros',
         executable='apriltag_node',
         remappings=[
             ('image', '/image_rect'),
-            ('camera_info', '/camera_info')
+            ('camera_info', '/camera/camera_info')
         ],
         parameters=[
             os.path.join(pkg_rosrider_image, 'param', 'apriltag.yaml'),

@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import CameraInfo
+from sensor_msgs.msg import Image, CameraInfo
 
 class FixPMatrixRectNode(Node):
     def __init__(self):
         super().__init__('fix_p_matrix_rect')
-        self.get_logger().info("Starting Rectified Camera Info Publisher for AprilTag")
+        self.get_logger().info("Starting Rectified Camera Info Publisher bound to Rectified Image Stamps")
 
         self.subscription = self.create_subscription(
-            CameraInfo,
-            '/camera/camera_info',
+            Image,
+            '/camera/image_rect',
             self.listener_callback,
             10
         )
@@ -21,11 +21,16 @@ class FixPMatrixRectNode(Node):
             10
         )
 
-    def listener_callback(self, msg):
+    def listener_callback(self, img_msg):
 
-        out_msg = msg
+        out_msg = CameraInfo()
 
-        # The image_proc node outputs a perfectly flat canvas, so this topic must advertise a standard plumb_bob model.
+        out_msg.header.stamp = img_msg.header.stamp
+        out_msg.header.frame_id = img_msg.header.frame_id
+
+        out_msg.width = 640
+        out_msg.height = 400
+
         out_msg.distortion_model = "plumb_bob"
 
         # The rectified image has zero geometric distortion left over
@@ -34,11 +39,8 @@ class FixPMatrixRectNode(Node):
         # Base zoom factor used to prevent image_proc from cropping the 160-deg FOV edges
         f_rectified = 110.0
 
-        # TODO: parameter, or even better, auto parameter
-        # TODO: change this.
-
         # Overwrite K to match the virtual zoom. This forces the AprilTag solver
-        # to calculate a accurate 0.25m scale multiplier instead of 1.0m.
+        # to calculate an accurate 0.25m scale multiplier instead of 1.0m.
         out_msg.k = [
             f_rectified, 0.0, 320.0,
             0.0, f_rectified, 200.0,

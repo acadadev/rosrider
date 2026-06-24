@@ -2,7 +2,6 @@ camera:
   camera_node:
     ros__parameters:
       camera: "/base/soc/i2c0mux/i2c@1/ov9281@60"
-      framerate: 30.0
       frame_id: "camera_optical_frame"
       # camera_info_url: "package://rosrider_image/param/camera_info.yaml"
       controls:
