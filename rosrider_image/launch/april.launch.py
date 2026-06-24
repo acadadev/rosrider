@@ -23,7 +23,7 @@ def generate_launch_description():
         name='fix_p_matrix_rect',
         output='screen',
         parameters=[
-            {'use_sim_time': False},
+            {'use_sim_time': False },
         ]
     )
 
@@ -72,7 +72,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        fix_p_matrix_rect_node,
+        #fix_p_matrix_rect_node,
         apriltag_node,
         apriltag_overlay,
         apriltag_localization,
