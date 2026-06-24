@@ -10,7 +10,7 @@ class FixPMatrixRectNode(Node):
 
         self.subscription = self.create_subscription(
             Image,
-            '/camera/image_rect',
+            '/image_rect',
             self.listener_callback,
             10
         )
