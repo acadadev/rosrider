@@ -15,7 +15,7 @@ class AprilTagOverlay(Node):
         self.bridge = CvBridge()
         self.latest_image = None
         
-        self.image_sub = self.create_subscription(Image, '/image_rect', self.image_cb, 10)
+        self.image_sub = self.create_subscription(Image, '/camera/image_raw', self.image_cb, 10)
         self.detections_sub = self.create_subscription(AprilTagDetectionArray, '/detections', self.detections_cb, 10)
         self.image_pub = self.create_publisher(Image, '/apriltag_overlay', 10)
         
