@@ -21,7 +21,7 @@ def generate_launch_description():
         package='apriltag_ros',
         executable='apriltag_node',
         remappings=[
-            ('image', '/image_rect'),
+            ('image', '/camera/image_raw'),
             ('camera_info', '/camera/camera_info')
         ],
         parameters=[
