@@ -27,6 +27,5 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        rectify_node,
-        fix_p_matrix_rect_node
+        rectify_node
     ])

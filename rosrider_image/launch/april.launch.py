@@ -22,7 +22,7 @@ def generate_launch_description():
         executable='apriltag_node',
         remappings=[
             ('image', '/image_rect'),
-            ('camera_info', '/camera_info')
+            ('camera_info', '/camera/camera_info')
         ],
         parameters=[
             os.path.join(pkg_rosrider_image, 'param', 'apriltag.yaml'),
