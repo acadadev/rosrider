@@ -41,30 +41,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    apriltag_localization = Node(
-        package='rosrider_gz_bringup',
-        executable='apriltag_localization.py',
-        name='apriltag_localization',
-        parameters=[
-            {'use_sim_time': False },
-        ],
-        output='screen'
-    )
-
-    apriltag_navigation = Node(
-        package='rosrider_gz_bringup',
-        executable='apriltag_navigation.py',
-        name='apriltag_navigation',
-        parameters=[
-            {'use_sim_time': False },
-        ],
-        output='screen'
-    )
-
     return LaunchDescription([
-        #fix_p_matrix_rect_node,
         apriltag_node,
-        apriltag_overlay,
-        apriltag_localization,
-        #apriltag_navigation
+        apriltag_overlay
     ])
