@@ -15,8 +15,6 @@ def generate_launch_description():
 
     pkg_rosrider_image = get_package_share_directory('rosrider_image')
 
-    os.environ["IMAGE_TRANSPORT_TO_EXCLUDE"] = "compressedDepth,theora,zstd"
-
     apriltag_node = Node(
         package='apriltag_ros',
         executable='apriltag_node',
