@@ -15,7 +15,7 @@ class AprilTagOverlay(Node):
         self.bridge = CvBridge()
         self.latest_image = None
         
-        self.image_sub = self.create_subscription(Image, '/camera/image_raw', self.image_cb, 10)
+        self.image_sub = self.create_subscription(Image, '/image_rect', self.image_cb, 10)
         self.detections_sub = self.create_subscription(AprilTagDetectionArray, '/detections', self.detections_cb, 10)
         self.image_pub = self.create_publisher(Image, '/apriltag_overlay', 10)
         
@@ -27,12 +27,13 @@ class AprilTagOverlay(Node):
             return
         
         overlay = self.latest_image.copy()
-        
+
         for detection in msg.detections:
             # 1. Handle Corners & ID Placement
             if hasattr(detection, 'corners') and len(detection.corners) == 4:
+
                 corners = np.array([[int(p.x), int(p.y)] for p in detection.corners], dtype=np.int32)
-                
+
                 # Draw the green bounding box around the tag
                 cv2.polylines(overlay, [corners], True, (0, 255, 0), 2)
                 

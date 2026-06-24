@@ -1,0 +1,13 @@
+camera:
+  camera_node:
+    ros__parameters:
+      camera: "/base/soc/i2c0mux/i2c@1/ov9281@60"
+      framerate: 30.0
+      frame_id: "camera_optical_frame"
+      # camera_info_url: "package://rosrider_image/param/camera_info.yaml"
+      controls:
+        AeEnable: true
+        # ExposureTime: 20000   # In microseconds
+        # AnalogueGain: 2.5     # Sensor gain multiplier
+        Brightness: 0.0         # Range usually -1.0 to 1.0
+        Contrast: 1.0           # Range usually 0.0 to 2.0

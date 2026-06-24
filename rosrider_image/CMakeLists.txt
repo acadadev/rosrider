@@ -17,4 +17,9 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+install(PROGRAMS
+  scripts/fix_p_matrix_rect.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

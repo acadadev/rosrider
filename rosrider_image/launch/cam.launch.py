@@ -6,10 +6,6 @@ from launch_ros.actions import Node
 
 config = os.path.join(get_package_share_directory('rosrider_image'), 'param', 'cam.yaml')
 
-# add flag for rect
-# TODO: insructions for calibration
-# TODO: how to place the calibration file
-
 def generate_launch_description():
     return LaunchDescription([
         ExecuteProcess(

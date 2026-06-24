@@ -2,5 +2,5 @@ apriltag:
   ros__parameters:
     image_transport: raw
     family: 36h11
-    size: 0.102
+    size: 0.12
     max_hamming: 0
