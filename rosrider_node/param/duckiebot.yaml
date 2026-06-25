@@ -71,7 +71,7 @@
     # trim model
     TRIM_GAIN: 1.0
     TRIM_MOTOR_K: 1.0
-    TRIM_CONSTANT: 0.042
+    TRIM_CONSTANT: 0.0
     # features
     AUTO_SYNC: True
     AUTO_BIAS: True
