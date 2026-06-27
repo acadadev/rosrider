@@ -9,6 +9,8 @@ import cv2
 import numpy as np
 import math
 
+# TODO: scripts to nodes
+
 
 class AprilTagOverlay(Node):
     def __init__(self):

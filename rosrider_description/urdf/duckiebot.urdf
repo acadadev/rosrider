@@ -42,12 +42,12 @@
   <joint name="wheel_left_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_left_link"/>
-    <origin xyz="0.0 0.05 0.0" rpy="-1.57 0 0"/>
-    <axis xyz="0 0 1"/>
+    <origin xyz="0.0 0.05 0.0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
   </joint>
   <link name="wheel_left_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="1.570796 0 0"/>
       <geometry>
         <mesh filename="package://rosrider_description/meshes/wheel_left.dae" scale="1 1 1"/>
       </geometry>
@@ -57,52 +57,45 @@
   <joint name="wheel_right_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_right_link"/>
-    <origin xyz="0.0 -0.05 0.0" rpy="-1.57 0 0"/>
-    <axis xyz="0 0 1"/>
+    <origin xyz="0.0 -0.05 0.0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
   </joint>
   <link name="wheel_right_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="1.570796 0 0"/>
       <geometry>
         <mesh filename="package://rosrider_description/meshes/wheel_right.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
 
-  <joint name="wheel_steering_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="wheel_steering_link"/>
-    <axis xyz="0 0 1"/>
-    <origin xyz="-0.09 0 -0.02425" rpy="0 0 0"/>
-  </joint>
-  <link name="wheel_steering_link">
-  </link>
-
   <joint name="wheel_castor_joint" type="fixed">
-    <parent link="wheel_steering_link"/>
+    <parent link="base_link"/>
     <child link="wheel_castor_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="-0.095 0 -0.02425" rpy="0 0 0"/>
   </joint>
+
   <link name="wheel_castor_link">
-      <visual>
-          <geometry>
-            <sphere radius="0.01"/>
-          </geometry>
-          <material name="white"/>
-      </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
   </link>
 
   <joint name="imu_joint" type="fixed">
     <parent link="base_link"/>
     <child link="imu_link"/>
-    <origin xyz="0.008 0 0.0739" rpy="0 0 0"/>
+    <origin xyz="0 0 0.0739" rpy="0 0 0"/>
   </joint>
+
   <link name="imu_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://rosrider_description/meshes/fximu.dae" scale="1 1 1"/>
+        <mesh filename="package://rosrider_description/meshes/fximu3e.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
@@ -112,6 +105,7 @@
     <child link="battery_link"/>
     <origin xyz="-0.034057 0 0.057282" rpy="0 0 0"/>
   </joint>
+
   <link name="battery_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -125,7 +119,7 @@
   <joint name="camera_joint" type="fixed">
     <parent link="base_link"/>
     <child link="camera_optical_frame"/>
-    <origin xyz="0.05935 0.0 0.07690" rpy="-1.87 0.0 -1.57"/>
+    <origin xyz="0.05935 0.0 0.07690" rpy="-1.87 0.0 -1.570796"/>
   </joint>
 
   <link name="camera_optical_frame">

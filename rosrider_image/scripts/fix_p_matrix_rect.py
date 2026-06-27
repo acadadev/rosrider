@@ -37,7 +37,7 @@ class FixPMatrixRectNode(Node):
         out_msg.d = [0.0, 0.0, 0.0, 0.0, 0.0]
 
         # Base zoom factor used to prevent image_proc from cropping the 160-deg FOV edges
-        f_rectified = 110.0
+        f_rectified = 160.0
 
         # Overwrite K to match the virtual zoom. This forces the AprilTag solver
         # to calculate an accurate 0.25m scale multiplier instead of 1.0m.
