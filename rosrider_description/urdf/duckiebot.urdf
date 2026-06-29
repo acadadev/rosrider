@@ -72,7 +72,7 @@
   <joint name="wheel_castor_joint" type="fixed">
     <parent link="base_link"/>
     <child link="wheel_castor_link"/>
-    <origin xyz="-0.095 0 -0.02425" rpy="0 0 0"/>
+    <origin xyz="-0.09185 0 -0.02425" rpy="0 0 0"/>
   </joint>
 
   <link name="wheel_castor_link">

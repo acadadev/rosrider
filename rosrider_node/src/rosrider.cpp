@@ -496,21 +496,15 @@ class ROSRider : public rclcpp::Node {
 		            odom_data.twist.twist.angular.z = pose_thetaVel;
 
 		            // covariances
-		            odom_data.pose.covariance[0] = 0.01;
-		            odom_data.pose.covariance[7] = 0.0;
-		            odom_data.pose.covariance[14] = 0.0;
-		            odom_data.pose.covariance[21] = 0.0;
-		            odom_data.pose.covariance[28] = 0.0;
-		            odom_data.pose.covariance[35] = 0.1;
+                    odom_data.pose.covariance[0] = 0.01;
+                    odom_data.pose.covariance[7] = 0.01;
+                    odom_data.pose.covariance[35] = 0.01;
 
-		            odom_data.twist.covariance[0] = 0.01;
-		            odom_data.twist.covariance[7] = 0.0;
-		            odom_data.twist.covariance[14] = 0.0;
-		            odom_data.twist.covariance[21] = 0.0;
-		            odom_data.twist.covariance[28] = 0.0;
-		            odom_data.twist.covariance[35] = 0.01;	
+                    odom_data.twist.covariance[0] = 0.01;
+                    odom_data.twist.covariance[7] = 0.00001;
+                    odom_data.twist.covariance[35] = 0.05;
 
-		            odom_pub->publish(odom_data);		            
+		            odom_pub->publish(odom_data);
 
 				}
 
