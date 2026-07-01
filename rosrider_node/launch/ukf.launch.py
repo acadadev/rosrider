@@ -16,6 +16,6 @@ def generate_launch_description():
             executable='ukf_node',
             name='ukf_filter_node',
             output='screen',
-            parameters=[os.path.join(get_package_share_directory("rosrider_node"), 'param', 'ukf.yaml')],
+            parameters=[os.path.join(get_package_share_directory("rosrider_node"), 'param', 'ukf_odom_imu.yaml')],
            ),
 ])
