@@ -23,14 +23,15 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'use_sim_time',
-            default_value='false',
-            description='use simulation time if true'),
+            default_value='false'),
 
         Node(
             package='cartographer_ros',
             executable='cartographer_occupancy_grid_node',
             name='occupancy_grid_node',
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time}],
+            parameters=[{
+                'use_sim_time': use_sim_time
+            }],
             arguments=['-resolution', resolution, '-publish_period_sec', publish_period_sec]),
     ])

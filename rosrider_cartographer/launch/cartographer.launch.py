@@ -22,10 +22,7 @@ def generate_launch_description():
     publish_period_sec = LaunchConfiguration('publish_period_sec')
     launch_rviz = LaunchConfiguration('launch_rviz')
 
-    if use_sim_time:
-        configuration_basename_default = 'rosrider_2d_gazebo.lua'
-    else:
-        configuration_basename_default = 'rosrider_2d.lua'
+    configuration_basename_default = 'rosrider_2d.lua' # TODO
 
     cartographer_node = Node(
         package='cartographer_ros',
@@ -36,6 +33,9 @@ def generate_launch_description():
         arguments=[
             '-configuration_directory', cartographer_config_dir,
             '-configuration_basename', configuration_basename
+        ],
+        remappings=[
+            ('imu', 'imu/data')
         ]
     )
 
