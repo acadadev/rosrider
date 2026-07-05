@@ -30,6 +30,7 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
 
+    # TODO: obsolute this use_sim_time
     # we have navigation parameters for the real robot and its gazebo twin. if simulation is used, wee use the nav2 parameters gazebo version
     if use_sim_time:
         params_file = LaunchConfiguration('params_file', default=os.path.join(get_package_share_directory('rosrider_nav'), 'param', 'nav2_params_gazebo_' + ROBOT_MODEL + '.yaml'))

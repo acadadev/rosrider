@@ -74,3 +74,5 @@ slam_toolbox:
     use_response_expansion: true
     min_pass_through: 2
     occupancy_threshold: 0.1
+
+    # TODO: practice this

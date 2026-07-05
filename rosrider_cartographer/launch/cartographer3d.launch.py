@@ -13,7 +13,7 @@ def generate_launch_description():
     pkg_rosrider_cartographer = get_package_share_directory('rosrider_cartographer')
     cartographer_config_dir_default = os.path.join(pkg_rosrider_cartographer, 'config')
     rviz_config_file = os.path.join(pkg_rosrider_cartographer, 'rviz', 'rosrider_cartographer.rviz')
-    configuration_basename_default = 'rosrider_2d.lua'
+    configuration_basename_default = 'rosrider_3d.lua'
 
     use_sim_time = LaunchConfiguration('use_sim_time')
     cartographer_config_dir = LaunchConfiguration('cartographer_config_dir')
@@ -33,7 +33,8 @@ def generate_launch_description():
             '-configuration_basename', configuration_basename
         ],
         remappings=[
-            ('imu', 'imu/data')
+            ('/points2', '/scan/points'),
+            ('/imu', '/imu/data')
         ]
     )
 
@@ -57,12 +58,12 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        DeclareLaunchArgument('use_sim_time', default_value='false', description='Use simulation (Gazebo) clock if true'),
-        DeclareLaunchArgument('cartographer_config_dir', default_value=cartographer_config_dir_default, description='Full path to the Cartographer config directory'),
-        DeclareLaunchArgument('configuration_basename', default_value=configuration_basename_default, description='Name of the Lua configuration file for Cartographer'),
-        DeclareLaunchArgument('resolution', default_value='0.05', description='Resolution of a grid cell in the occupancy grid'),
-        DeclareLaunchArgument('publish_period_sec', default_value='1.0', description='Occupancy grid publishing period in seconds'),
-        DeclareLaunchArgument('launch_rviz', default_value='true', description='Whether to launch RViz2'),
+        DeclareLaunchArgument('use_sim_time', default_value='false'),
+        DeclareLaunchArgument('cartographer_config_dir', default_value=cartographer_config_dir_default),
+        DeclareLaunchArgument('configuration_basename', default_value=configuration_basename_default),
+        DeclareLaunchArgument('resolution', default_value='0.05'),
+        DeclareLaunchArgument('publish_period_sec', default_value='1.0'),
+        DeclareLaunchArgument('launch_rviz', default_value='true'),
         cartographer_node,
         occupancy_grid_launch,
         rviz_node
