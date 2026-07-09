@@ -41,7 +41,7 @@ def generate_launch_description():
     rviz = Node(
         package='rviz2',
         executable='rviz2',
-        name='rviz2',
+        name='rviz2_urdf',
         arguments=['-d', os.path.join(pkg_project_description, 'config', 'urdf.rviz')]
     )
 

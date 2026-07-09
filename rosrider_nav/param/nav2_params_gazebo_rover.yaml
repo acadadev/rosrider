@@ -1,6 +1,11 @@
 amcl:
   ros__parameters:
-    set_initial_pose: false
+    set_initial_pose: true
+    initial_pose: # TODO: revisit
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      yaw: 0.0
     alpha1: 0.2
     alpha2: 0.2
     alpha3: 0.2
@@ -100,14 +105,14 @@ controller_server:
       time_steps: 56
       model_dt: 0.05
       batch_size: 2000
-      ax_max: 1.0 # TODO was 3.0
-      ax_min: -3.0 # TODO was 3.0
+      ax_max: 3.0
+      ax_min: -3.0
       ay_max: 3.0
       ay_min: -3.0
       az_max: 3.5
-      vx_std: 0.35 # TODO: was 0.2
+      vx_std: 0.2
       vy_std: 0.2
-      wz_std: 0.6 # TODO: was 0.4
+      wz_std: 0.4
       vx_max: 0.5
       vx_min: -0.35
       vy_max: 0.5
@@ -197,8 +202,8 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.05
-      footprint: "[ [0.059, -0.110], [0.075, -0.094], [0.075, 0.094], [0.059, 0.110], [-0.120, 0.110], [-0.162, 0.102], [-0.198, 0.078], [-0.222, 0.042], [-0.230, 0.000], [-0.222, -0.042], [-0.198, -0.078], [-0.162, -0.102], [-0.120, -0.110] ]"
-      #robot_radius: 0.22
+      footprint: "[ [0.275, -0.120], [0.180, -0.200], [-0.180, -0.200], [-0.275, -0.120], [-0.275, 0.120], [-0.180, 0.200], [0.180, 0.200], [0.275, 0.120] ]"
+      #robot_radius: 0.3
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
@@ -216,10 +221,10 @@ local_costmap:
         observation_sources: scan
         scan:
           topic: /scan
+          data_type: "LaserScan"
           max_obstacle_height: 2.0
           clearing: True
           marking: True
-          data_type: "LaserScan"
           raytrace_max_range: 3.0
           raytrace_min_range: 0.0
           obstacle_max_range: 2.5
@@ -236,8 +241,8 @@ global_costmap:
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: base_link
-      footprint: "[ [0.059, -0.110], [0.075, -0.094], [0.075, 0.094], [0.059, 0.110], [-0.120, 0.110], [-0.162, 0.102], [-0.198, 0.078], [-0.222, 0.042], [-0.230, 0.000], [-0.222, -0.042], [-0.198, -0.078], [-0.162, -0.102], [-0.120, -0.110] ]"
-      #robot_radius: 0.22
+      footprint: "[ [0.275, -0.120], [0.180, -0.200], [-0.180, -0.200], [-0.275, -0.120], [-0.275, 0.120], [-0.180, 0.200], [0.180, 0.200], [0.275, 0.120] ]"
+      #robot_radius: 0.3
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -247,10 +252,10 @@ global_costmap:
         observation_sources: scan
         scan:
           topic: /scan
+          data_type: "LaserScan"
           max_obstacle_height: 2.0
           clearing: True
           marking: True
-          data_type: "LaserScan"
           raytrace_max_range: 3.0
           raytrace_min_range: 0.0
           obstacle_max_range: 2.5
@@ -278,7 +283,7 @@ planner_server:
     costmap_update_timeout: 1.0
     GridBased:
       plugin: "nav2_navfn_planner::NavfnPlanner"
-      tolerance: 0.5 # default value: 0.5
+      tolerance: 0.5
       use_astar: false
       allow_unknown: true
 
@@ -312,10 +317,10 @@ behavior_server:
     local_frame: odom
     global_frame: map
     robot_base_frame: base_link
-    transform_tolerance: 0.1  # default value: 0.1
+    transform_tolerance: 0.1    # default value: 0.1
     simulate_ahead_time: 2.0
-    max_rotational_vel: 2.0    # default value: 1.0
-    min_rotational_vel: 0.785  # default value: 0.4
+    max_rotational_vel: 1.57    # default value: 1.0
+    min_rotational_vel: 0.314   # default value: 0.4
     rotational_acc_lim: 3.2
 
 waypoint_follower:
@@ -334,10 +339,10 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.25, 0.0, 1.0]   # default value: [0.5, 0.0, 2.0]
-    min_velocity: [-0.25, 0.0, -1.0] # default value: [-0.5, 0.0, -2.0] # TODO: CONFIG: put these in ekf filter
-    max_accel: [1.0, 0.0, 2.4] # TODO was 2.5 instead of 1.0 and 3.2 instead of 2.4
-    max_decel: [-1.0, 0.0, -2.4]
+    max_velocity: [0.5, 0.0, 2.0]   # default value: [0.5, 0.0, 2.0]
+    min_velocity: [-0.5, 0.0, -2.0] # default value: [-0.5, 0.0, -2.0]
+    max_accel: [2.5, 0.0, 3.2]
+    max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
@@ -348,7 +353,7 @@ collision_monitor:
     base_frame_id: "base_footprint"
     odom_frame_id: "odom"
     cmd_vel_in_topic: "cmd_vel_smoothed"
-    cmd_vel_out_topic: "cmd_vel" # TODO: this needs revision.
+    cmd_vel_out_topic: "cmd_vel_stack"
     state_topic: "collision_monitor_state"
     transform_tolerance: 0.2
     source_timeout: 1.0
@@ -370,7 +375,6 @@ collision_monitor:
     scan:
       type: "scan"
       topic: "scan"
-      min_height: 0.15
       max_height: 2.0
       enabled: True
 

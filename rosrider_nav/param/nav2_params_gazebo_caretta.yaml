@@ -1,9 +1,9 @@
 amcl:
   ros__parameters:
     set_initial_pose: true
-    initial_pose: # for sim
-      x: -2.0
-      y: -5.85
+    initial_pose: # TODO: revisit
+      x: 0.0
+      y: 0.0
       z: 0.0
       yaw: 0.0
     alpha1: 0.2
@@ -329,8 +329,8 @@ behavior_server:
     robot_base_frame: base_link
     transform_tolerance: 0.1 # robot value: 0.157
     simulate_ahead_time: 2.0
-    max_rotational_vel: 1.0 # robot value: 1.57
-    min_rotational_vel: 0.4 # robot value: 0.314
+    max_rotational_vel: 1.57 # robot value: 1.57
+    min_rotational_vel: 0.314 # robot value: 0.314
     rotational_acc_lim: 3.2
 
 waypoint_follower:
@@ -349,7 +349,7 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.5, 0.0, 2.0] # robot value: [0.25, 0.0, 1.57]
+    max_velocity: [0.5, 0.0, 2.0]   # robot value: [ 0.25, 0.0,  1.57]
     min_velocity: [-0.5, 0.0, -2.0] # robot value: [-0.25, 0.0, -1.57]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
@@ -363,7 +363,7 @@ collision_monitor:
     base_frame_id: "base_footprint"
     odom_frame_id: "odom"
     cmd_vel_in_topic: "cmd_vel_smoothed"
-    cmd_vel_out_topic: "cmd_vel"
+    cmd_vel_out_topic: "cmd_vel_stack"
     state_topic: "collision_monitor_state"
     transform_tolerance: 0.2
     source_timeout: 1.0

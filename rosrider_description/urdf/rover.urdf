@@ -37,7 +37,7 @@
       <geometry>
         <box size="0.35 0.16 0.06"/>
       </geometry>
-      <material name="white"/>
+      <material name="yellow"/>
     </visual>
   </link>
 
@@ -102,6 +102,21 @@
       <geometry>
         <mesh filename="package://rosrider_description/meshes/rover_wheel_right.dae" scale="1 1 1"/>
       </geometry>
+    </visual>
+  </link>
+
+  <joint name="scan_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_scan_3d"/>
+    <origin xyz="0.01 0.0 0.34" rpy="0 0 0"/>
+  </joint>
+  <link name="base_scan_3d">
+    <visual>
+      <origin xyz="-0.01 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.1 0.02"/>
+      </geometry>
+      <material name="grey"/>
     </visual>
   </link>
 

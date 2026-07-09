@@ -13,11 +13,13 @@ def generate_launch_description():
     pkg_rosrider_cartographer = get_package_share_directory('rosrider_cartographer')
     cartographer_config_dir_default = os.path.join(pkg_rosrider_cartographer, 'config')
     rviz_config_file = os.path.join(pkg_rosrider_cartographer, 'rviz', 'rosrider_cartographer3d.rviz')
-    configuration_basename_default = 'rosrider_3d.lua'
+    configuration_basename_default = 'rosrider_3d_localization.lua'
+    load_state_filename_default = os.path.join(os.path.expanduser('~'), 'terrain_map.pbstream')
 
     use_sim_time = LaunchConfiguration('use_sim_time')
     cartographer_config_dir = LaunchConfiguration('cartographer_config_dir')
     configuration_basename = LaunchConfiguration('configuration_basename')
+    load_state_filename = LaunchConfiguration('load_state_filename')
     occupancy_grid_resolution = LaunchConfiguration('occupancy_grid_resolution')
     octomap_resolution = LaunchConfiguration('octomap_resolution')
     publish_period_sec = LaunchConfiguration('publish_period_sec')
@@ -36,7 +38,8 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}],
         arguments=[
             '-configuration_directory', cartographer_config_dir,
-            '-configuration_basename', configuration_basename
+            '-configuration_basename', configuration_basename,
+            '-load_state_filename', load_state_filename
         ],
         remappings=[
             ('/points2', '/scan/points'),
@@ -48,7 +51,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([ThisLaunchFileDir(), '/octomap_server.launch.py']),
         launch_arguments={
             'use_sim_time': use_sim_time,
-            'resolution': octomap_resolution,
+            'octomap_resolution': octomap_resolution,
             'frame_id': map_frame,
             'cloud_in_topic': cloud_in_topic,
             'max_range': octomap_max_range,
@@ -71,7 +74,7 @@ def generate_launch_description():
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
-        name='rviz2_cartographer3d',
+        name='rviz2_cartographer3d_localization',
         arguments=['-d', rviz_config_file],
         parameters=[{'use_sim_time': use_sim_time}],
         condition=IfCondition(launch_rviz),
@@ -82,6 +85,7 @@ def generate_launch_description():
         DeclareLaunchArgument('use_sim_time', default_value='false'),
         DeclareLaunchArgument('cartographer_config_dir', default_value=cartographer_config_dir_default),
         DeclareLaunchArgument('configuration_basename', default_value=configuration_basename_default),
+        DeclareLaunchArgument('load_state_filename', default_value=load_state_filename_default),
         DeclareLaunchArgument('occupancy_grid_resolution', default_value='0.05'),
         DeclareLaunchArgument('octomap_resolution', default_value='0.1'),
         DeclareLaunchArgument('publish_period_sec', default_value='1.0'),

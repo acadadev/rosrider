@@ -15,6 +15,8 @@ SLAM is used to **create a map** of an environment while simultaneously tracking
 | SLAM       | Real Robot  | ```ros2 launch rosrider_nav bringup_slam2.launch.py use_sim_time:=False``` |
 | Navigation | Real Robot  | ```ros2 launch rosrider_nav bringup_nav2.launch.py use_sim_time:=False```  |
 
+# TODO redo documentation
+
 ### Saving Maps
 
 After navigating the robot, use the following command to save the map and generate the required ```map_name.yaml``` and ```map_name.pgm``` files.
