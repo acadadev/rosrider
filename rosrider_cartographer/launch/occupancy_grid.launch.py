@@ -6,18 +6,18 @@ from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
 
-    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    resolution = LaunchConfiguration('resolution', default='0.05')
-    publish_period_sec = LaunchConfiguration('publish_period_sec', default='1.0')
-    min_z = LaunchConfiguration('min_z', default='0.0')
-    max_z = LaunchConfiguration('max_z', default='2.0')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    resolution = LaunchConfiguration('resolution')
+    publish_period_sec = LaunchConfiguration('publish_period_sec')
+    min_z = LaunchConfiguration('min_z')
+    max_z = LaunchConfiguration('max_z')
 
     return LaunchDescription([
-        DeclareLaunchArgument('resolution', default_value=resolution),
-        DeclareLaunchArgument('publish_period_sec', default_value=publish_period_sec),
+        DeclareLaunchArgument('resolution', default_value='0.05'),
+        DeclareLaunchArgument('publish_period_sec', default_value='1.0'),
+        DeclareLaunchArgument('min_z', default_value='-1.0'),
+        DeclareLaunchArgument('max_z', default_value='2.0'),
         DeclareLaunchArgument('use_sim_time', default_value='false'),
-        DeclareLaunchArgument('min_z', default_value=min_z),
-        DeclareLaunchArgument('max_z', default_value=max_z),
 
         Node(
             package='cartographer_ros',

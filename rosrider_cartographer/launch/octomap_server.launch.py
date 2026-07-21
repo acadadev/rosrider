@@ -6,23 +6,23 @@ from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
 
-    use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    octomap_resolution = LaunchConfiguration('octomap_resolution', default='0.1')
-    frame_id = LaunchConfiguration('frame_id', default='map')
-    cloud_in_topic = LaunchConfiguration('cloud_in_topic', default='/scan/points')
-    max_range = LaunchConfiguration('max_range', default='10.0')
-    min_z = LaunchConfiguration('min_z', default='0.0')
-    max_z = LaunchConfiguration('max_z', default='2.0')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    octomap_resolution = LaunchConfiguration('octomap_resolution')
+    frame_id = LaunchConfiguration('frame_id')
+    cloud_in_topic = LaunchConfiguration('cloud_in_topic')
+    max_range = LaunchConfiguration('max_range')
+    min_z = LaunchConfiguration('min_z')
+    max_z = LaunchConfiguration('max_z')
 
     return LaunchDescription([
 
-        DeclareLaunchArgument('use_sim_time', default_value=use_sim_time),
-        DeclareLaunchArgument('octomap_resolution', default_value=octomap_resolution),
-        DeclareLaunchArgument('frame_id', default_value=frame_id),
-        DeclareLaunchArgument('cloud_in_topic', default_value=cloud_in_topic),
-        DeclareLaunchArgument('max_range', default_value=max_range),
-        DeclareLaunchArgument('min_z', default_value=min_z),
-        DeclareLaunchArgument('max_z', default_value=max_z),
+        DeclareLaunchArgument('octomap_resolution', default_value='0.1'),
+        DeclareLaunchArgument('frame_id', default_value='map'),
+        DeclareLaunchArgument('cloud_in_topic', default_value='/scan/points'),
+        DeclareLaunchArgument('max_range', default_value='10.0'),
+        DeclareLaunchArgument('min_z', default_value='-1.0'),
+        DeclareLaunchArgument('max_z', default_value='2.0'),
+        DeclareLaunchArgument('use_sim_time', default_value='false'),
 
         Node(
             package='octomap_server',

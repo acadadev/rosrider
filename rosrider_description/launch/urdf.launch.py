@@ -28,6 +28,8 @@ def generate_launch_description():
         output='both',
         parameters=[
             {'robot_description': robot_description},
+            {'frame_prefix': ''},
+            {'publish_frequency': 30.0}
         ]
     )
 
@@ -42,19 +44,11 @@ def generate_launch_description():
         package='rviz2',
         executable='rviz2',
         name='rviz2_urdf',
-        arguments=['-d', os.path.join(pkg_project_description, 'config', 'urdf.rviz')]
+        arguments=['-d', os.path.join(pkg_project_description, 'config', 'urdf_base_footprint.rviz')]
     )
 
     return LaunchDescription([
-
-        DeclareLaunchArgument('gui', default_value='true', description='Open Joint State Publisher GUI'),
         robot_state_publisher,
-        Node(
-            package='joint_state_publisher_gui',
-            executable='joint_state_publisher_gui',
-            name='joint_state_publisher_gui',
-            output='screen',
-            condition=IfCondition(LaunchConfiguration('gui'))
-        ),
+        joint_state_publisher_gui,
         rviz
     ])

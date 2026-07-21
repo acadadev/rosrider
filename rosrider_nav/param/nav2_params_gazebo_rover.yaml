@@ -1,7 +1,7 @@
 amcl:
   ros__parameters:
     set_initial_pose: true
-    initial_pose: # TODO: revisit
+    initial_pose:
       x: 0.0
       y: 0.0
       z: 0.0

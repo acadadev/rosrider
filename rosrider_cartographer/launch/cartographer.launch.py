@@ -67,7 +67,7 @@ def generate_launch_description():
         DeclareLaunchArgument('configuration_basename', default_value=configuration_basename_default),
         DeclareLaunchArgument('resolution', default_value='0.05'),
         DeclareLaunchArgument('publish_period_sec', default_value='1.0'),
-        DeclareLaunchArgument('min_z', default_value='0.0'),
+        DeclareLaunchArgument('min_z', default_value='-1.0'),
         DeclareLaunchArgument('max_z', default_value='2.0'),
         DeclareLaunchArgument('launch_rviz', default_value='true'),
         cartographer_node,

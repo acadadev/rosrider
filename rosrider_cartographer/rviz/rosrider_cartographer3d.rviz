@@ -57,15 +57,11 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-        base_scan:
+        base_scan_3d:
           Value: true
         front_left_wheel:
           Value: true
-        front_link:
-          Value: true
         front_right_wheel:
-          Value: true
-        imu1_link:
           Value: true
         imu_link:
           Value: true
@@ -74,8 +70,6 @@ Visualization Manager:
         odom:
           Value: true
         rear_left_wheel:
-          Value: true
-        rear_link:
           Value: true
         rear_right_wheel:
           Value: true
@@ -89,22 +83,18 @@ Visualization Manager:
           odom:
             base_footprint:
               base_link:
-                front_link:
-                  base_scan:
-                    {}
-                  front_left_wheel:
-                    {}
-                  front_right_wheel:
-                    {}
-                  imu_link:
-                    {}
-                rear_link:
-                  imu1_link:
-                    {}
-                  rear_left_wheel:
-                    {}
-                  rear_right_wheel:
-                    {}
+                base_scan_3d:
+                  {}
+                front_left_wheel:
+                  {}
+                front_right_wheel:
+                  {}
+                imu_link:
+                  {}
+                rear_left_wheel:
+                  {}
+                rear_right_wheel:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -117,10 +107,10 @@ Visualization Manager:
       Channel Name: intensity
       Class: rviz_default_plugins/LaserScan
       Color: 239; 41; 41
-      Color Transformer: FlatColor
+      Color Transformer: Intensity
       Decay Time: 0
       Enabled: true
-      Invert Rainbow: false
+      Invert Rainbow: true
       Max Color: 255; 255; 255
       Max Intensity: 0
       Min Color: 0; 0; 0
@@ -444,7 +434,8 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        base_scan:
+          Value: true
+        base_scan_3d:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -454,17 +445,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        front_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         front_right_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        imu1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -475,11 +456,6 @@ Visualization Manager:
           Show Trail: false
           Value: true
         rear_left_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        rear_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -664,25 +640,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/XYOrbit
-      Distance: 11.128588676452637
+      Distance: 12.948016166687012
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -2.508600950241089
-        Y: -0.5354348421096802
-        Z: -7.140351954149082e-06
+        X: -2.248379707336426
+        Y: -0.029730290174484253
+        Z: -6.90193337504752e-06
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.1347956657409668
+      Pitch: 1.4747954607009888
       Target Frame: <Fixed Frame>
       Value: XYOrbit (rviz_default_plugins)
-      Yaw: 3.132380247116089
+      Yaw: 3.1292083263397217
     Saved: ~
 Window Geometry:
   Displays:

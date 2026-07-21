@@ -1,6 +1,6 @@
 bt_navigator:
   ros__parameters:
-    global_frame: odom # <-- CHANGED: Mapless uses odom as the global world frame
+    global_frame: odom # mapless uses odom as the global world frame
     robot_base_frame: base_link
     odom_topic: /odom
     bt_loop_duration: 10
@@ -168,15 +168,15 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
-      update_frequency: 2.0 # <-- INCREASED: Needs to update dynamic layout faster
+      update_frequency: 2.0 # needs to update dynamic layout faster
       publish_frequency: 1.0
-      global_frame: odom # <-- CHANGED: References odom world center
+      global_frame: odom # references odom world center
       robot_base_frame: base_link
       footprint: "[ [0.275, -0.120], [0.180, -0.200], [-0.180, -0.200], [-0.275, -0.120], [-0.275, 0.120], [-0.180, 0.200], [0.180, 0.200], [0.275, 0.120] ]"
       resolution: 0.05
       track_unknown_space: true
-      rolling_window: true # <-- CHANGED: Global map now slides with the robot
-      width: 16 # <-- CHANGED: Set a solid local buffer size (16m x 16m box)
+      rolling_window: true # global map now slides with the robot
+      width: 16 # set a solid local buffer size (16m x 16m box)
       height: 16
       plugins: ["obstacle_layer", "inflation_layer"] # <-- REMOVED: static_layer
       obstacle_layer:
@@ -190,7 +190,7 @@ global_costmap:
           max_obstacle_height: 2.0
           clearing: True
           marking: True
-          raytrace_max_range: 5.0 # <-- INCREASED: Look further ahead for global routes
+          raytrace_max_range: 5.0 # look further ahead for global routes
           raytrace_min_range: 0.0
           obstacle_max_range: 4.5
           obstacle_min_range: 0.0
@@ -239,7 +239,7 @@ behavior_server:
     assisted_teleop:
       plugin: "nav2_behaviors::AssistedTeleop"
     local_frame: odom
-    global_frame: odom # <-- CHANGED: Matches mapless universe
+    global_frame: odom # matches mapless universe
     robot_base_frame: base_link
     transform_tolerance: 0.1
     simulate_ahead_time: 2.0

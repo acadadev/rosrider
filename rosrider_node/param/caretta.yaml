@@ -109,7 +109,7 @@
     CROSS_K_LEFT: 1.0
     CROSS_K_RIGHT: 1.0
     # topic parameters
-    CMD_VEL_TOPIC: 'cmd_vel_nav'
+    CMD_VEL_TOPIC: 'cmd_vel'
     # system parameters
     I2C_ENABLED: True
     ODOM_FRAME_ID: 'odom'

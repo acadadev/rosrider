@@ -13,8 +13,6 @@ def generate_launch_description():
 
     lifecycle_nodes = ['filter_mask_server', 'costmap_filter_info_server']
 
-    # notice: we do not use any other config file then map mask and keeepout parameters
-
     namespace = LaunchConfiguration('namespace')
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
@@ -24,15 +22,12 @@ def generate_launch_description():
     default_mask_yaml_file = os.path.join(get_package_share_directory('rosrider_nav'), 'map', 'willow_mask.yaml')
     default_params_file = os.path.join(get_package_share_directory('rosrider_nav'), 'param', 'keepout_params.yaml')
 
-    declare_namespace_cmd = DeclareLaunchArgument('namespace', default_value='', description='Top-level namespace')
-    declare_use_sim_time_cmd = DeclareLaunchArgument('use_sim_time', default_value='false', description='Use simulation (Gazebo) clock if true')
-    declare_autostart_cmd = DeclareLaunchArgument('autostart', default_value='true', description='Automatically startup the nav2 stack')
-    declare_params_file_cmd = DeclareLaunchArgument('params_file', default_value=default_params_file, description='Full path to the ROS2 parameters file to use')
-    declare_mask_yaml_file_cmd = DeclareLaunchArgument('mask', default_value=default_mask_yaml_file, description='Full path to filter mask yaml file to load')
+    declare_namespace_cmd = DeclareLaunchArgument('namespace', default_value='')
+    declare_use_sim_time_cmd = DeclareLaunchArgument('use_sim_time', default_value='false')
+    declare_autostart_cmd = DeclareLaunchArgument('autostart', default_value='true')
+    declare_params_file_cmd = DeclareLaunchArgument('params_file', default_value=default_params_file)
+    declare_mask_yaml_file_cmd = DeclareLaunchArgument('mask', default_value=default_mask_yaml_file)
 
-    # TODO: test autostart. audit autostart on others. autostart out, others use it as default.
-
-    # TODO: apply this pattern. if sim. on others
     param_substitutions = {
         'use_sim_time': use_sim_time,
         'yaml_filename': mask_yaml_file }

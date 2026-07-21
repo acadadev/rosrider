@@ -23,7 +23,7 @@ options = {
   pose_publish_period_sec = 20e-3,
   trajectory_publish_period_sec = 100e-3,
   rangefinder_sampling_ratio = 1.,
-  odometry_sampling_ratio = 0.5,
+  odometry_sampling_ratio = 1.,
   fixed_frame_pose_sampling_ratio = 1.,
   imu_sampling_ratio = 1.,
   landmarks_sampling_ratio = 1.,
@@ -45,6 +45,6 @@ POSE_GRAPH.optimization_problem.ceres_solver_options.max_num_iterations = 10
 POSE_GRAPH.constraint_builder.min_score = 0.62
 POSE_GRAPH.constraint_builder.global_localization_min_score = 0.66
 
-POSE_GRAPH.optimize_every_n_nodes = 16
+POSE_GRAPH.optimize_every_n_nodes = 20
 
 return options

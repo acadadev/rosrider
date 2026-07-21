@@ -43,7 +43,8 @@ def generate_launch_description():
         ],
         remappings=[
             ('/points2', '/scan/points'),
-            ('/imu', '/imu/data')
+            ('/imu', '/imu/data'),
+            ('/odom', '/odometry/filtered_local')
         ]
     )
 
@@ -92,7 +93,7 @@ def generate_launch_description():
         DeclareLaunchArgument('map_frame', default_value='map'),
         DeclareLaunchArgument('cloud_in_topic', default_value='/scan/points'),
         DeclareLaunchArgument('octomap_max_range', default_value='10.0'),
-        DeclareLaunchArgument('octomap_min_z', default_value='0.0'),
+        DeclareLaunchArgument('octomap_min_z', default_value='-1.0'),
         DeclareLaunchArgument('octomap_max_z', default_value='2.0'),
         DeclareLaunchArgument('launch_rviz', default_value='true'),
         cartographer_node,
