@@ -21,7 +21,7 @@ def generate_launch_description():
         DeclareLaunchArgument('params_file', default_value=params_file),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_dir, '/navigation_launch.py']),
-            launch_arguments={'use_sim_time': 'True', 'params_file': params_file}.items(),
+            launch_arguments={'use_sim_time': 'true', 'params_file': params_file}.items(),
         )
     ])
 

@@ -23,6 +23,6 @@ def generate_launch_description():
         DeclareLaunchArgument('params_file', default_value=params_file),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([localization_launch_dir, '/localization_launch.py']),
-            launch_arguments={'use_sim_time': 'True', 'params_file': params_file, 'map': map_file}.items(),
+            launch_arguments={'use_sim_time': 'true', 'params_file': params_file, 'map': map_file}.items(),
         )
     ])

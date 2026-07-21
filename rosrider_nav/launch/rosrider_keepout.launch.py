@@ -89,3 +89,5 @@ def generate_launch_description():
     ld.add_action(keepout_launcher)
 
     return ld
+
+# TODO: cyclic error, and use_sim time

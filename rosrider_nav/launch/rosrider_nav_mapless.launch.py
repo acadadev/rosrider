@@ -32,7 +32,9 @@ def generate_launch_description():
         rviz,
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_dir, '/navigation_launch.py']),
-            launch_arguments={'use_sim_time': 'True', 'params_file': params_file}.items(),
+            launch_arguments={'use_sim_time': 'true', 'params_file': params_file}.items(),
         )
     ])
+
+# TODO: use_sim_time ambigious
 
